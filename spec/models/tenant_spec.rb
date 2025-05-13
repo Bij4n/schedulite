@@ -10,7 +10,9 @@ RSpec.describe Tenant, type: :model do
     it { is_expected.to validate_length_of(:subdomain).is_at_least(3).is_at_most(63) }
   end
 
-  # Association specs added with User model in next commit
+  describe "associations" do
+    it { is_expected.to have_many(:users).dependent(:destroy) }
+  end
 
   describe "subdomain format" do
     it "rejects subdomains with spaces" do
