@@ -1,4 +1,33 @@
 <div class="min-h-screen bg-gray-50">
-  <h1 class="text-2xl font-semibold text-gray-900 p-6">Today's Schedule</h1>
-  <p class="text-gray-500 px-6">Coming in Sprint 2</p>
+  <!-- Header -->
+  <header class="sticky top-0 z-10 bg-white/80 backdrop-blur-sm border-b border-gray-100">
+    <div class="mx-auto max-w-lg px-4 py-4 sm:max-w-2xl sm:px-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-xl font-bold tracking-tight text-gray-900">Today</h1>
+          <p class="text-xs text-gray-500"><%= Date.current.strftime("%A, %B %-d") %></p>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-xs text-gray-400"><%= current_user.full_name %></span>
+          <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-xs text-teal-600 hover:text-teal-500" %>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Timeline -->
+  <main class="mx-auto max-w-lg px-4 py-6 sm:max-w-2xl sm:px-6">
+    <% if @appointments.any? %>
+      <div id="appointments" class="space-y-3">
+        <% @appointments.each do |appointment| %>
+          <%= render AppointmentRowComponent.new(appointment: appointment) %>
+        <% end %>
+      </div>
+    <% else %>
+      <%= render EmptyStateComponent.new(
+        title: "No appointments today",
+        description: "When appointments are synced or added, they'll appear here."
+      ) %>
+    <% end %>
+  </main>
 </div>
