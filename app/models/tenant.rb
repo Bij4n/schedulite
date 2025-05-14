@@ -1,5 +1,10 @@
 class Tenant < ApplicationRecord
   has_many :users, dependent: :destroy
+  has_many :providers, dependent: :destroy
+  has_many :patients, dependent: :destroy
+  has_many :appointments, dependent: :destroy
+  has_many :integrations, dependent: :destroy
+  has_many :gift_cards, dependent: :destroy
 
   validates :name, presence: true
   validates :subdomain,

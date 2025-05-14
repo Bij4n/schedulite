@@ -3,7 +3,8 @@ require "rails_helper"
 RSpec.describe Patient, type: :model do
   describe "associations" do
     it { is_expected.to belong_to(:tenant) }
-    # Appointment and SmsMessage association specs added when those models are created
+    it { is_expected.to have_many(:appointments).dependent(:destroy) }
+    it { is_expected.to have_many(:sms_messages).dependent(:destroy) }
   end
 
   describe "validations" do

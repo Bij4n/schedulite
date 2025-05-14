@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_07_124519) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_07_124743) do
   create_table "appointments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "delay_minutes"
@@ -55,6 +55,32 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_124519) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
+  create_table "gift_cards", force: :cascade do |t|
+    t.integer "amount_cents", null: false
+    t.integer "appointment_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "issued_at"
+    t.string "merchant_name"
+    t.string "merchant_url"
+    t.datetime "redeemed_at"
+    t.string "square_gan"
+    t.integer "tenant_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["appointment_id"], name: "index_gift_cards_on_appointment_id"
+    t.index ["tenant_id"], name: "index_gift_cards_on_tenant_id"
+  end
+
+  create_table "integrations", force: :cascade do |t|
+    t.string "adapter_type", null: false
+    t.datetime "created_at", null: false
+    t.text "credentials_ciphertext"
+    t.datetime "last_synced_at"
+    t.string "status"
+    t.integer "tenant_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tenant_id"], name: "index_integrations_on_tenant_id"
+  end
+
   create_table "patients", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "date_of_birth_bidx"
@@ -78,6 +104,32 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_124519) do
     t.string "title"
     t.datetime "updated_at", null: false
     t.index ["tenant_id"], name: "index_providers_on_tenant_id"
+  end
+
+  create_table "sms_messages", force: :cascade do |t|
+    t.integer "appointment_id", null: false
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.datetime "delivered_at"
+    t.integer "direction", null: false
+    t.integer "patient_id", null: false
+    t.string "twilio_sid"
+    t.datetime "updated_at", null: false
+    t.index ["appointment_id"], name: "index_sms_messages_on_appointment_id"
+    t.index ["patient_id"], name: "index_sms_messages_on_patient_id"
+  end
+
+  create_table "status_events", force: :cascade do |t|
+    t.integer "appointment_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "delay_minutes"
+    t.string "from_status"
+    t.text "note"
+    t.string "to_status", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["appointment_id"], name: "index_status_events_on_appointment_id"
+    t.index ["user_id"], name: "index_status_events_on_user_id"
   end
 
   create_table "tenants", force: :cascade do |t|
@@ -108,7 +160,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_124519) do
   add_foreign_key "appointments", "patients"
   add_foreign_key "appointments", "providers"
   add_foreign_key "appointments", "tenants"
+  add_foreign_key "gift_cards", "appointments"
+  add_foreign_key "gift_cards", "tenants"
+  add_foreign_key "integrations", "tenants"
   add_foreign_key "patients", "tenants"
   add_foreign_key "providers", "tenants"
+  add_foreign_key "sms_messages", "appointments"
+  add_foreign_key "sms_messages", "patients"
+  add_foreign_key "status_events", "appointments"
+  add_foreign_key "status_events", "users"
   add_foreign_key "users", "tenants"
 end
