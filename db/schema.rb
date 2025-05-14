@@ -10,7 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_07_124057) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_07_124519) do
+  create_table "appointments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "delay_minutes"
+    t.datetime "ends_at"
+    t.string "external_id"
+    t.string "external_source"
+    t.text "notes_ciphertext"
+    t.integer "patient_id", null: false
+    t.integer "provider_id", null: false
+    t.string "signed_token"
+    t.datetime "starts_at", null: false
+    t.integer "status", default: 0, null: false
+    t.integer "tenant_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["external_source", "external_id"], name: "index_appointments_on_external_source_and_external_id"
+    t.index ["patient_id"], name: "index_appointments_on_patient_id"
+    t.index ["provider_id"], name: "index_appointments_on_provider_id"
+    t.index ["signed_token"], name: "index_appointments_on_signed_token", unique: true
+    t.index ["tenant_id", "starts_at"], name: "index_appointments_on_tenant_id_and_starts_at"
+    t.index ["tenant_id"], name: "index_appointments_on_tenant_id"
+  end
+
   create_table "audits", force: :cascade do |t|
     t.string "action"
     t.integer "associated_id"
@@ -48,6 +70,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_124057) do
     t.index ["tenant_id"], name: "index_patients_on_tenant_id"
   end
 
+  create_table "providers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.integer "tenant_id", null: false
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.index ["tenant_id"], name: "index_providers_on_tenant_id"
+  end
+
   create_table "tenants", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name", null: false
@@ -73,6 +105,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_124057) do
     t.index ["tenant_id"], name: "index_users_on_tenant_id"
   end
 
+  add_foreign_key "appointments", "patients"
+  add_foreign_key "appointments", "providers"
+  add_foreign_key "appointments", "tenants"
   add_foreign_key "patients", "tenants"
+  add_foreign_key "providers", "tenants"
   add_foreign_key "users", "tenants"
 end

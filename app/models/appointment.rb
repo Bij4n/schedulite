@@ -1,0 +1,38 @@
+class Appointment < ApplicationRecord
+  belongs_to :tenant
+  belongs_to :provider
+  belongs_to :patient
+  has_many :status_events, dependent: :destroy
+  has_many :sms_messages, dependent: :destroy
+  has_many :gift_cards, dependent: :destroy
+
+  acts_as_tenant :tenant
+
+  audited except: %i[notes_ciphertext]
+
+  has_encrypted :notes
+
+  enum :status, {
+    scheduled: 0,
+    checked_in: 1,
+    in_room: 2,
+    running_late: 3,
+    complete: 4,
+    no_show: 5,
+    canceled: 6
+  }, default: :scheduled
+
+  validates :starts_at, presence: true
+  validates :status, presence: true
+
+  before_create :generate_signed_token
+
+  scope :today, -> { where(starts_at: Time.current.all_day) }
+  scope :chronological, -> { order(:starts_at) }
+
+  private
+
+  def generate_signed_token
+    self.signed_token ||= SecureRandom.urlsafe_base64(32)
+  end
+end
