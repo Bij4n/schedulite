@@ -17,6 +17,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get "status/:token", to: "patient_status#show", as: :patient_status
+
   namespace :webhooks do
     post :twilio, to: "twilio#create"
   end

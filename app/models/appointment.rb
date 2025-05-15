@@ -39,6 +39,13 @@ class Appointment < ApplicationRecord
       partial: "appointments/appointment_row",
       locals: { appointment: self }
     )
+
+    broadcast_replace_to(
+      "appointment_status_#{signed_token}",
+      target: "status_card",
+      partial: "patient_status/status_card",
+      locals: { appointment: self }
+    )
   end
 
   private

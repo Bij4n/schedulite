@@ -1,0 +1,37 @@
+<div id="status_card" class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5 space-y-4">
+  <div class="flex items-center justify-between">
+    <div>
+      <p class="text-sm text-gray-500">Your appointment</p>
+      <p class="text-lg font-semibold text-gray-900"><%= appointment.starts_at.strftime("%-l:%M %p") %></p>
+    </div>
+    <%= render StatusPillComponent.new(status: appointment.status) %>
+  </div>
+
+  <div class="border-t border-gray-100 pt-4">
+    <p class="text-sm text-gray-900">
+      Hi <strong><%= appointment.patient.first_name %></strong>, you're
+      <% case appointment.status %>
+      <% when "scheduled" %>
+        scheduled for your appointment with <strong><%= appointment.provider.display_name %></strong>.
+      <% when "checked_in" %>
+        checked in for your appointment with <strong><%= appointment.provider.display_name %></strong>.
+      <% when "in_room" %>
+        in the room. <strong><%= appointment.provider.display_name %></strong> will be with you shortly.
+      <% when "running_late" %>
+        checked in. <strong><%= appointment.provider.display_name %></strong> is running about
+        <strong><%= appointment.delay_minutes || "a few" %> minutes</strong> behind.
+        We'll text you when you're up next.
+      <% when "complete" %>
+        all done! Thank you for your visit.
+      <% when "no_show", "canceled" %>
+        not currently scheduled. Please contact the office with questions.
+      <% end %>
+    </p>
+  </div>
+
+  <% if appointment.delay_minutes.to_i > 0 && !appointment.complete? %>
+    <div class="rounded-xl bg-amber-50 p-3 text-sm text-amber-800">
+      Current wait: ~<%= appointment.delay_minutes %> min. We'll text you 10 min before you're up.
+    </div>
+  <% end %>
+</div>
