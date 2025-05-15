@@ -17,5 +17,9 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :webhooks do
+    post :twilio, to: "twilio#create"
+  end
+
   root "dashboard#index"
 end
