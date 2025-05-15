@@ -10,5 +10,12 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
+  resources :appointments, only: [] do
+    member do
+      patch :check_in, to: "appointments/check_ins#update"
+      patch :status, to: "appointments/status_updates#update"
+    end
+  end
+
   root "dashboard#index"
 end

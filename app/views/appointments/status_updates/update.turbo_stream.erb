@@ -1,0 +1,3 @@
+<%= turbo_stream.replace dom_id(@appointment) do %>
+  <%= render AppointmentRowComponent.new(appointment: @appointment) %>
+<% end %>
