@@ -15,6 +15,9 @@
     </div>
   </header>
 
+  <!-- Subscribe to real-time appointment updates -->
+  <%= turbo_stream_from "tenant_#{current_user.tenant_id}_appointments" %>
+
   <!-- Timeline -->
   <main class="mx-auto max-w-lg px-4 py-6 sm:max-w-2xl sm:px-6">
     <% if @appointments.any? %>

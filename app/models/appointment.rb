@@ -27,8 +27,19 @@ class Appointment < ApplicationRecord
 
   before_create :generate_signed_token
 
+  after_update_commit :broadcast_update, if: :saved_change_to_status?
+
   scope :today, -> { where(starts_at: Time.current.all_day) }
   scope :chronological, -> { order(:starts_at) }
+
+  def broadcast_update
+    broadcast_replace_to(
+      "tenant_#{tenant_id}_appointments",
+      target: "appointment_#{id}",
+      partial: "appointments/appointment_row",
+      locals: { appointment: self }
+    )
+  end
 
   private
 

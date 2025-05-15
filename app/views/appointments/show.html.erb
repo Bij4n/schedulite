@@ -1,0 +1,66 @@
+<div class="min-h-screen bg-gray-50">
+  <header class="sticky top-0 z-10 bg-white/80 backdrop-blur-sm border-b border-gray-100">
+    <div class="mx-auto max-w-lg px-4 py-4 sm:max-w-2xl sm:px-6">
+      <div class="flex items-center gap-3">
+        <%= link_to root_path, class: "text-gray-400 hover:text-gray-600" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+        <% end %>
+        <h1 class="text-lg font-bold text-gray-900">Appointment Detail</h1>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-lg px-4 py-6 sm:max-w-2xl sm:px-6 space-y-6">
+    <!-- Patient info -->
+    <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-lg font-semibold text-gray-900"><%= @appointment.patient.display_name %></h2>
+          <p class="text-sm text-gray-500"><%= @appointment.provider.display_name %></p>
+        </div>
+        <%= render StatusPillComponent.new(status: @appointment.status) %>
+      </div>
+      <div class="mt-4 flex items-center gap-4 text-sm text-gray-500">
+        <span><%= @appointment.starts_at.strftime("%-l:%M %p") %></span>
+        <% if @appointment.delay_minutes.to_i > 0 %>
+          <span class="text-amber-600 font-medium">+<%= @appointment.delay_minutes %> min delay</span>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Delay controls -->
+    <% unless @appointment.complete? || @appointment.canceled? || @appointment.no_show? %>
+      <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5">
+        <h3 class="text-sm font-semibold text-gray-900 mb-3">Running Late?</h3>
+        <%= render DelayButtonComponent.new(appointment: @appointment) %>
+      </div>
+    <% end %>
+
+    <!-- Status history -->
+    <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5">
+      <h3 class="text-sm font-semibold text-gray-900 mb-3">Status History</h3>
+      <% if @appointment.status_events.any? %>
+        <div class="space-y-2">
+          <% @appointment.status_events.order(created_at: :desc).each do |event| %>
+            <div class="flex items-center justify-between text-sm">
+              <div class="flex items-center gap-2">
+                <%= render StatusPillComponent.new(status: event.to_status) %>
+                <% if event.delay_minutes %>
+                  <span class="text-amber-600 text-xs">+<%= event.delay_minutes %> min</span>
+                <% end %>
+              </div>
+              <span class="text-xs text-gray-400"><%= event.created_at.strftime("%-l:%M %p") %></span>
+            </div>
+            <% if event.note.present? %>
+              <p class="text-xs text-gray-500 ml-2"><%= event.note %></p>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-sm text-gray-400">No status changes yet</p>
+      <% end %>
+    </div>
+  </main>
+</div>
