@@ -5,6 +5,7 @@ class Tenant < ApplicationRecord
   has_many :appointments, dependent: :destroy
   has_many :integrations, dependent: :destroy
   has_many :gift_cards, dependent: :destroy
+  has_one :gift_card_settings, dependent: :destroy
 
   validates :name, presence: true
   validates :subdomain,

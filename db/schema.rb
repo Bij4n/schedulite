@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_07_124743) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_07_131856) do
   create_table "appointments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "delay_minutes"
@@ -53,6 +53,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_124743) do
     t.index ["created_at"], name: "index_audits_on_created_at"
     t.index ["request_uuid"], name: "index_audits_on_request_uuid"
     t.index ["user_id", "user_type"], name: "user_index"
+  end
+
+  create_table "gift_card_settings", force: :cascade do |t|
+    t.integer "amount_cents"
+    t.datetime "created_at", null: false
+    t.integer "delay_threshold_minutes"
+    t.string "merchant_name"
+    t.string "merchant_url"
+    t.integer "tenant_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tenant_id"], name: "index_gift_card_settings_on_tenant_id"
   end
 
   create_table "gift_cards", force: :cascade do |t|
@@ -160,6 +171,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_124743) do
   add_foreign_key "appointments", "patients"
   add_foreign_key "appointments", "providers"
   add_foreign_key "appointments", "tenants"
+  add_foreign_key "gift_card_settings", "tenants"
   add_foreign_key "gift_cards", "appointments"
   add_foreign_key "gift_cards", "tenants"
   add_foreign_key "integrations", "tenants"

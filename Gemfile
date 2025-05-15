@@ -39,7 +39,7 @@ gem "sentry-rails"
 
 # Integrations (wired up in later sprints)
 gem "twilio-ruby"
-gem "square"
+# gem "square.rb" # TODO: enable when deploying with native extension support
 gem "fhir_client"
 
 group :development, :test do
