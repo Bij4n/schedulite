@@ -19,6 +19,10 @@ Rails.application.routes.draw do
 
   get "status/:token", to: "patient_status#show", as: :patient_status
 
+  namespace :settings do
+    resources :integrations, only: [:index, :destroy]
+  end
+
   namespace :webhooks do
     post :twilio, to: "twilio#create"
     post "integrations/:integration_id", to: "integrations#create", as: :integration
