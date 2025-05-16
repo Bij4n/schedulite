@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
   namespace :webhooks do
     post :twilio, to: "twilio#create"
+    post "integrations/:integration_id", to: "integrations#create", as: :integration
   end
 
   root "dashboard#index"
