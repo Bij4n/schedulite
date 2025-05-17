@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_07_131856) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_07_194221) do
+  create_table "api_keys", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "key_digest"
+    t.datetime "last_used_at"
+    t.string "name"
+    t.integer "tenant_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tenant_id"], name: "index_api_keys_on_tenant_id"
+  end
+
   create_table "appointments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "delay_minutes"
@@ -168,6 +178,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_131856) do
     t.index ["tenant_id"], name: "index_users_on_tenant_id"
   end
 
+  create_table "webhook_subscriptions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "events"
+    t.string "secret_digest"
+    t.integer "tenant_id", null: false
+    t.datetime "updated_at", null: false
+    t.string "url"
+    t.index ["tenant_id"], name: "index_webhook_subscriptions_on_tenant_id"
+  end
+
+  add_foreign_key "api_keys", "tenants"
   add_foreign_key "appointments", "patients"
   add_foreign_key "appointments", "providers"
   add_foreign_key "appointments", "tenants"
@@ -182,4 +203,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_131856) do
   add_foreign_key "status_events", "appointments"
   add_foreign_key "status_events", "users"
   add_foreign_key "users", "tenants"
+  add_foreign_key "webhook_subscriptions", "tenants"
 end

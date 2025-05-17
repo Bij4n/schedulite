@@ -23,6 +23,12 @@ Rails.application.routes.draw do
     resources :integrations, only: [:index, :destroy]
   end
 
+  namespace :api do
+    namespace :v1 do
+      resources :appointments, only: [:index, :create, :update]
+    end
+  end
+
   namespace :webhooks do
     post :twilio, to: "twilio#create"
     post "integrations/:integration_id", to: "integrations#create", as: :integration
