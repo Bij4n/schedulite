@@ -25,6 +25,9 @@ module Schedulite
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.active_job.queue_adapter = :sidekiq
+
+    require_relative "../app/middleware/phi_filter"
+    config.middleware.use PhiFilter
     config.generators do |g|
       g.test_framework :rspec
       g.fixture_replacement :factory_bot, dir: "spec/factories"
