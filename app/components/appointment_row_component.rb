@@ -18,22 +18,22 @@ class AppointmentRowComponent < ViewComponent::Base
   private
 
   def row_classes
-    "flex items-center gap-4 rounded-2xl bg-white px-4 py-4 shadow-sm ring-1 ring-gray-900/5 transition hover:shadow-md"
+    "flex items-center gap-4 rounded-2xl bg-white dark:bg-gray-800 px-4 py-4 shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-700 transition hover:shadow-md"
   end
 
   def time_column
     tag.div(class: "shrink-0 text-center w-16") do
       tag.time(@appointment.starts_at.strftime("%-l:%M %p"),
         datetime: @appointment.starts_at.iso8601,
-        class: "text-sm font-semibold text-gray-900")
+        class: "text-sm font-semibold text-gray-900 dark:text-gray-100")
     end
   end
 
   def details_column
     link_to(appointment_path(@appointment), class: "min-w-0 flex-1 block", data: { turbo_frame: "_top" }) do
       safe_join([
-        tag.p(@appointment.patient.display_name, class: "text-sm font-medium text-gray-900 truncate"),
-        tag.p(provider_line, class: "text-xs text-gray-500 truncate")
+        tag.p(@appointment.patient.display_name, class: "text-sm font-medium text-gray-900 dark:text-gray-100 truncate"),
+        tag.p(provider_line, class: "text-xs text-gray-500 dark:text-gray-400 truncate")
       ])
     end
   end

@@ -21,7 +21,7 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body class="h-full bg-gray-50 font-sans text-gray-900 antialiased">
+  <body class="h-full bg-gray-50 dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-100 antialiased">
     <% if notice.present? %>
       <%= render ToastComponent.new(message: notice, variant: :success) %>
     <% end %>

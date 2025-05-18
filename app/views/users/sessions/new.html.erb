@@ -1,15 +1,15 @@
 <div class="flex min-h-full items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
   <div class="w-full max-w-sm space-y-8">
     <div class="text-center">
-      <h1 class="text-3xl font-bold tracking-tight text-gray-900">Schedulite</h1>
-      <p class="mt-2 text-sm text-gray-500">Sign in to your practice dashboard</p>
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">Schedulite</h1>
+      <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Sign in to your practice dashboard</p>
     </div>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name),
-          html: { class: "space-y-6 rounded-2xl bg-white p-8 shadow-sm ring-1 ring-gray-900/5" }) do |f| %>
+          html: { class: "space-y-6 rounded-2xl bg-white dark:bg-gray-800 p-8 shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-700", aria: { label: "Sign in" } }) do |f| %>
 
       <% if resource.errors.any? %>
-        <div class="rounded-xl bg-red-50 p-4 text-sm text-red-700">
+        <div class="rounded-xl bg-red-50 dark:bg-red-900/20 p-4 text-sm text-red-700 dark:text-red-400" role="alert">
           <% resource.errors.full_messages.each do |message| %>
             <p><%= message %></p>
           <% end %>
@@ -17,27 +17,31 @@
       <% end %>
 
       <div>
-        <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.label :email, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
         <%= f.email_field :email,
               autofocus: true,
               autocomplete: "email",
               placeholder: "you@practice.com",
-              class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm" %>
+              required: true,
+              aria: { label: "Email address" },
+              class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm" %>
       </div>
 
       <div>
-        <%= f.label :password, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.label :password, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
         <%= f.password_field :password,
               autocomplete: "current-password",
               placeholder: "Your password",
-              class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm" %>
+              required: true,
+              aria: { label: "Password" },
+              class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm" %>
       </div>
 
       <% if devise_mapping.rememberable? %>
         <div class="flex items-center">
           <%= f.check_box :remember_me,
-                class: "h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-600" %>
-          <%= f.label :remember_me, class: "ml-2 text-sm text-gray-600" %>
+                class: "h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-teal-600 focus:ring-teal-600" %>
+          <%= f.label :remember_me, class: "ml-2 text-sm text-gray-600 dark:text-gray-400" %>
         </div>
       <% end %>
 
