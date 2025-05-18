@@ -23,15 +23,11 @@
 
   <body class="h-full bg-gray-50 font-sans text-gray-900 antialiased">
     <% if notice.present? %>
-      <div class="fixed top-4 right-4 z-50 rounded-2xl bg-teal-50 px-5 py-3 text-sm text-teal-800 shadow-md">
-        <%= notice %>
-      </div>
+      <%= render ToastComponent.new(message: notice, variant: :success) %>
     <% end %>
 
     <% if alert.present? %>
-      <div class="fixed top-4 right-4 z-50 rounded-2xl bg-red-50 px-5 py-3 text-sm text-red-800 shadow-md">
-        <%= alert %>
-      </div>
+      <%= render ToastComponent.new(message: alert, variant: :error) %>
     <% end %>
 
     <%= yield %>
