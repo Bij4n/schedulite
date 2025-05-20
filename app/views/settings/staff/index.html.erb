@@ -1,0 +1,55 @@
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+  <header class="sticky top-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700">
+    <div class="mx-auto max-w-lg px-4 py-4 sm:max-w-2xl sm:px-6">
+      <div class="flex items-center gap-3">
+        <%= link_to root_path, class: "text-gray-400 hover:text-gray-600", aria: { label: "Back to dashboard" } do %>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+        <% end %>
+        <h1 class="text-lg font-bold text-gray-900 dark:text-gray-100">Staff</h1>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-lg px-4 py-6 sm:max-w-2xl sm:px-6 space-y-6">
+    <!-- Add staff form -->
+    <div class="rounded-2xl bg-white dark:bg-gray-800 p-5 shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-700">
+      <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Add Staff Member</h3>
+      <%= form_with(model: User.new, url: settings_staff_index_path, class: "space-y-3") do |f| %>
+        <div class="grid grid-cols-2 gap-3">
+          <%= f.text_field :first_name, placeholder: "First name", required: true,
+            class: "rounded-xl border-0 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600" %>
+          <%= f.text_field :last_name, placeholder: "Last name", required: true,
+            class: "rounded-xl border-0 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600" %>
+        </div>
+        <%= f.email_field :email, placeholder: "Email", required: true,
+          class: "w-full rounded-xl border-0 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600" %>
+        <div class="flex items-center gap-3">
+          <%= f.select :role, [["Front Desk", "front_desk"], ["Provider", "provider"], ["Admin", "admin"]],
+            {}, class: "rounded-xl border-0 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 focus:ring-2 focus:ring-teal-600" %>
+          <%= f.submit "Add", class: "rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-500 cursor-pointer" %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Staff list -->
+    <div class="space-y-3">
+      <% @staff.each do |staff| %>
+        <div class="rounded-2xl bg-white dark:bg-gray-800 p-4 shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-700 flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-900 dark:text-gray-100"><%= staff.full_name %></p>
+            <p class="text-xs text-gray-500 dark:text-gray-400"><%= staff.email %> &middot; <span class="capitalize"><%= staff.role.humanize %></span></p>
+          </div>
+          <div class="flex items-center gap-2">
+            <% unless staff == current_user %>
+              <%= link_to "Remove", settings_staff_path(staff),
+                data: { turbo_method: :delete, turbo_confirm: "Remove #{staff.full_name}?" },
+                class: "text-xs text-red-600 hover:text-red-500" %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </main>
+</div>

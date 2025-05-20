@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
   namespace :settings do
     resources :integrations, only: [:index, :destroy]
+    resources :staff, only: [:index, :create, :update, :destroy]
   end
 
   namespace :api do
