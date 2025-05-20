@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_07_200412) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_07_211256) do
   create_table "api_keys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key_digest"
@@ -100,6 +100,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_200412) do
     t.integer "tenant_id", null: false
     t.datetime "updated_at", null: false
     t.index ["tenant_id"], name: "index_integrations_on_tenant_id"
+  end
+
+  create_table "login_events", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "event_type", null: false
+    t.string "ip_address"
+    t.datetime "updated_at", null: false
+    t.string "user_agent"
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_login_events_on_user_id"
   end
 
   create_table "patients", force: :cascade do |t|
@@ -198,6 +208,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_200412) do
   add_foreign_key "gift_cards", "appointments"
   add_foreign_key "gift_cards", "tenants"
   add_foreign_key "integrations", "tenants"
+  add_foreign_key "login_events", "users"
   add_foreign_key "patients", "tenants"
   add_foreign_key "providers", "tenants"
   add_foreign_key "sms_messages", "appointments"
