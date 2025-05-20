@@ -3,7 +3,12 @@ module Integrations
     ADAPTERS = {
       "fhir" => "Integrations::FHIRAdapter",
       "calendly" => "Integrations::CalendlyAdapter",
-      "google_calendar" => "Integrations::GoogleCalendarAdapter"
+      "google_calendar" => "Integrations::GoogleCalendarAdapter",
+      "jane_app" => "Integrations::JaneAppAdapter",
+      "simple_practice" => "Integrations::SimplePracticeAdapter",
+      "acuity" => "Integrations::AcuityAdapter",
+      "nex_health" => "Integrations::NexHealthAdapter",
+      "ical" => "Integrations::IcalAdapter"
     }.freeze
 
     def self.build(integration)
