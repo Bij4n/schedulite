@@ -40,5 +40,25 @@ RSpec.describe "Webhooks::Twilio", type: :request do
       post webhooks_twilio_path, params: params.merge(From: "+15559999999")
       expect(response).to have_http_status(:ok)
     end
+
+    context "when patient replies STOP" do
+      it "opts the patient out of SMS" do
+        patient # ensure exists
+        post webhooks_twilio_path, params: params.merge(Body: "STOP")
+
+        expect(patient.reload.sms_consent).to eq(false)
+        expect(patient.sms_opted_out_at).to be_present
+      end
+    end
+
+    context "when patient replies START" do
+      it "opts the patient back in" do
+        patient.update!(sms_consent: false, sms_opted_out_at: 1.day.ago)
+        post webhooks_twilio_path, params: params.merge(Body: "START")
+
+        expect(patient.reload.sms_consent).to eq(true)
+        expect(patient.sms_opted_out_at).to be_nil
+      end
+    end
   end
 end
