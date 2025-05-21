@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_07_220853) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_07_232257) do
   create_table "api_keys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key_digest"
@@ -112,6 +112,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_220853) do
     t.index ["user_id"], name: "index_login_events_on_user_id"
   end
 
+  create_table "patient_feedbacks", force: :cascade do |t|
+    t.integer "appointment_id", null: false
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.integer "patient_id", null: false
+    t.integer "rating"
+    t.datetime "updated_at", null: false
+    t.index ["appointment_id"], name: "index_patient_feedbacks_on_appointment_id"
+    t.index ["patient_id"], name: "index_patient_feedbacks_on_patient_id"
+  end
+
   create_table "patients", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "date_of_birth_bidx"
@@ -211,6 +222,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_220853) do
   add_foreign_key "gift_cards", "tenants"
   add_foreign_key "integrations", "tenants"
   add_foreign_key "login_events", "users"
+  add_foreign_key "patient_feedbacks", "appointments"
+  add_foreign_key "patient_feedbacks", "patients"
   add_foreign_key "patients", "tenants"
   add_foreign_key "providers", "tenants"
   add_foreign_key "sms_messages", "appointments"
