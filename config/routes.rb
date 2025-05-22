@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       patch :check_in, to: "appointments/check_ins#update"
       patch :status, to: "appointments/status_updates#update"
     end
+    resource :conversation, only: [:show], controller: "appointments/conversations"
   end
 
   get "status/:token", to: "patient_status#show", as: :patient_status

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_07_232603) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_07_232835) do
   create_table "api_keys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key_digest"
@@ -110,6 +110,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_232603) do
     t.string "user_agent"
     t.integer "user_id"
     t.index ["user_id"], name: "index_login_events_on_user_id"
+  end
+
+  create_table "notification_preferences", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.boolean "email_enabled"
+    t.string "event_name"
+    t.boolean "sms_enabled"
+    t.integer "tenant_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tenant_id"], name: "index_notification_preferences_on_tenant_id"
   end
 
   create_table "patient_feedbacks", force: :cascade do |t|
@@ -248,6 +258,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_232603) do
   add_foreign_key "gift_cards", "tenants"
   add_foreign_key "integrations", "tenants"
   add_foreign_key "login_events", "users"
+  add_foreign_key "notification_preferences", "tenants"
   add_foreign_key "patient_feedbacks", "appointments"
   add_foreign_key "patient_feedbacks", "patients"
   add_foreign_key "patients", "tenants"
