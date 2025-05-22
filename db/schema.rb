@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_07_232257) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_07_232603) do
   create_table "api_keys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key_digest"
@@ -140,6 +140,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_232257) do
     t.index ["tenant_id"], name: "index_patients_on_tenant_id"
   end
 
+  create_table "provider_schedules", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "day_of_week"
+    t.time "end_time"
+    t.integer "provider_id", null: false
+    t.integer "slot_duration_minutes"
+    t.time "start_time"
+    t.datetime "updated_at", null: false
+    t.index ["provider_id"], name: "index_provider_schedules_on_provider_id"
+  end
+
   create_table "providers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "first_name", null: false
@@ -148,6 +159,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_232257) do
     t.string "title"
     t.datetime "updated_at", null: false
     t.index ["tenant_id"], name: "index_providers_on_tenant_id"
+  end
+
+  create_table "recurring_appointments", force: :cascade do |t|
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.integer "duration_minutes"
+    t.integer "patient_id", null: false
+    t.integer "provider_id", null: false
+    t.string "recurrence_rule"
+    t.time "starts_at_time"
+    t.integer "tenant_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["patient_id"], name: "index_recurring_appointments_on_patient_id"
+    t.index ["provider_id"], name: "index_recurring_appointments_on_provider_id"
+    t.index ["tenant_id"], name: "index_recurring_appointments_on_tenant_id"
   end
 
   create_table "sms_messages", force: :cascade do |t|
@@ -225,7 +251,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_232257) do
   add_foreign_key "patient_feedbacks", "appointments"
   add_foreign_key "patient_feedbacks", "patients"
   add_foreign_key "patients", "tenants"
+  add_foreign_key "provider_schedules", "providers"
   add_foreign_key "providers", "tenants"
+  add_foreign_key "recurring_appointments", "patients"
+  add_foreign_key "recurring_appointments", "providers"
+  add_foreign_key "recurring_appointments", "tenants"
   add_foreign_key "sms_messages", "appointments"
   add_foreign_key "sms_messages", "patients"
   add_foreign_key "status_events", "appointments"
