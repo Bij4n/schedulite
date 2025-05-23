@@ -41,6 +41,7 @@ gem "sentry-rails"
 gem "twilio-ruby"
 # gem "square.rb" # TODO: enable when deploying with native extension support
 gem "fhir_client"
+gem "rack-attack"
 
 group :development, :test do
   gem "debug", platforms: %i[mri windows], require: "debug/prelude"
