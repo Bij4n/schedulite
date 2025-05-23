@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_07_232835) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_07_233152) do
   create_table "api_keys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key_digest"
@@ -217,7 +217,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_232835) do
     t.datetime "created_at", null: false
     t.integer "data_retention_years", default: 7
     t.string "name", null: false
+    t.string "plan", default: "free"
+    t.string "stripe_customer_id"
     t.string "subdomain", null: false
+    t.datetime "trial_ends_at"
     t.datetime "updated_at", null: false
     t.index ["subdomain"], name: "index_tenants_on_subdomain", unique: true
   end
