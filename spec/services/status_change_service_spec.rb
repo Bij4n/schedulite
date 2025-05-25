@@ -7,6 +7,11 @@ RSpec.describe StatusChangeService do
   let(:user) { create(:user, tenant: tenant) }
   let(:appointment) { create(:appointment, tenant: tenant, provider: provider, patient: patient, status: :scheduled) }
 
+  before do
+    allow(SmsService).to receive(:call)
+    allow(GiftCardIssuanceService).to receive(:call)
+  end
+
   describe ".call" do
     context "with a valid transition" do
       it "updates the appointment status" do
@@ -108,6 +113,53 @@ RSpec.describe StatusChangeService do
       it "allows scheduled -> canceled" do
         result = described_class.call(appointment: appointment, user: user, new_status: "canceled")
         expect(result).to be_success
+      end
+    end
+
+    context "SMS notifications" do
+      before do
+        allow(SmsService).to receive(:call)
+      end
+
+      it "sends check_in_confirmation SMS when checking in" do
+        expect(SmsService).to receive(:call).with(hash_including(template: :check_in_confirmation))
+        described_class.call(appointment: appointment, user: user, new_status: "checked_in")
+      end
+
+      it "sends delay_notice SMS when running late" do
+        appointment.update!(status: :checked_in)
+        expect(SmsService).to receive(:call).with(hash_including(template: :delay_notice, delay_minutes: 15))
+        described_class.call(appointment: appointment, user: user, new_status: "running_late", delay_minutes: 15)
+      end
+
+      it "sends youre_next SMS when moving to in_room after running_late" do
+        appointment.update!(status: :running_late)
+        expect(SmsService).to receive(:call).with(hash_including(template: :youre_next))
+        described_class.call(appointment: appointment, user: user, new_status: "in_room")
+      end
+
+      it "does not send SMS if patient opted out" do
+        patient.update!(sms_consent: false)
+        expect(SmsService).not_to receive(:call)
+        described_class.call(appointment: appointment, user: user, new_status: "checked_in")
+      end
+    end
+
+    context "gift card issuance" do
+      before do
+        allow(SmsService).to receive(:call)
+        allow(GiftCardIssuanceService).to receive(:call)
+      end
+
+      it "triggers gift card check when running late" do
+        appointment.update!(status: :checked_in)
+        expect(GiftCardIssuanceService).to receive(:call).with(appointment: appointment)
+        described_class.call(appointment: appointment, user: user, new_status: "running_late", delay_minutes: 30)
+      end
+
+      it "does not trigger gift card for non-delay transitions" do
+        expect(GiftCardIssuanceService).not_to receive(:call)
+        described_class.call(appointment: appointment, user: user, new_status: "checked_in")
       end
     end
   end
