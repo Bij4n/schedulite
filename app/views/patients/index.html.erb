@@ -1,0 +1,30 @@
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+  <header class="sticky top-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700">
+    <div class="mx-auto max-w-2xl px-4 py-4 sm:px-6">
+      <div class="flex items-center justify-between">
+        <h1 class="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-100">Patients</h1>
+        <%= link_to "Add Patient", new_patient_path, class: "rounded-xl bg-teal-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-teal-500" %>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-2xl px-4 py-6 sm:px-6 space-y-3">
+    <% if @patients.any? %>
+      <% @patients.each do |patient| %>
+        <%= link_to patient_path(patient), class: "block rounded-2xl bg-white dark:bg-gray-800 p-4 shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-700 hover:shadow-md transition" do %>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-900 dark:text-gray-100"><%= patient.first_name %> <%= patient.last_name %></p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Phone: <%= patient.phone %></p>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-400">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </div>
+        <% end %>
+      <% end %>
+    <% else %>
+      <%= render EmptyStateComponent.new(title: "No patients yet", description: "Add your first patient to get started.") %>
+    <% end %>
+  </main>
+</div>

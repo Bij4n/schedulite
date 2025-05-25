@@ -1,0 +1,36 @@
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+  <header class="sticky top-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700">
+    <div class="mx-auto max-w-2xl px-4 py-4 sm:px-6">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <%= link_to providers_path, class: "text-gray-400 hover:text-gray-600" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+          <% end %>
+          <h1 class="text-lg font-bold text-gray-900 dark:text-gray-100"><%= @provider.display_name %></h1>
+        </div>
+        <%= link_to "Edit", edit_provider_path(@provider), class: "text-sm text-teal-600 hover:text-teal-500" %>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-2xl px-4 py-6 sm:px-6 space-y-4">
+    <div class="rounded-2xl bg-white dark:bg-gray-800 p-5 shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-700">
+      <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Today's Appointments</h3>
+      <% if @appointments.any? %>
+        <div class="space-y-2">
+          <% @appointments.each do |appt| %>
+            <%= link_to appointment_path(appt), class: "flex items-center justify-between text-sm py-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg px-2 -mx-2" do %>
+              <div>
+                <span class="font-medium text-gray-900 dark:text-gray-100"><%= appt.starts_at.strftime("%-l:%M %p") %></span>
+                <span class="text-gray-500 dark:text-gray-400 ml-2"><%= appt.patient.display_name %></span>
+              </div>
+              <%= render StatusPillComponent.new(status: appt.status) %>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-sm text-gray-400">No appointments today</p>
+      <% end %>
+    </div>
+  </main>
+</div>

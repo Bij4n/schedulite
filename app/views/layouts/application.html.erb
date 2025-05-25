@@ -32,6 +32,13 @@
       <%= render ToastComponent.new(message: alert, variant: :error) %>
     <% end %>
 
-    <%= yield %>
+    <% if current_user %>
+      <%= render NavComponent.new(current_path: request.path, current_user: current_user) %>
+      <div class="sm:ml-56 pb-20 sm:pb-0">
+        <%= yield %>
+      </div>
+    <% else %>
+      <%= yield %>
+    <% end %>
   </body>
 </html>

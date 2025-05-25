@@ -1,0 +1,34 @@
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+  <header class="sticky top-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700">
+    <div class="mx-auto max-w-2xl px-4 py-4 sm:px-6">
+      <div class="flex items-center gap-3">
+        <%= link_to provider_path(@provider), class: "text-gray-400 hover:text-gray-600" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+        <% end %>
+        <h1 class="text-lg font-bold text-gray-900 dark:text-gray-100">Edit Provider</h1>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-lg px-4 py-6 sm:px-6">
+    <div class="rounded-2xl bg-white dark:bg-gray-800 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-700">
+      <%= form_with(model: @provider, class: "space-y-4") do |f| %>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <%= f.label :first_name, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+            <%= f.text_field :first_name, required: true, class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+          </div>
+          <div>
+            <%= f.label :last_name, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+            <%= f.text_field :last_name, required: true, class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+          </div>
+        </div>
+        <div>
+          <%= f.label :title, "Title/Credential", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+          <%= f.text_field :title, class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+        </div>
+        <%= f.submit "Update Provider", class: "w-full rounded-xl bg-teal-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 cursor-pointer" %>
+      <% end %>
+    </div>
+  </main>
+</div>
