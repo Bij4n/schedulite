@@ -2,7 +2,7 @@ class PatientsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @patients = Patient.order(:first_name)
+    @patients = Patient.order(:created_at)
     if params[:q].present?
       @patients = Patient.where(phone: params[:q].gsub(/\D/, ""))
     end
