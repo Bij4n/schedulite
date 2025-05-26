@@ -22,8 +22,8 @@ class AppointmentsController < ApplicationController
 
   def new
     @appointment = Appointment.new(starts_at: Time.current.change(min: 0) + 1.hour)
-    @providers = Provider.order(:last_name)
-    @patients = Patient.order(:first_name)
+    @providers = Provider.order(:created_at)
+    @patients = Patient.order(:created_at)
   end
 
   def create
@@ -32,8 +32,8 @@ class AppointmentsController < ApplicationController
     if @appointment.save
       redirect_to root_path, notice: "Appointment created"
     else
-      @providers = Provider.order(:last_name)
-      @patients = Patient.order(:first_name)
+      @providers = Provider.order(:created_at)
+      @patients = Patient.order(:created_at)
       flash.now[:alert] = @appointment.errors.full_messages.join(", ")
       render :new, status: :unprocessable_entity
     end

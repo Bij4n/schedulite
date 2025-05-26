@@ -1,19 +1,16 @@
 <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
   <header class="sticky top-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700">
-    <div class="mx-auto max-w-lg px-4 py-4 sm:max-w-2xl sm:px-6">
+    <div class="mx-auto max-w-2xl px-4 py-4 sm:px-6">
       <div class="flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <%= link_to root_path, class: "text-gray-400 hover:text-gray-600", aria: { label: "Back" } do %>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
-          <% end %>
-          <h1 class="text-lg font-bold text-gray-900 dark:text-gray-100">Analytics</h1>
-        </div>
+        <h1 class="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-100">Settings</h1>
         <%= link_to "Export CSV", export_settings_analytics_path(format: :csv), class: "text-xs text-teal-600 hover:text-teal-500" %>
       </div>
     </div>
   </header>
 
-  <main class="mx-auto max-w-lg px-4 py-6 sm:max-w-2xl sm:px-6 space-y-4">
+  <%= render "settings/nav" %>
+
+  <main class="mx-auto max-w-2xl px-4 py-4 sm:px-6 space-y-4">
     <!-- Summary cards -->
     <div class="grid grid-cols-2 gap-3">
       <div class="rounded-2xl bg-white dark:bg-gray-800 p-4 shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-700 text-center">
