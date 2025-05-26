@@ -1,24 +1,35 @@
 class SettingsNavComponent < ViewComponent::Base
   ITEMS = [
-    { label: "Integrations", path: :settings_integrations_path },
-    { label: "Staff", path: :settings_staff_index_path },
-    { label: "Analytics", path: :settings_analytics_path },
-    { label: "Profile", path: :settings_profile_path }
+    { label: "Integrations", path: :settings_integrations_path, admin_only: true },
+    { label: "Staff", path: :settings_staff_index_path, admin_only: true },
+    { label: "Analytics", path: :settings_analytics_path, admin_only: true },
+    { label: "Profile", path: :settings_profile_path, admin_only: false }
   ].freeze
 
-  def initialize(current_path:)
+  def initialize(current_path:, current_user: nil)
     @current_path = current_path
+    @current_user = current_user
   end
 
   def call
     tag.div(class: "mx-auto max-w-2xl px-4 sm:px-6 pt-4 pb-2") do
       tag.nav(class: "flex gap-1 overflow-x-auto", aria: { label: "Settings" }) do
-        safe_join(ITEMS.map { |item| tab(item) })
+        safe_join(visible_items.map { |item| tab(item) })
       end
     end
   end
 
   private
+
+  def visible_items
+    ITEMS.select do |item|
+      !item[:admin_only] || admin?
+    end
+  end
+
+  def admin?
+    @current_user&.owner? || @current_user&.admin?
+  end
 
   def tab(item)
     path = helpers.send(item[:path])

@@ -1,6 +1,6 @@
 return if Tenant.any?
 
-tenant = Tenant.create!(name: "Sunrise Family Medicine", subdomain: "sunrise")
+tenant = Tenant.create!(name: "Sunrise Family Medicine", subdomain: "sunrise", baa_uploaded_at: Time.current)
 
 staff = User.create!(
   tenant: tenant,
@@ -8,7 +8,7 @@ staff = User.create!(
   last_name: "Santos",
   email: "maria@sunrise.example.com",
   password: "password123!",
-  role: :front_desk
+  role: :owner
 )
 
 dr_lee = Provider.create!(tenant: tenant, first_name: "Sarah", last_name: "Lee")
