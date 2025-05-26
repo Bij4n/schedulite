@@ -1,0 +1,43 @@
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+  <header class="sticky top-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700">
+    <div class="mx-auto max-w-2xl px-4 py-4 sm:px-6">
+      <div class="flex items-center gap-3">
+        <%= link_to settings_integrations_path, class: "text-gray-400 hover:text-gray-600" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+        <% end %>
+        <h1 class="text-lg font-bold text-gray-900 dark:text-gray-100">Connect <%= @integration_type[:name] %></h1>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-lg px-4 py-6 sm:px-6">
+    <div class="rounded-2xl bg-white dark:bg-gray-800 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-700">
+      <p class="text-sm text-gray-500 dark:text-gray-400 mb-4"><%= @integration_type[:description] %></p>
+
+      <%= form_with(url: settings_integrations_path, method: :post, class: "space-y-4") do |f| %>
+        <%= hidden_field_tag :adapter_type, @integration_type[:type] %>
+
+        <% @integration_type[:fields].each do |field| %>
+          <div>
+            <%= label_tag "credentials[#{field}]", field.humanize.titleize, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+            <% if field.include?("secret") || field.include?("token") || field.include?("key") %>
+              <%= password_field_tag "credentials[#{field}]", nil, required: true, placeholder: "Enter #{field.humanize.downcase}",
+                class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+            <% else %>
+              <%= text_field_tag "credentials[#{field}]", nil, required: true, placeholder: "Enter #{field.humanize.downcase}",
+                class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+            <% end %>
+          </div>
+        <% end %>
+
+        <div class="pt-2">
+          <%= submit_tag "Connect #{@integration_type[:name]}", class: "w-full rounded-xl bg-teal-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 cursor-pointer" %>
+        </div>
+      <% end %>
+    </div>
+
+    <p class="mt-4 text-xs text-gray-400 dark:text-gray-500 text-center">
+      Credentials are encrypted at rest and never logged.
+    </p>
+  </main>
+</div>

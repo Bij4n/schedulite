@@ -2,11 +2,9 @@ class PatientsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @patients = Patient.where(tenant: current_user.tenant).order(:first_name)
-    @patients = @patients.where("first_name_ciphertext IS NOT NULL") # all patients
+    @patients = Patient.order(:first_name)
     if params[:q].present?
-      # Search by phone via blind index
-      @patients = Patient.where(tenant: current_user.tenant, phone: params[:q].gsub(/\D/, ""))
+      @patients = Patient.where(phone: params[:q].gsub(/\D/, ""))
     end
   end
 
@@ -21,11 +19,11 @@ class PatientsController < ApplicationController
 
   def create
     @patient = Patient.new(patient_params)
-    @patient.tenant = current_user.tenant
 
     if @patient.save
       redirect_to patient_path(@patient), notice: "Patient added"
     else
+      flash.now[:alert] = @patient.errors.full_messages.join(", ")
       render :new, status: :unprocessable_entity
     end
   end
@@ -39,6 +37,7 @@ class PatientsController < ApplicationController
     if @patient.update(patient_params)
       redirect_to patient_path(@patient), notice: "Patient updated"
     else
+      flash.now[:alert] = @patient.errors.full_messages.join(", ")
       render :edit, status: :unprocessable_entity
     end
   end

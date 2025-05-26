@@ -1,45 +1,61 @@
-<div class="min-h-screen bg-gray-50">
-  <header class="sticky top-0 z-10 bg-white/80 backdrop-blur-sm border-b border-gray-100">
-    <div class="mx-auto max-w-lg px-4 py-4 sm:max-w-2xl sm:px-6">
-      <div class="flex items-center gap-3">
-        <%= link_to root_path, class: "text-gray-400 hover:text-gray-600" do %>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-          </svg>
-        <% end %>
-        <h1 class="text-lg font-bold text-gray-900">Integrations</h1>
-      </div>
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+  <header class="sticky top-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700">
+    <div class="mx-auto max-w-2xl px-4 py-4 sm:px-6">
+      <h1 class="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-100">Integrations</h1>
     </div>
   </header>
 
-  <main class="mx-auto max-w-lg px-4 py-6 sm:max-w-2xl sm:px-6 space-y-4">
+  <main class="mx-auto max-w-2xl px-4 py-6 sm:px-6 space-y-6">
+    <!-- Connected integrations -->
     <% if @integrations.any? %>
-      <% @integrations.each do |integration| %>
-        <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-900/5">
-          <div class="flex items-center justify-between">
-            <div>
-              <h3 class="text-sm font-semibold text-gray-900 capitalize"><%= integration.adapter_type %></h3>
-              <p class="text-xs text-gray-500">
-                Status: <span class="font-medium <%= integration.status == 'active' ? 'text-teal-600' : 'text-gray-400' %>"><%= integration.status %></span>
-                <% if integration.last_synced_at %>
-                  &middot; Last synced <%= time_ago_in_words(integration.last_synced_at) %> ago
-                <% end %>
-              </p>
+      <div>
+        <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Connected</h2>
+        <div class="space-y-3">
+          <% @integrations.each do |integration| %>
+            <div class="rounded-2xl bg-white dark:bg-gray-800 p-4 shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-700">
+              <div class="flex items-center justify-between">
+                <div>
+                  <% display_name = @available.find { |a| a[:type] == integration.adapter_type }&.dig(:name) || integration.adapter_type.humanize %>
+                  <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100"><%= display_name %></h3>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">
+                    <span class="text-teal-600 font-medium">Active</span>
+                    <% if integration.last_synced_at %>
+                      &middot; Synced <%= time_ago_in_words(integration.last_synced_at) %> ago
+                    <% end %>
+                  </p>
+                </div>
+                <%= link_to "Disconnect", settings_integration_path(integration),
+                  data: { turbo_method: :delete, turbo_confirm: "Disconnect this integration?" },
+                  class: "text-xs text-red-600 hover:text-red-500" %>
+              </div>
             </div>
-            <div class="flex items-center gap-2">
-              <%= link_to "Disconnect",
-                settings_integration_path(integration),
-                data: { turbo_method: :delete, turbo_confirm: "Disconnect this integration?" },
-                class: "text-xs text-red-600 hover:text-red-500" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Available integrations -->
+    <div>
+      <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Available</h2>
+      <div class="space-y-3">
+        <% @available.each do |avail| %>
+          <% already_connected = @integrations.any? { |i| i.adapter_type == avail[:type] } %>
+          <div class="rounded-2xl bg-white dark:bg-gray-800 p-4 shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-700">
+            <div class="flex items-center justify-between">
+              <div class="flex-1 min-w-0">
+                <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100"><%= avail[:name] %></h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5"><%= avail[:description] %></p>
+              </div>
+              <% if already_connected %>
+                <span class="text-xs text-teal-600 font-medium ml-3">Connected</span>
+              <% else %>
+                <%= link_to "Connect", new_settings_integration_path(type: avail[:type]),
+                  class: "ml-3 rounded-xl bg-teal-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-teal-500 shrink-0" %>
+              <% end %>
             </div>
           </div>
-        </div>
-      <% end %>
-    <% else %>
-      <%= render EmptyStateComponent.new(
-        title: "No integrations connected",
-        description: "Connect your EHR, booking system, or calendar to sync appointments automatically."
-      ) %>
-    <% end %>
+        <% end %>
+      </div>
+    </div>
   </main>
 </div>

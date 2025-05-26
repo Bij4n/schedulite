@@ -2,9 +2,7 @@ class AppointmentsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @appointments = Appointment.where(tenant: current_user.tenant)
-                               .includes(:patient, :provider)
-                               .order(starts_at: :desc)
+    @appointments = Appointment.includes(:patient, :provider).order(starts_at: :desc)
 
     if params[:date].present?
       date = Date.parse(params[:date])
@@ -24,19 +22,19 @@ class AppointmentsController < ApplicationController
 
   def new
     @appointment = Appointment.new(starts_at: Time.current.change(min: 0) + 1.hour)
-    @providers = Provider.where(tenant: current_user.tenant).order(:last_name)
-    @patients = Patient.where(tenant: current_user.tenant).order(:first_name)
+    @providers = Provider.order(:last_name)
+    @patients = Patient.order(:first_name)
   end
 
   def create
     @appointment = Appointment.new(appointment_params)
-    @appointment.tenant = current_user.tenant
 
     if @appointment.save
       redirect_to root_path, notice: "Appointment created"
     else
-      @providers = Provider.where(tenant: current_user.tenant).order(:last_name)
-      @patients = Patient.where(tenant: current_user.tenant).order(:first_name)
+      @providers = Provider.order(:last_name)
+      @patients = Patient.order(:first_name)
+      flash.now[:alert] = @appointment.errors.full_messages.join(", ")
       render :new, status: :unprocessable_entity
     end
   end

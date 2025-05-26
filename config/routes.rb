@@ -25,11 +25,12 @@ Rails.application.routes.draw do
   get "status/:token", to: "patient_status#show", as: :patient_status
 
   namespace :settings do
-    resources :integrations, only: [:index, :destroy]
+    resources :integrations, only: [:index, :new, :create, :destroy]
     resources :staff, only: [:index, :create, :update, :destroy]
     resource :analytics, only: [:show] do
       get :export, on: :member
     end
+    resource :profile, only: [:show, :update], controller: "profile"
   end
 
   namespace :api do

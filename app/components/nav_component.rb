@@ -78,8 +78,12 @@ class NavComponent < ViewComponent::Base
   def user_footer
     tag.div(class: "px-4 py-3 border-t border-gray-100 dark:border-gray-700") do
       safe_join([
-        tag.p(@current_user.full_name, class: "text-sm font-medium text-gray-900 dark:text-gray-100 truncate"),
-        tag.p(@current_user.role.humanize, class: "text-xs text-gray-500 dark:text-gray-400"),
+        link_to(helpers.settings_profile_path, class: "block hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg -mx-1 px-1 py-1") do
+          safe_join([
+            tag.p(@current_user.full_name, class: "text-sm font-medium text-gray-900 dark:text-gray-100 truncate"),
+            tag.p(@current_user.role.humanize, class: "text-xs text-gray-500 dark:text-gray-400")
+          ])
+        end,
         link_to("Sign out", helpers.destroy_user_session_path,
           data: { turbo_method: :delete },
           class: "mt-2 text-xs text-teal-600 hover:text-teal-500")

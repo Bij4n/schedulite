@@ -2,7 +2,7 @@ class ProvidersController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @providers = Provider.where(tenant: current_user.tenant).order(:last_name)
+    @providers = Provider.order(:last_name)
   end
 
   def show
@@ -17,11 +17,11 @@ class ProvidersController < ApplicationController
 
   def create
     @provider = Provider.new(provider_params)
-    @provider.tenant = current_user.tenant
 
     if @provider.save
       redirect_to provider_path(@provider), notice: "Provider added"
     else
+      flash.now[:alert] = @provider.errors.full_messages.join(", ")
       render :new, status: :unprocessable_entity
     end
   end
@@ -35,6 +35,7 @@ class ProvidersController < ApplicationController
     if @provider.update(provider_params)
       redirect_to provider_path(@provider), notice: "Provider updated"
     else
+      flash.now[:alert] = @provider.errors.full_messages.join(", ")
       render :edit, status: :unprocessable_entity
     end
   end
