@@ -2,23 +2,21 @@
 
 <div class="min-h-screen flex items-start justify-center px-4 pt-12 pb-8">
   <div class="w-full max-w-sm space-y-6">
-    <!-- Brand -->
     <div class="text-center">
-      <h1 class="text-2xl font-bold tracking-tight text-gray-900">Schedulite</h1>
+      <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">Schedulite</h1>
     </div>
 
-    <!-- Status card -->
-    <div id="status_card" class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5 space-y-4">
+    <div id="status_card" class="rounded-2xl bg-white dark:bg-gray-800 p-6 border border-gray-200 dark:border-gray-700 space-y-4">
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-sm text-gray-500">Your appointment</p>
-          <p class="text-lg font-semibold text-gray-900"><%= @appointment.starts_at.strftime("%-l:%M %p") %></p>
+          <p class="text-sm text-gray-500 dark:text-gray-400">Your appointment</p>
+          <p class="text-lg font-semibold text-gray-900 dark:text-gray-100"><%= @appointment.starts_at.strftime("%-l:%M %p") %></p>
         </div>
         <%= render StatusPillComponent.new(status: @appointment.status) %>
       </div>
 
-      <div class="border-t border-gray-100 pt-4">
-        <p class="text-sm text-gray-900">
+      <div class="border-t border-gray-100 dark:border-gray-700 pt-4">
+        <p class="text-sm text-gray-900 dark:text-gray-100">
           Hi <strong><%= @appointment.patient.first_name %></strong>, you're
           <% case @appointment.status %>
           <% when "scheduled" %>
@@ -40,21 +38,20 @@
       </div>
 
       <% if @appointment.delay_minutes.to_i > 0 && !@appointment.complete? %>
-        <div class="rounded-xl bg-amber-50 p-3 text-sm text-amber-800">
+        <div class="rounded-xl bg-amber-50 dark:bg-amber-900/20 p-3 text-sm text-amber-800 dark:text-amber-300">
           Current wait: ~<%= @appointment.delay_minutes %> min. We'll text you 10 min before you're up.
         </div>
       <% end %>
     </div>
 
-    <!-- Gift card (if any) -->
     <% @appointment.gift_cards.each do |gift_card| %>
-      <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5">
-        <h3 class="text-sm font-semibold text-gray-900">A small thank-you</h3>
-        <p class="mt-1 text-sm text-gray-500">
+      <div class="rounded-2xl bg-white dark:bg-gray-800 p-6 border border-gray-200 dark:border-gray-700">
+        <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">A small thank-you</h3>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
           We're sorry for the wait. Here's a gift card to <%= gift_card.merchant_name %>.
         </p>
-        <div class="mt-3 rounded-xl bg-teal-50 p-4 text-center">
-          <p class="text-2xl font-bold text-teal-700">$<%= "%.2f" % (gift_card.amount_cents / 100.0) %></p>
+        <div class="mt-3 rounded-xl bg-teal-50 dark:bg-teal-900/20 p-4 text-center">
+          <p class="text-2xl font-bold text-teal-700 dark:text-teal-300">$<%= "%.2f" % (gift_card.amount_cents / 100.0) %></p>
           <% if gift_card.merchant_url.present? %>
             <a href="<%= gift_card.merchant_url %>" class="mt-2 inline-block rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-500" target="_blank" rel="noopener">
               Redeem
