@@ -3,14 +3,14 @@ class AppointmentRowComponent < ViewComponent::Base
   include ActionView::Helpers::UrlHelper
   include Rails.application.routes.url_helpers
 
-  STATUS_LEFT_BORDER = {
-    "scheduled" => "border-l-gray-300 dark:border-l-gray-600",
-    "checked_in" => "border-l-teal-500",
-    "in_room" => "border-l-blue-500",
-    "running_late" => "border-l-amber-500",
-    "complete" => "border-l-green-500",
-    "no_show" => "border-l-gray-400",
-    "canceled" => "border-l-gray-400"
+  LEFT_BAR_COLOR = {
+    "scheduled" => "bg-gray-300 dark:bg-gray-600",
+    "checked_in" => "bg-teal-500",
+    "in_room" => "bg-blue-500",
+    "running_late" => "bg-amber-500",
+    "complete" => "bg-green-500",
+    "no_show" => "bg-gray-400",
+    "canceled" => "bg-gray-400"
   }.freeze
 
   def initialize(appointment:)
@@ -21,7 +21,7 @@ class AppointmentRowComponent < ViewComponent::Base
     content_tag("turbo-frame", id: dom_id(@appointment)) do
       link_to(appointment_path(@appointment), class: "block group", data: { turbo_frame: "_top" }) do
         tag.div(class: row_classes, data: { controller: "appointment", appointment_id_value: @appointment.id }) do
-          safe_join([left_accent, content_area])
+          safe_join([left_bar, content_area])
         end
       end
     end
@@ -30,26 +30,32 @@ class AppointmentRowComponent < ViewComponent::Base
   private
 
   def row_classes
-    "flex items-stretch rounded-2xl bg-white dark:bg-gray-800 shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-700 overflow-hidden transition group-hover:shadow-md group-hover:ring-teal-200 dark:group-hover:ring-teal-800"
+    [
+      "flex items-stretch rounded-2xl overflow-hidden transition",
+      "bg-white dark:bg-gray-800/80",
+      "border border-gray-200 dark:border-gray-700",
+      "group-hover:border-teal-300 dark:group-hover:border-teal-700",
+      "group-hover:shadow-lg"
+    ].join(" ")
   end
 
-  def left_accent
-    border_color = STATUS_LEFT_BORDER.fetch(@appointment.status, STATUS_LEFT_BORDER["scheduled"])
-    tag.div(class: "w-1 shrink-0 #{border_color} bg-current opacity-60")
+  def left_bar
+    color = LEFT_BAR_COLOR.fetch(@appointment.status, LEFT_BAR_COLOR["scheduled"])
+    tag.div(class: "w-1.5 shrink-0 #{color}")
   end
 
   def content_area
-    tag.div(class: "flex items-center gap-5 px-5 py-4 flex-1 min-w-0") do
+    tag.div(class: "flex items-center gap-6 px-6 py-5 flex-1 min-w-0") do
       safe_join([time_column, details_column, right_section])
     end
   end
 
   def time_column
-    tag.div(class: "shrink-0 w-14") do
-      tag.time(datetime: @appointment.starts_at.iso8601, class: "block") do
+    tag.div(class: "shrink-0 w-20 text-right pr-2") do
+      tag.time(datetime: @appointment.starts_at.iso8601) do
         safe_join([
-          tag.span(@appointment.starts_at.strftime("%-l:%M"), class: "text-base font-bold text-gray-900 dark:text-gray-100 tabular-nums"),
-          tag.span(" " + @appointment.starts_at.strftime("%p"), class: "text-[10px] font-medium text-gray-400 dark:text-gray-500 uppercase")
+          tag.span(@appointment.starts_at.strftime("%-l:%M"), class: "text-lg font-bold text-gray-900 dark:text-gray-100 tabular-nums"),
+          tag.span(@appointment.starts_at.strftime(" %p"), class: "text-xs font-medium text-gray-400 dark:text-gray-500")
         ])
       end
     end
