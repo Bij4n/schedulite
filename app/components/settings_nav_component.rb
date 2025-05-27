@@ -1,5 +1,6 @@
 class SettingsNavComponent < ViewComponent::Base
   ITEMS = [
+    { label: "Practice", path: :settings_practice_path, admin_only: true },
     { label: "Integrations", path: :settings_integrations_path, admin_only: true },
     { label: "Staff", path: :settings_staff_index_path, admin_only: true },
     { label: "Analytics", path: :settings_analytics_path, admin_only: true },

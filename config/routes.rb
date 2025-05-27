@@ -31,6 +31,7 @@ Rails.application.routes.draw do
       get :export, on: :member
     end
     resource :profile, only: [:show, :update], controller: "profile"
+    resource :practice, only: [:show, :update], controller: "practice"
   end
 
   namespace :api do

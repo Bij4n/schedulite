@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_07_233152) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_08_072956) do
   create_table "api_keys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key_digest"
@@ -216,6 +216,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_07_233152) do
     t.datetime "baa_uploaded_at"
     t.datetime "created_at", null: false
     t.integer "data_retention_years", default: 7
+    t.string "lunch_end"
+    t.string "lunch_start"
     t.string "name", null: false
     t.string "plan", default: "free"
     t.string "stripe_customer_id"
