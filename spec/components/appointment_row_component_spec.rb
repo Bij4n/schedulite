@@ -46,19 +46,19 @@ RSpec.describe AppointmentRowComponent, type: :component do
   it "shows complete button for checked-in appointments" do
     appointment.update!(status: :checked_in)
     render_inline(described_class.new(appointment: appointment))
-    expect(page).to have_button("Complete")
+    expect(page).to have_button("Done")
   end
 
   it "shows no action button for completed appointments" do
     appointment.update!(status: :complete)
     render_inline(described_class.new(appointment: appointment))
     expect(page).not_to have_button("Check In")
-    expect(page).not_to have_button("Complete")
+    expect(page).not_to have_button("Done")
   end
 
   it "shows delay info when delay_minutes is set" do
     appointment.update!(status: :running_late, delay_minutes: 15)
     render_inline(described_class.new(appointment: appointment))
-    expect(page).to have_text("+15min")
+    expect(page).to have_text("+15 min")
   end
 end

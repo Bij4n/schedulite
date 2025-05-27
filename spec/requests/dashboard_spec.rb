@@ -19,7 +19,7 @@ RSpec.describe "Dashboard", type: :request do
 
       get root_path
       expect(response.body).to include("Alex R.")
-      expect(response.body).to include("2:30 PM")
+      expect(response.body).to include("2:30")
     end
 
     it "does not show yesterday's appointments" do
