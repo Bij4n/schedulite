@@ -32,5 +32,21 @@
         <p class="text-sm text-gray-400">No appointments today</p>
       <% end %>
     </div>
+
+    <div class="rounded-2xl bg-white dark:bg-gray-800 p-5 shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-700">
+      <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Assigned Patients (<%= @provider.patients.count %>)</h3>
+      <% if @provider.patients.any? %>
+        <div class="space-y-2">
+          <% @provider.patients.each do |patient| %>
+            <%= link_to patient_path(patient), class: "flex items-center justify-between text-sm py-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg px-2 -mx-2" do %>
+              <span class="font-medium text-gray-900 dark:text-gray-100"><%= patient.first_name %> <%= patient.last_name %></span>
+              <span class="text-xs text-gray-400"><%= patient.phone %></span>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-sm text-gray-400">No patients assigned yet</p>
+      <% end %>
+    </div>
   </main>
 </div>

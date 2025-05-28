@@ -15,7 +15,12 @@
           <div class="flex items-center justify-between">
             <div>
               <p class="text-sm font-medium text-gray-900 dark:text-gray-100"><%= patient.first_name %> <%= patient.last_name %></p>
-              <p class="text-xs text-gray-500 dark:text-gray-400">Phone: <%= patient.phone %></p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">
+                <%= patient.phone %>
+                <% if patient.primary_provider %>
+                  · <%= patient.primary_provider.display_name %>
+                <% end %>
+              </p>
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-400">
               <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />

@@ -1,5 +1,6 @@
 class Patient < ApplicationRecord
   belongs_to :tenant
+  belongs_to :primary_provider, class_name: "Provider", optional: true
   has_many :appointments, dependent: :destroy
   has_many :sms_messages, dependent: :destroy
 

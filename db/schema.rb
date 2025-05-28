@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_08_072956) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_08_093536) do
   create_table "api_keys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key_digest"
@@ -141,12 +141,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_072956) do
     t.text "last_name_ciphertext"
     t.string "phone_bidx"
     t.text "phone_ciphertext"
+    t.integer "primary_provider_id"
     t.boolean "sms_consent", default: true
     t.datetime "sms_opted_out_at"
     t.integer "tenant_id", null: false
     t.datetime "updated_at", null: false
     t.index ["date_of_birth_bidx"], name: "index_patients_on_date_of_birth_bidx"
     t.index ["phone_bidx"], name: "index_patients_on_phone_bidx"
+    t.index ["primary_provider_id"], name: "index_patients_on_primary_provider_id"
     t.index ["tenant_id"], name: "index_patients_on_tenant_id"
   end
 
@@ -266,6 +268,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_072956) do
   add_foreign_key "notification_preferences", "tenants"
   add_foreign_key "patient_feedbacks", "appointments"
   add_foreign_key "patient_feedbacks", "patients"
+  add_foreign_key "patients", "providers", column: "primary_provider_id"
   add_foreign_key "patients", "tenants"
   add_foreign_key "provider_schedules", "providers"
   add_foreign_key "providers", "tenants"
