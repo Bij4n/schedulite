@@ -2,11 +2,29 @@ class DashboardController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    all_appointments = Appointment.today.chronological.includes(:patient, :provider)
+    @selected_date = params[:date].present? ? Date.parse(params[:date]) : Date.current
+    @view_mode = params[:view] || "list"
     @tenant = current_user.tenant
 
-    @morning = all_appointments.select { |a| a.starts_at.hour < 12 }
-    @afternoon = all_appointments.select { |a| a.starts_at.hour >= 12 }
+    # Date nav: 7 days starting from the Monday of selected week
+    @week_start = @selected_date.beginning_of_week(:monday)
+    @week_dates = (0..6).map { |i| @week_start + i.days }
+
+    # Appointment counts per day for the date nav
+    week_appointments = Appointment.where(starts_at: @week_start.beginning_of_day..(@week_start + 6.days).end_of_day)
+                                   .includes(:patient, :provider)
+
+    @day_counts = week_appointments.group_by { |a| a.starts_at.to_date }
+                                   .transform_values(&:count)
+
+    if @view_mode == "week"
+      @week_appointments = week_appointments.sort_by(&:starts_at).group_by { |a| a.starts_at.to_date }
+    else
+      day_appointments = week_appointments.select { |a| a.starts_at.to_date == @selected_date }
+                                          .sort_by(&:starts_at)
+      @morning = day_appointments.select { |a| a.starts_at.hour < 12 }
+      @afternoon = day_appointments.select { |a| a.starts_at.hour >= 12 }
+    end
 
     @lunch_configured = @tenant.lunch_start.present? && @tenant.lunch_end.present?
     @lunch_start = @tenant.lunch_start

@@ -33,7 +33,7 @@ RSpec.describe "Dashboard", type: :request do
 
     it "shows empty state when no appointments" do
       get root_path
-      expect(response.body).to include("No appointments today")
+      expect(response.body).to include("No appointments for today")
     end
   end
 end
