@@ -7,8 +7,28 @@ class ProvidersController < ApplicationController
 
   def show
     @provider = Provider.find(params[:id])
-    @appointments = @provider.appointments.where(starts_at: Date.current.all_day).chronological
-    @schedules = ProviderSchedule.where(provider: @provider).order(:day_of_week)
+    @selected_date = params[:date].present? ? Date.parse(params[:date]) : Date.current
+
+    @week_start = @selected_date.beginning_of_week(:monday)
+    @week_dates = (0..6).map { |i| @week_start + i.days }
+
+    all_appointments = @provider.appointments
+                                .where(starts_at: @week_start.beginning_of_day..(@week_start + 6.days).end_of_day)
+                                .includes(:patient)
+                                .chronological
+
+    @day_counts = all_appointments.group_by { |a| a.starts_at.to_date }.transform_values(&:count)
+    @today_appointments = all_appointments.select { |a| a.starts_at.to_date == @selected_date }
+    @week_appointments = all_appointments.group_by { |a| a.starts_at.to_date }
+
+    @upcoming = @provider.appointments
+                         .where("starts_at > ?", Time.current)
+                         .where.not(status: [:complete, :canceled, :no_show])
+                         .includes(:patient)
+                         .order(:starts_at)
+                         .limit(10)
+
+    @view_mode = params[:view] || "list"
   end
 
   def new

@@ -1,46 +1,147 @@
 <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
   <header class="sticky top-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700">
-    <div class="mx-auto max-w-2xl px-4 py-4 sm:px-6">
+    <div class="mx-auto max-w-5xl px-4 py-4 sm:px-6">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
           <%= link_to providers_path, class: "text-gray-400 hover:text-gray-600" do %>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
           <% end %>
-          <h1 class="text-lg font-bold text-gray-900 dark:text-gray-100"><%= @provider.display_name %></h1>
+          <div>
+            <h1 class="text-lg font-bold text-gray-900 dark:text-gray-100"><%= @provider.display_name %></h1>
+            <p class="text-xs text-gray-500 dark:text-gray-400"><%= @provider.patients.count %> assigned patients · <%= @provider.appointments.count %> total appointments</p>
+          </div>
         </div>
         <%= link_to "Edit", edit_provider_path(@provider), class: "text-sm text-teal-600 hover:text-teal-500" %>
       </div>
     </div>
   </header>
 
-  <main class="mx-auto max-w-2xl px-4 py-6 sm:px-6 space-y-4">
-    <div class="rounded-2xl bg-white dark:bg-gray-800 p-5 shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-700">
-      <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Today's Appointments</h3>
-      <% if @appointments.any? %>
+  <!-- Week date nav for this provider -->
+  <div class="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800/50">
+    <div class="mx-auto max-w-5xl px-4 sm:px-6">
+      <!-- Week arrows and month -->
+      <div class="flex items-center justify-between py-2">
+        <% prev_week = @week_start - 7.days %>
+        <% next_week = @week_start + 7.days %>
+        <%= link_to provider_path(@provider, date: prev_week.iso8601, view: @view_mode), class: "p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+        <% end %>
+        <span class="text-sm font-semibold text-gray-900 dark:text-gray-100"><%= @week_start.strftime("%B %Y") %></span>
+        <%= link_to provider_path(@provider, date: next_week.iso8601, view: @view_mode), class: "p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+        <% end %>
+      </div>
+
+      <!-- Day strip -->
+      <div class="flex gap-1 pb-3">
+        <% @week_dates.each do |date| %>
+          <% is_selected = date == @selected_date %>
+          <% is_today = date == Date.current %>
+          <% count = @day_counts[date] || 0 %>
+          <%= link_to provider_path(@provider, date: date.iso8601, view: @view_mode),
+            class: "flex-1 min-w-[44px] rounded-xl px-2 py-2 text-center transition #{is_selected ? 'bg-teal-600 text-white' : is_today ? 'bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-300' : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400'}" do %>
+            <div class="text-[10px] font-medium uppercase <%= 'text-teal-200' if is_selected %>"><%= date.strftime("%a") %></div>
+            <div class="text-lg font-bold leading-tight"><%= date.day %></div>
+            <div class="text-[10px] <%= 'text-teal-200' if is_selected %>"><%= count > 0 ? count : '' %></div>
+          <% end %>
+        <% end %>
+      </div>
+
+      <!-- View toggle -->
+      <div class="flex gap-1 pb-3">
+        <% %w[list week].each do |mode| %>
+          <% active = @view_mode == mode %>
+          <%= link_to mode.capitalize, provider_path(@provider, date: @selected_date.iso8601, view: mode),
+            class: "rounded-lg px-3 py-1 text-xs font-#{active ? 'semibold' : 'medium'} #{active ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'}" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <main class="mx-auto max-w-5xl px-4 py-6 sm:px-6 space-y-6">
+    <% if @view_mode == "week" %>
+      <!-- Week grid -->
+      <div class="overflow-x-auto">
+        <div class="grid grid-cols-7 gap-2 min-w-[700px]">
+          <% @week_dates.each do |date| %>
+            <div class="rounded-xl <%= date == Date.current ? 'bg-teal-50/50 dark:bg-teal-900/10 border border-teal-200 dark:border-teal-800' : 'bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700' %> overflow-hidden">
+              <div class="px-3 py-2 border-b border-gray-100 dark:border-gray-700 text-center">
+                <div class="text-[10px] font-medium uppercase text-gray-400 dark:text-gray-500"><%= date.strftime("%a") %></div>
+                <div class="text-sm font-bold <%= date == Date.current ? 'text-teal-600' : 'text-gray-900 dark:text-gray-100' %>"><%= date.day %></div>
+              </div>
+              <div class="p-2 space-y-1.5 min-h-[120px]">
+                <% day_appts = @week_appointments[date] || [] %>
+                <% if day_appts.any? %>
+                  <% day_appts.each do |appt| %>
+                    <%= link_to appointment_path(appt), class: "block rounded-lg p-2 text-xs transition hover:ring-1 hover:ring-teal-300 dark:hover:ring-teal-700 #{status_bg(appt.status)}" do %>
+                      <div class="font-bold text-gray-900 dark:text-gray-100 tabular-nums"><%= appt.starts_at.strftime("%-l:%M %p") %></div>
+                      <div class="text-gray-700 dark:text-gray-300 truncate mt-0.5"><%= appt.patient.display_name %></div>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <div class="flex items-center justify-center h-full">
+                    <span class="text-[10px] text-gray-300 dark:text-gray-600">No appts</span>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% else %>
+      <!-- List view for selected day -->
+      <div class="rounded-2xl bg-white dark:bg-gray-800 p-5 border border-gray-200 dark:border-gray-700">
+        <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">
+          <%= @selected_date == Date.current ? "Today's Appointments" : @selected_date.strftime("%A, %B %-d") %>
+        </h3>
+        <% if @today_appointments.any? %>
+          <div class="space-y-2">
+            <% @today_appointments.each do |appt| %>
+              <%= link_to appointment_path(appt), class: "flex items-center justify-between text-sm py-3 px-3 -mx-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-xl transition" do %>
+                <div class="flex items-center gap-4">
+                  <span class="font-bold text-gray-900 dark:text-gray-100 tabular-nums w-20"><%= appt.starts_at.strftime("%-l:%M %p") %></span>
+                  <span class="text-gray-700 dark:text-gray-300"><%= appt.patient.display_name %></span>
+                </div>
+                <%= render StatusPillComponent.new(status: appt.status) %>
+              <% end %>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-sm text-gray-400 py-4 text-center">No appointments for this day</p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <!-- Upcoming appointments -->
+    <% if @upcoming.any? %>
+      <div class="rounded-2xl bg-white dark:bg-gray-800 p-5 border border-gray-200 dark:border-gray-700">
+        <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Upcoming</h3>
         <div class="space-y-2">
-          <% @appointments.each do |appt| %>
-            <%= link_to appointment_path(appt), class: "flex items-center justify-between text-sm py-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg px-2 -mx-2" do %>
-              <div>
-                <span class="font-medium text-gray-900 dark:text-gray-100"><%= appt.starts_at.strftime("%-l:%M %p") %></span>
-                <span class="text-gray-500 dark:text-gray-400 ml-2"><%= appt.patient.display_name %></span>
+          <% @upcoming.each do |appt| %>
+            <%= link_to appointment_path(appt), class: "flex items-center justify-between text-sm py-2 px-2 -mx-2 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg transition" do %>
+              <div class="flex items-center gap-3">
+                <div class="text-xs text-gray-400 dark:text-gray-500 w-24">
+                  <%= appt.starts_at.strftime("%b %-d") %>
+                  <span class="font-medium text-gray-600 dark:text-gray-300"><%= appt.starts_at.strftime("%-l:%M %p") %></span>
+                </div>
+                <span class="text-gray-900 dark:text-gray-100"><%= appt.patient.display_name %></span>
               </div>
               <%= render StatusPillComponent.new(status: appt.status) %>
             <% end %>
           <% end %>
         </div>
-      <% else %>
-        <p class="text-sm text-gray-400">No appointments today</p>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
 
-    <div class="rounded-2xl bg-white dark:bg-gray-800 p-5 shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-700">
+    <!-- Assigned patients -->
+    <div class="rounded-2xl bg-white dark:bg-gray-800 p-5 border border-gray-200 dark:border-gray-700">
       <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Assigned Patients (<%= @provider.patients.count %>)</h3>
       <% if @provider.patients.any? %>
         <div class="space-y-2">
           <% @provider.patients.each do |patient| %>
-            <%= link_to patient_path(patient), class: "flex items-center justify-between text-sm py-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg px-2 -mx-2" do %>
+            <%= link_to patient_path(patient), class: "flex items-center justify-between text-sm py-2 px-2 -mx-2 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg transition" do %>
               <span class="font-medium text-gray-900 dark:text-gray-100"><%= patient.first_name %> <%= patient.last_name %></span>
-              <span class="text-xs text-gray-400"><%= patient.phone %></span>
+              <span class="text-xs text-gray-400"><%= format_phone(patient.phone) %></span>
             <% end %>
           <% end %>
         </div>
