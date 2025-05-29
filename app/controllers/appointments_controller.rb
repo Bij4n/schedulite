@@ -21,7 +21,7 @@ class AppointmentsController < ApplicationController
   end
 
   def new
-    @appointment = Appointment.new(starts_at: Time.current.change(min: 0) + 1.hour)
+    @appointment = Appointment.new(starts_at: Time.current.change(min: 0) + 1.hour, duration_minutes: 30)
     @providers = Provider.order(:created_at)
     @patients = Patient.order(:created_at)
   end
@@ -39,6 +39,39 @@ class AppointmentsController < ApplicationController
     end
   end
 
+  def edit
+    @appointment = Appointment.find(params[:id])
+    @providers = Provider.order(:created_at)
+  end
+
+  def update
+    @appointment = Appointment.find(params[:id])
+
+    if @appointment.update(reschedule_params)
+      redirect_to appointment_path(@appointment), notice: "Appointment rescheduled"
+    else
+      @providers = Provider.order(:created_at)
+      flash.now[:alert] = @appointment.errors.full_messages.join(", ")
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def cancel
+    @appointment = Appointment.find(params[:id])
+    result = StatusChangeService.call(
+      appointment: @appointment,
+      user: current_user,
+      new_status: "canceled",
+      note: "Canceled by #{current_user.full_name}"
+    )
+
+    if result.success?
+      redirect_to root_path, notice: "Appointment canceled"
+    else
+      redirect_to appointment_path(@appointment), alert: result.error
+    end
+  end
+
   def calendar
     @appointment = Appointment.includes(:patient, :provider).find(params[:id])
     ics = generate_ics(@appointment)
@@ -48,11 +81,16 @@ class AppointmentsController < ApplicationController
   private
 
   def appointment_params
-    params.require(:appointment).permit(:patient_id, :provider_id, :starts_at, :notes)
+    params.require(:appointment).permit(:patient_id, :provider_id, :starts_at, :duration_minutes, :notes)
+  end
+
+  def reschedule_params
+    params.require(:appointment).permit(:provider_id, :starts_at, :duration_minutes, :notes)
   end
 
   def generate_ics(appointment)
-    ends_at = appointment.ends_at || (appointment.starts_at + 30.minutes)
+    duration = appointment.duration_minutes || 30
+    ends_at = appointment.ends_at || (appointment.starts_at + duration.minutes)
     tenant = appointment.tenant
 
     <<~ICS

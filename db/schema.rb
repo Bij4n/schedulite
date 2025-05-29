@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_08_112128) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_08_113304) do
   create_table "api_keys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key_digest"
@@ -24,6 +24,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_112128) do
   create_table "appointments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "delay_minutes"
+    t.integer "duration_minutes", default: 30
     t.datetime "ends_at"
     t.string "external_id"
     t.string "external_source"

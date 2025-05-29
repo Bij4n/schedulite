@@ -4,15 +4,19 @@ class DashboardController < ApplicationController
   def index
     @selected_date = params[:date].present? ? Date.parse(params[:date]) : Date.current
     @view_mode = params[:view] || "list"
+    @selected_provider_id = params[:provider_id]
     @tenant = current_user.tenant
+    @providers = Provider.order(:last_name)
 
-    # Date nav: 7 days starting from the Monday of selected week
     @week_start = @selected_date.beginning_of_week(:monday)
     @week_dates = (0..6).map { |i| @week_start + i.days }
 
-    # Appointment counts per day for the date nav
     week_appointments = Appointment.where(starts_at: @week_start.beginning_of_day..(@week_start + 6.days).end_of_day)
                                    .includes(:patient, :provider)
+
+    if @selected_provider_id.present?
+      week_appointments = week_appointments.where(provider_id: @selected_provider_id)
+    end
 
     @day_counts = week_appointments.group_by { |a| a.starts_at.to_date }
                                    .transform_values(&:count)

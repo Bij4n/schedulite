@@ -11,13 +11,16 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
+  get "search", to: "search#index"
+
   resources :patients, only: [:index, :show, :new, :create, :edit, :update]
   resources :providers, only: [:index, :show, :new, :create, :edit, :update]
 
-  resources :appointments, only: [:index, :show, :new, :create] do
+  resources :appointments, only: [:index, :show, :new, :create, :edit, :update] do
     member do
       patch :check_in, to: "appointments/check_ins#update"
       patch :status, to: "appointments/status_updates#update"
+      patch :cancel, to: "appointments#cancel"
       get :calendar, to: "appointments#calendar"
     end
     resource :conversation, only: [:show], controller: "appointments/conversations"

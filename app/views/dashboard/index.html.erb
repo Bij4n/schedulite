@@ -8,9 +8,19 @@
           </h1>
           <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5"><%= @selected_date.strftime("%B %-d, %Y") %></p>
         </div>
-        <%= link_to new_appointment_path, class: "rounded-2xl bg-teal-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 transition" do %>
-          + Appointment
-        <% end %>
+        <div class="flex items-center gap-3">
+          <% if @providers.count > 1 %>
+            <select onchange="window.location.href=this.value" class="rounded-xl border-0 bg-gray-100 dark:bg-gray-700 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-teal-600">
+              <option value="<%= root_path(date: @selected_date.iso8601, view: @view_mode) %>" <%= 'selected' if @selected_provider_id.blank? %>>All Providers</option>
+              <% @providers.each do |provider| %>
+                <option value="<%= root_path(date: @selected_date.iso8601, view: @view_mode, provider_id: provider.id) %>" <%= 'selected' if @selected_provider_id.to_s == provider.id.to_s %>><%= provider.display_name %></option>
+              <% end %>
+            </select>
+          <% end %>
+          <%= link_to new_appointment_path, class: "rounded-2xl bg-teal-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 transition" do %>
+            + Appointment
+          <% end %>
+        </div>
       </div>
     </div>
   </header>

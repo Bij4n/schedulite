@@ -19,7 +19,7 @@ class NavComponent < ViewComponent::Base
 
   def desktop_sidebar
     tag.aside(class: "hidden sm:flex sm:flex-col sm:w-56 sm:fixed sm:inset-y-0 bg-white dark:bg-gray-800 border-r border-gray-100 dark:border-gray-700 z-20") do
-      safe_join([brand_header, nav_links(:desktop), user_footer])
+      safe_join([brand_header, search_bar, nav_links(:desktop), user_footer])
     end
   end
 
@@ -35,6 +35,26 @@ class NavComponent < ViewComponent::Base
   def brand_header
     tag.div(class: "px-4 py-5 border-b border-gray-100 dark:border-gray-700") do
       tag.h1("Schedulite", class: "text-lg font-bold text-teal-600")
+    end
+  end
+
+  def search_bar
+    tag.div(class: "px-3 py-3 border-b border-gray-100 dark:border-gray-700", data: { controller: "search" }) do
+      safe_join([
+        tag.div(class: "relative") do
+          safe_join([
+            tag.input(type: "text", placeholder: "Search patients...",
+              class: "w-full rounded-xl border-0 bg-gray-100 dark:bg-gray-700 px-3 py-2 pl-9 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600",
+              data: { search_target: "input", action: "input->search#search blur->search#close" }),
+            tag.svg(xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24", stroke_width: "1.5", stroke: "currentColor",
+              class: "w-4 h-4 text-gray-400 absolute left-3 top-2.5 pointer-events-none") do
+              tag.path(stroke_linecap: "round", stroke_linejoin: "round", d: "M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z")
+            end
+          ])
+        end,
+        tag.div(class: "hidden absolute left-3 right-3 mt-1 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden z-30 max-h-64 overflow-y-auto",
+          data: { search_target: "results" })
+      ])
     end
   end
 
