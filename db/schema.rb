@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_08_093536) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_08_112128) do
   create_table "api_keys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key_digest"
@@ -137,6 +137,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_093536) do
     t.datetime "created_at", null: false
     t.string "date_of_birth_bidx"
     t.text "date_of_birth_ciphertext"
+    t.string "email_bidx"
+    t.text "email_ciphertext"
     t.text "first_name_ciphertext"
     t.text "last_name_ciphertext"
     t.string "phone_bidx"
@@ -147,6 +149,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_093536) do
     t.integer "tenant_id", null: false
     t.datetime "updated_at", null: false
     t.index ["date_of_birth_bidx"], name: "index_patients_on_date_of_birth_bidx"
+    t.index ["email_bidx"], name: "index_patients_on_email_bidx"
     t.index ["phone_bidx"], name: "index_patients_on_phone_bidx"
     t.index ["primary_provider_id"], name: "index_patients_on_primary_provider_id"
     t.index ["tenant_id"], name: "index_patients_on_tenant_id"

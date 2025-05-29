@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     member do
       patch :check_in, to: "appointments/check_ins#update"
       patch :status, to: "appointments/status_updates#update"
+      get :calendar, to: "appointments#calendar"
     end
     resource :conversation, only: [:show], controller: "appointments/conversations"
   end

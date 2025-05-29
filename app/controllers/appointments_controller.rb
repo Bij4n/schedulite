@@ -39,9 +39,38 @@ class AppointmentsController < ApplicationController
     end
   end
 
+  def calendar
+    @appointment = Appointment.includes(:patient, :provider).find(params[:id])
+    ics = generate_ics(@appointment)
+    send_data ics, filename: "appointment-#{@appointment.id}.ics", type: "text/calendar", disposition: "attachment"
+  end
+
   private
 
   def appointment_params
     params.require(:appointment).permit(:patient_id, :provider_id, :starts_at, :notes)
+  end
+
+  def generate_ics(appointment)
+    ends_at = appointment.ends_at || (appointment.starts_at + 30.minutes)
+    tenant = appointment.tenant
+
+    <<~ICS
+      BEGIN:VCALENDAR
+      VERSION:2.0
+      PRODID:-//Schedulite//EN
+      CALSCALE:GREGORIAN
+      METHOD:REQUEST
+      BEGIN:VEVENT
+      UID:appointment-#{appointment.id}@#{tenant.subdomain}.schedulite.com
+      DTSTART:#{appointment.starts_at.utc.strftime('%Y%m%dT%H%M%SZ')}
+      DTEND:#{ends_at.utc.strftime('%Y%m%dT%H%M%SZ')}
+      SUMMARY:Appointment with #{appointment.provider.display_name}
+      DESCRIPTION:Your appointment at #{tenant.name}
+      LOCATION:#{tenant.name}
+      STATUS:CONFIRMED
+      END:VEVENT
+      END:VCALENDAR
+    ICS
   end
 end
