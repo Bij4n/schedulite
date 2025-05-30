@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_08_114705) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_08_202546) do
   create_table "api_keys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key_digest"
@@ -113,6 +113,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_114705) do
     t.index ["user_id"], name: "index_login_events_on_user_id"
   end
 
+  create_table "no_show_charges", force: :cascade do |t|
+    t.integer "amount_cents", null: false
+    t.integer "appointment_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "patient_id", null: false
+    t.string "status", default: "pending", null: false
+    t.string "stripe_charge_id"
+    t.integer "tenant_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["appointment_id"], name: "index_no_show_charges_on_appointment_id"
+    t.index ["patient_id"], name: "index_no_show_charges_on_patient_id"
+    t.index ["tenant_id"], name: "index_no_show_charges_on_tenant_id"
+  end
+
   create_table "notification_preferences", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.boolean "email_enabled"
@@ -135,6 +149,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_114705) do
   end
 
   create_table "patients", force: :cascade do |t|
+    t.string "card_brand"
+    t.string "card_last4"
     t.datetime "created_at", null: false
     t.string "date_of_birth_bidx"
     t.text "date_of_birth_ciphertext"
@@ -147,6 +163,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_114705) do
     t.integer "primary_provider_id"
     t.boolean "sms_consent", default: false
     t.datetime "sms_opted_out_at"
+    t.text "stripe_customer_id_ciphertext"
+    t.text "stripe_payment_method_id_ciphertext"
     t.integer "tenant_id", null: false
     t.datetime "updated_at", null: false
     t.index ["date_of_birth_bidx"], name: "index_patients_on_date_of_birth_bidx"
@@ -225,6 +243,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_114705) do
     t.string "lunch_end"
     t.string "lunch_start"
     t.string "name", null: false
+    t.integer "no_show_fee_cents"
     t.string "plan", default: "free"
     t.string "stripe_customer_id"
     t.string "subdomain", null: false
@@ -269,6 +288,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_114705) do
   add_foreign_key "gift_cards", "tenants"
   add_foreign_key "integrations", "tenants"
   add_foreign_key "login_events", "users"
+  add_foreign_key "no_show_charges", "appointments"
+  add_foreign_key "no_show_charges", "patients"
+  add_foreign_key "no_show_charges", "tenants"
   add_foreign_key "notification_preferences", "tenants"
   add_foreign_key "patient_feedbacks", "appointments"
   add_foreign_key "patient_feedbacks", "patients"

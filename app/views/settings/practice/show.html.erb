@@ -42,5 +42,25 @@
         <%= f.submit "Save Lunch Break", class: "w-full rounded-xl bg-teal-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 cursor-pointer" %>
       <% end %>
     </div>
+    <div class="rounded-2xl bg-white dark:bg-gray-800 p-6 shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-700">
+      <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-1">No-Show Fee</h3>
+      <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Charge patients who miss their appointments. Requires a card on file.</p>
+
+      <%= form_with(model: @tenant, url: settings_practice_path, method: :patch, class: "space-y-4") do |f| %>
+        <div>
+          <%= f.label :no_show_fee_cents, "Fee Amount (in cents)", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+          <div class="mt-1 relative">
+            <span class="absolute left-4 top-3 text-gray-400 text-sm">$</span>
+            <input type="number" name="tenant[no_show_fee_dollars]" id="tenant_no_show_fee_dollars"
+              value="<%= @tenant.no_show_fee_cents.to_i > 0 ? '%.2f' % (@tenant.no_show_fee_cents / 100.0) : '' %>"
+              step="0.01" min="0" placeholder="50.00"
+              class="block w-full rounded-xl border-0 pl-8 pr-4 py-3 text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 focus:ring-2 focus:ring-teal-600 sm:text-sm">
+          </div>
+          <p class="mt-1 text-xs text-gray-400">Leave blank or set to 0 to disable no-show fees</p>
+        </div>
+
+        <%= f.submit "Save No-Show Fee", class: "w-full rounded-xl bg-teal-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 cursor-pointer" %>
+      <% end %>
+    </div>
   </main>
 </div>

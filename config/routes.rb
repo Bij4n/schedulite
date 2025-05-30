@@ -25,6 +25,8 @@ Rails.application.routes.draw do
       patch :check_in, to: "appointments/check_ins#update"
       patch :status, to: "appointments/status_updates#update"
       patch :cancel, to: "appointments#cancel"
+      patch :no_show, to: "appointments#no_show"
+      patch :waive_charge, to: "appointments#waive_charge"
       get :calendar, to: "appointments#calendar"
     end
     resource :conversation, only: [:show], controller: "appointments/conversations"

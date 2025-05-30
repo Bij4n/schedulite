@@ -5,6 +5,7 @@ class Appointment < ApplicationRecord
   has_many :status_events, dependent: :destroy
   has_many :sms_messages, dependent: :destroy
   has_many :gift_cards, dependent: :destroy
+  has_many :no_show_charges, dependent: :destroy
 
   acts_as_tenant :tenant
 

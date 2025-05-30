@@ -9,6 +9,15 @@ module Settings
 
     def update
       @tenant = current_user.tenant
+
+      # Convert dollar input to cents for no-show fee
+      if params[:tenant][:no_show_fee_dollars].present?
+        dollars = params[:tenant][:no_show_fee_dollars].to_f
+        params[:tenant][:no_show_fee_cents] = (dollars * 100).round
+      elsif params[:tenant].key?(:no_show_fee_dollars)
+        params[:tenant][:no_show_fee_cents] = 0
+      end
+
       if @tenant.update(practice_params)
         redirect_to settings_practice_path, notice: "Practice settings updated"
       else
@@ -20,7 +29,7 @@ module Settings
     private
 
     def practice_params
-      params.require(:tenant).permit(:name, :lunch_start, :lunch_end)
+      params.require(:tenant).permit(:name, :lunch_start, :lunch_end, :no_show_fee_cents)
     end
 
     def authorize_admin!

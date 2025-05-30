@@ -57,6 +57,16 @@
             <% end %>
           </dd>
         </div>
+        <div class="flex justify-between items-center">
+          <dt class="text-gray-500 dark:text-gray-400">Card on File</dt>
+          <dd class="font-medium text-gray-900 dark:text-gray-100">
+            <% if @patient.card_on_file? %>
+              <span class="text-teal-600"><%= @patient.card_display %></span>
+            <% else %>
+              <span class="text-gray-400">No card</span>
+            <% end %>
+          </dd>
+        </div>
       </dl>
     </div>
 

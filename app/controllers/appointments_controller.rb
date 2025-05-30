@@ -72,6 +72,40 @@ class AppointmentsController < ApplicationController
     end
   end
 
+  def no_show
+    @appointment = Appointment.find(params[:id])
+    result = StatusChangeService.call(
+      appointment: @appointment,
+      user: current_user,
+      new_status: "no_show",
+      note: "No-show marked by #{current_user.full_name}"
+    )
+
+    if result.success?
+      charge = NoShowBillingService.call(appointment: @appointment)
+      if charge&.charged?
+        redirect_to appointment_path(@appointment), notice: "Marked as no-show. Fee of $#{'%.2f' % charge.amount_dollars} charged."
+      elsif charge&.status == "failed"
+        redirect_to appointment_path(@appointment), alert: "Marked as no-show. Fee charge failed."
+      else
+        redirect_to appointment_path(@appointment), notice: "Marked as no-show."
+      end
+    else
+      redirect_to appointment_path(@appointment), alert: result.error
+    end
+  end
+
+  def waive_charge
+    @appointment = Appointment.find(params[:id])
+    charge = @appointment.no_show_charges.find_by(status: %w[charged pending])
+    if charge
+      charge.update!(status: "waived")
+      redirect_to appointment_path(@appointment), notice: "Charge waived"
+    else
+      redirect_to appointment_path(@appointment), alert: "No charge to waive"
+    end
+  end
+
   def calendar
     @appointment = Appointment.includes(:patient, :provider).find(params[:id])
     ics = generate_ics(@appointment)
