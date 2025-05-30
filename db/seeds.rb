@@ -24,7 +24,7 @@ patients = [
   { first_name: "Casey", last_name: "Brooks", phone: "5551000006", date_of_birth: "1990-07-04" },
   { first_name: "Riley", last_name: "Martinez", phone: "5551000007", date_of_birth: "1988-12-25" },
   { first_name: "Jamie", last_name: "Thompson", phone: "5551000008", date_of_birth: "1973-04-18" }
-].map { |attrs| Patient.create!(tenant: tenant, **attrs) }
+].map { |attrs| Patient.create!(tenant: tenant, sms_consent: true, primary_provider: dr_lee, **attrs) }
 
 today = Date.current
 

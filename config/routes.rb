@@ -13,7 +13,11 @@ Rails.application.routes.draw do
 
   get "search", to: "search#index"
 
-  resources :patients, only: [:index, :show, :new, :create, :edit, :update]
+  resources :patients, only: [:index, :show, :new, :create, :edit, :update] do
+    member do
+      post :send_consent
+    end
+  end
   resources :providers, only: [:index, :show, :new, :create, :edit, :update]
 
   resources :appointments, only: [:index, :show, :new, :create, :edit, :update] do
@@ -27,6 +31,11 @@ Rails.application.routes.draw do
   end
 
   get "status/:token", to: "patient_status#show", as: :patient_status
+
+  # Kiosk (patient self-check-in)
+  get "kiosk/:subdomain", to: "kiosk#show", as: :kiosk
+  post "kiosk/:subdomain/check_in", to: "kiosk#check_in", as: :kiosk_check_in
+  get "kiosk/:subdomain/confirmed/:token", to: "kiosk#confirmed", as: :kiosk_confirmed
 
   namespace :settings do
     resources :integrations, only: [:index, :new, :create, :destroy]

@@ -21,7 +21,7 @@ module Webhooks
       case keyword
       when "STOP"
         patient.update!(sms_consent: false, sms_opted_out_at: Time.current)
-      when "START"
+      when "START", "YES"
         patient.update!(sms_consent: true, sms_opted_out_at: nil)
       end
     end

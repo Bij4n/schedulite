@@ -1,0 +1,25 @@
+<div class="flex min-h-full items-center justify-center px-6 py-12">
+  <div class="w-full max-w-md space-y-8 text-center">
+    <div>
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100"><%= @tenant.name %></h1>
+      <p class="mt-2 text-lg text-gray-500 dark:text-gray-400">Welcome! Check in for your appointment.</p>
+    </div>
+
+    <%= form_with(url: kiosk_check_in_path(subdomain: @tenant.subdomain), method: :post,
+      class: "rounded-3xl bg-white dark:bg-gray-800 p-8 shadow-lg border border-gray-200 dark:border-gray-700 space-y-6") do %>
+
+      <div>
+        <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 text-left">Your Phone Number</label>
+        <input type="tel" name="phone" id="phone" required autofocus
+          placeholder="(555) 123-4567"
+          class="mt-2 block w-full rounded-2xl border-0 px-5 py-4 text-xl text-center text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600"
+          inputmode="tel" autocomplete="tel">
+        <p class="mt-2 text-xs text-gray-400">Enter the phone number on file with our office</p>
+      </div>
+
+      <button type="submit" class="w-full rounded-2xl bg-teal-600 px-6 py-4 text-lg font-semibold text-white shadow-sm hover:bg-teal-500 active:bg-teal-700 cursor-pointer transition">
+        Check In
+      </button>
+    <% end %>
+  </div>
+</div>

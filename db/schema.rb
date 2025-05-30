@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_08_113304) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_08_114705) do
   create_table "api_keys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key_digest"
@@ -145,7 +145,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_113304) do
     t.string "phone_bidx"
     t.text "phone_ciphertext"
     t.integer "primary_provider_id"
-    t.boolean "sms_consent", default: true
+    t.boolean "sms_consent", default: false
     t.datetime "sms_opted_out_at"
     t.integer "tenant_id", null: false
     t.datetime "updated_at", null: false

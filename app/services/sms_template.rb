@@ -7,7 +7,8 @@ class SmsTemplate
     youre_next: "Hi %{first_name}, you're next! Please head to the front desk. We'll see you shortly.",
     gift_card_issued: "Hi %{first_name}, we're sorry for the wait. Here's a small thank-you: %{gift_card_url}",
     reminder_24h: "Hi %{first_name}, reminder: you have an appointment tomorrow at %{appointment_time}. Reply STOP to opt out of texts.",
-    reminder_2h: "Hi %{first_name}, your %{appointment_time} appointment is coming up in about 2 hours. See you soon!"
+    reminder_2h: "Hi %{first_name}, your %{appointment_time} appointment is coming up in about 2 hours. See you soon!",
+    consent_request: "%{practice_name} would like to send you appointment updates via text. Reply YES to opt in, STOP anytime to opt out."
   }.freeze
 
   class PhiLeakError < StandardError; end

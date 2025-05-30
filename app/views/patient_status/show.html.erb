@@ -46,6 +46,12 @@
         <% end %>
       <% end %>
 
+      <% if @patients_ahead && @patients_ahead > 0 && !@appointment.complete? %>
+        <div class="rounded-xl bg-blue-50 dark:bg-blue-900/20 p-3 text-sm text-blue-800 dark:text-blue-300">
+          <%= @patients_ahead %> <%= @patients_ahead == 1 ? 'patient' : 'patients' %> ahead of you
+        </div>
+      <% end %>
+
       <% if @appointment.delay_minutes.to_i > 0 && !@appointment.complete? %>
         <div class="rounded-xl bg-amber-50 dark:bg-amber-900/20 p-3 text-sm text-amber-800 dark:text-amber-300">
           Current wait: ~<%= @appointment.delay_minutes %> min. We'll text you 10 min before you're up.

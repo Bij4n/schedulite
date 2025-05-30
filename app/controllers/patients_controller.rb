@@ -42,6 +42,18 @@ class PatientsController < ApplicationController
     end
   end
 
+  def send_consent
+    @patient = Patient.find(params[:id])
+    appointment = @patient.appointments.order(starts_at: :desc).first
+
+    if appointment
+      SmsConsentService.request_consent(patient: @patient, appointment: appointment)
+      redirect_to patient_path(@patient), notice: "Consent request sent"
+    else
+      redirect_to patient_path(@patient), alert: "Patient needs at least one appointment before sending consent request"
+    end
+  end
+
   private
 
   def patient_params

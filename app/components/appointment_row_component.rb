@@ -65,7 +65,8 @@ class AppointmentRowComponent < ViewComponent::Base
     tag.div(class: "flex-1 min-w-0") do
       safe_join([
         tag.p(@appointment.patient.display_name, class: "text-sm font-semibold text-gray-900 dark:text-gray-100 truncate"),
-        tag.p(provider_line, class: "text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5")
+        tag.p(provider_line, class: "text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5"),
+        (@appointment.notes.present? ? tag.p(@appointment.notes.truncate(60), class: "text-[11px] text-gray-400 dark:text-gray-500 truncate mt-0.5 italic") : nil)
       ])
     end
   end

@@ -17,3 +17,13 @@
   --color-teal-800: #115e59;
   --color-teal-900: #134e4a;
 }
+
+@media print {
+  aside, nav, .no-print { display: none !important; }
+  body { background: white !important; color: black !important; }
+  .sm\:ml-56 { margin-left: 0 !important; }
+  .pb-20 { padding-bottom: 0 !important; }
+  * { box-shadow: none !important; border-color: #e5e7eb !important; }
+  .dark\:bg-gray-800, .dark\:bg-gray-900, .dark\:bg-gray-800\/80, .dark\:bg-gray-800\/50 { background: white !important; }
+  .dark\:text-gray-100, .dark\:text-gray-300 { color: black !important; }
+}

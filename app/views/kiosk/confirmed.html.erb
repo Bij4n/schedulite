@@ -1,0 +1,24 @@
+<div class="flex min-h-full items-center justify-center px-6 py-12">
+  <div class="w-full max-w-md space-y-8 text-center">
+    <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-teal-100 dark:bg-teal-900/30">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-10 h-10 text-teal-600">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      </svg>
+    </div>
+
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">You're Checked In!</h1>
+      <p class="mt-3 text-gray-500 dark:text-gray-400">
+        Your <span class="font-medium text-gray-900 dark:text-gray-100"><%= @appointment.starts_at.strftime("%-l:%M %p") %></span>
+        appointment with <span class="font-medium text-gray-900 dark:text-gray-100"><%= @appointment.provider.display_name %></span>
+        is confirmed.
+      </p>
+      <p class="mt-2 text-sm text-gray-400">We'll call your name when it's time. Have a seat!</p>
+    </div>
+
+    <div class="pt-4">
+      <%= link_to "Check In Another Patient", kiosk_path(subdomain: @tenant.subdomain),
+        class: "text-sm text-teal-600 hover:text-teal-500" %>
+    </div>
+  </div>
+</div>

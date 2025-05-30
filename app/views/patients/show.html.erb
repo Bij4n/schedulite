@@ -42,9 +42,20 @@
             <% end %>
           </dd>
         </div>
-        <div class="flex justify-between">
+        <div class="flex justify-between items-center">
           <dt class="text-gray-500 dark:text-gray-400">SMS Consent</dt>
-          <dd class="font-medium <%= @patient.sms_consent? ? 'text-teal-600' : 'text-red-600' %>"><%= @patient.sms_consent? ? 'Opted In' : 'Opted Out' %></dd>
+          <dd class="flex items-center gap-2">
+            <span class="font-medium <%= @patient.sms_consent? ? 'text-teal-600' : 'text-amber-600' %>">
+              <%= @patient.sms_consent? ? 'Opted In' : 'Pending' %>
+            </span>
+            <% unless @patient.sms_consent? %>
+              <%= link_to send_consent_patient_path(@patient),
+                data: { turbo_method: :post },
+                class: "text-xs text-teal-600 hover:text-teal-500 underline" do %>
+                Send Request
+              <% end %>
+            <% end %>
+          </dd>
         </div>
       </dl>
     </div>
