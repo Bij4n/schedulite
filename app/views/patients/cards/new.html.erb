@@ -1,0 +1,44 @@
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+  <header class="sticky top-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700">
+    <div class="mx-auto max-w-2xl px-4 py-4 sm:px-6">
+      <div class="flex items-center gap-3">
+        <%= link_to patient_path(@patient), class: "text-gray-400 hover:text-gray-600" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+        <% end %>
+        <h1 class="text-lg font-bold text-gray-900 dark:text-gray-100">Add Card for <%= @patient.display_name %></h1>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-lg px-4 py-6 sm:px-6">
+    <div class="rounded-2xl bg-white dark:bg-gray-800 p-6 border border-gray-200 dark:border-gray-700">
+      <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Card details are handled securely by Stripe. We never see or store your card number.</p>
+
+      <form id="card-form" data-controller="stripe-card" data-stripe-card-key-value="<%= @stripe_publishable_key %>" data-stripe-card-url-value="<%= patient_cards_path(@patient) %>">
+        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Card Information</label>
+            <div id="card-element" class="rounded-xl border border-gray-300 dark:border-gray-600 px-4 py-3.5 bg-white dark:bg-gray-700" data-stripe-card-target="cardElement"></div>
+            <div id="card-errors" class="mt-2 text-sm text-red-600 dark:text-red-400 hidden" data-stripe-card-target="errors" role="alert"></div>
+          </div>
+
+          <button type="submit" data-stripe-card-target="submitButton"
+            class="w-full rounded-xl bg-teal-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 cursor-pointer transition disabled:opacity-50 disabled:cursor-not-allowed">
+            Save Card
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <p class="mt-4 text-xs text-gray-400 text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5 inline-block mr-1">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+      </svg>
+      Secured by Stripe. PCI-DSS compliant.
+    </p>
+  </main>
+</div>
+
+<script src="https://js.stripe.com/v3/"></script>

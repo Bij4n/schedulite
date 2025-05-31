@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     member do
       post :send_consent
     end
+    resources :cards, only: [:new, :create, :destroy], controller: "patients/cards"
   end
   resources :providers, only: [:index, :show, :new, :create, :edit, :update]
 
