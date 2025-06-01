@@ -3,6 +3,7 @@ class SettingsNavComponent < ViewComponent::Base
     { label: "Practice", path: :settings_practice_path, admin_only: true },
     { label: "Integrations", path: :settings_integrations_path, admin_only: true },
     { label: "Staff", path: :settings_staff_index_path, admin_only: true },
+    { label: "Sync Health", path: :settings_sync_health_path, admin_only: true },
     { label: "Analytics", path: :settings_analytics_path, admin_only: true },
     { label: "Profile", path: :settings_profile_path, admin_only: false }
   ].freeze

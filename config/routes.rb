@@ -19,7 +19,15 @@ Rails.application.routes.draw do
     end
     resources :cards, only: [:new, :create, :destroy], controller: "patients/cards"
   end
-  resources :providers, only: [:index, :show, :new, :create, :edit, :update]
+  resources :providers, only: [:index, :show, :new, :create, :edit, :update] do
+    resources :integrations, only: [:new, :create, :destroy], controller: "providers/integrations"
+    resources :schedules, only: [:create, :destroy], controller: "providers/schedules" do
+      member do
+        patch :approve
+        patch :reject
+      end
+    end
+  end
 
   resources :appointments, only: [:index, :show, :new, :create, :edit, :update] do
     member do
@@ -48,6 +56,7 @@ Rails.application.routes.draw do
     end
     resource :profile, only: [:show, :update], controller: "profile"
     resource :practice, only: [:show, :update], controller: "practice"
+    resource :sync_health, only: [:show], controller: "sync_health"
   end
 
   namespace :api do

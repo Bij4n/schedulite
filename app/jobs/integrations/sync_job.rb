@@ -8,17 +8,27 @@ module Integrations
       dtos = adapter.fetch_appointments(date_range: Date.current..Date.current)
 
       ActsAsTenant.with_tenant(integration.tenant) do
-        dtos.each { |dto| upsert_appointment(integration.tenant, dto) }
+        dtos.each do |dto|
+          # If integration is linked to a provider, force that provider
+          if integration.provider_id
+            upsert_appointment(integration.tenant, dto, override_provider: integration.provider)
+          else
+            upsert_appointment(integration.tenant, dto)
+          end
+        end
       end
 
-      integration.update!(last_synced_at: Time.current)
+      integration.clear_sync_error!
+    rescue => e
+      integration&.record_sync_error!(e.message)
+      Rails.logger.error("Sync failed for integration #{integration_id}: #{e.message}")
     end
 
     private
 
-    def upsert_appointment(tenant, dto)
+    def upsert_appointment(tenant, dto, override_provider: nil)
       patient = find_or_create_patient(tenant, dto)
-      provider = find_or_create_provider(tenant, dto)
+      provider = override_provider || find_or_create_provider(tenant, dto)
 
       appointment = Appointment.find_or_initialize_by(
         external_id: dto.external_id,

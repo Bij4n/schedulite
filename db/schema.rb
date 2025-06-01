@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_08_202546) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_09_002453) do
   create_table "api_keys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key_digest"
@@ -97,9 +97,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_202546) do
     t.datetime "created_at", null: false
     t.text "credentials_ciphertext"
     t.datetime "last_synced_at"
+    t.integer "provider_id"
     t.string "status"
+    t.text "sync_error"
+    t.datetime "sync_error_at"
     t.integer "tenant_id", null: false
     t.datetime "updated_at", null: false
+    t.index ["provider_id"], name: "index_integrations_on_provider_id"
     t.index ["tenant_id"], name: "index_integrations_on_tenant_id"
   end
 
@@ -175,13 +179,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_202546) do
   end
 
   create_table "provider_schedules", force: :cascade do |t|
+    t.datetime "approved_at"
     t.datetime "created_at", null: false
     t.integer "day_of_week"
     t.time "end_time"
+    t.text "notes"
+    t.integer "proposed_by_id"
     t.integer "provider_id", null: false
     t.integer "slot_duration_minutes"
     t.time "start_time"
+    t.string "status", default: "draft"
     t.datetime "updated_at", null: false
+    t.index ["proposed_by_id"], name: "index_provider_schedules_on_proposed_by_id"
     t.index ["provider_id"], name: "index_provider_schedules_on_provider_id"
   end
 
@@ -286,6 +295,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_202546) do
   add_foreign_key "gift_card_settings", "tenants"
   add_foreign_key "gift_cards", "appointments"
   add_foreign_key "gift_cards", "tenants"
+  add_foreign_key "integrations", "providers"
   add_foreign_key "integrations", "tenants"
   add_foreign_key "login_events", "users"
   add_foreign_key "no_show_charges", "appointments"
@@ -297,6 +307,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_08_202546) do
   add_foreign_key "patients", "providers", column: "primary_provider_id"
   add_foreign_key "patients", "tenants"
   add_foreign_key "provider_schedules", "providers"
+  add_foreign_key "provider_schedules", "users", column: "proposed_by_id"
   add_foreign_key "providers", "tenants"
   add_foreign_key "recurring_appointments", "patients"
   add_foreign_key "recurring_appointments", "providers"

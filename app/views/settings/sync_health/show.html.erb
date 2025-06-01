@@ -1,0 +1,50 @@
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+  <header class="sticky top-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700">
+    <div class="mx-auto max-w-2xl px-4 py-4 sm:px-6">
+      <h1 class="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-100">Settings</h1>
+    </div>
+  </header>
+
+  <%= render "settings/nav" %>
+
+  <main class="mx-auto max-w-2xl px-4 py-4 sm:px-6 space-y-4">
+    <% if @integrations.any? %>
+      <% @integrations.each do |integration| %>
+        <div class="rounded-2xl bg-white dark:bg-gray-800 p-4 border border-gray-200 dark:border-gray-700">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <% case integration.sync_status %>
+              <% when :healthy %>
+                <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+              <% when :stale %>
+                <div class="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
+              <% when :error %>
+                <div class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></div>
+              <% end %>
+              <div>
+                <p class="text-sm font-medium text-gray-900 dark:text-gray-100"><%= integration.display_name %></p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">
+                  <% if integration.last_synced_at %>
+                    Last synced <%= time_ago_in_words(integration.last_synced_at) %> ago
+                  <% else %>
+                    Never synced
+                  <% end %>
+                </p>
+              </div>
+            </div>
+            <span class="text-xs font-medium rounded-full px-2 py-0.5 <%= case integration.sync_status when :healthy then 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' when :stale then 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300' when :error then 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300' end %>">
+              <%= integration.sync_status.to_s.capitalize %>
+            </span>
+          </div>
+          <% if integration.sync_error.present? %>
+            <div class="mt-3 rounded-lg bg-red-50 dark:bg-red-900/10 p-3 text-xs text-red-700 dark:text-red-400">
+              <strong>Error:</strong> <%= integration.sync_error.truncate(200) %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    <% else %>
+      <%= render EmptyStateComponent.new(title: "No integrations", description: "Connect calendars from the Integrations page or individual provider pages.") %>
+    <% end %>
+  </main>
+</div>

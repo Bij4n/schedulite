@@ -1,10 +1,29 @@
 class ProviderSchedule < ApplicationRecord
   belongs_to :provider
+  belongs_to :proposed_by, class_name: "User", optional: true
 
   validates :day_of_week, presence: true, inclusion: { in: 0..6 }
   validates :start_time, presence: true
   validates :end_time, presence: true
   validates :slot_duration_minutes, presence: true, numericality: { greater_than: 0 }
+  validates :status, inclusion: { in: %w[draft pending approved rejected] }
+
+  scope :approved, -> { where(status: "approved") }
+  scope :pending, -> { where(status: "pending") }
+
+  DAY_NAMES = %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday].freeze
+
+  def day_name
+    DAY_NAMES[day_of_week]
+  end
+
+  def approved?
+    status == "approved"
+  end
+
+  def pending?
+    status == "pending"
+  end
 
   def available_slots
     slots = []
