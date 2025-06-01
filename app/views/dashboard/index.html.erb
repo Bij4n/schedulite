@@ -31,7 +31,7 @@
   </header>
 
   <!-- Date navigation -->
-  <%= render DateNavComponent.new(dates: @week_dates, selected_date: @selected_date, day_counts: @day_counts, view_mode: @view_mode) %>
+  <%= render DateNavComponent.new(dates: @week_dates, selected_date: @selected_date, day_counts: @day_counts, view_mode: @view_mode, provider_id: @selected_provider_id) %>
 
   <div class="mx-auto max-w-5xl px-4 sm:px-6 pt-4">
     <%= render BaaBannerComponent.new(tenant: current_user.tenant) %>
