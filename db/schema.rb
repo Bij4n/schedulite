@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_09_002453) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_09_010917) do
   create_table "api_keys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key_digest"
@@ -232,6 +232,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_09_002453) do
     t.index ["patient_id"], name: "index_sms_messages_on_patient_id"
   end
 
+  create_table "staff_shifts", force: :cascade do |t|
+    t.integer "break_minutes", default: 30
+    t.datetime "created_at", null: false
+    t.integer "day_of_week", null: false
+    t.string "end_time", null: false
+    t.string "start_time", null: false
+    t.string "status", default: "proposed", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_staff_shifts_on_user_id"
+  end
+
   create_table "status_events", force: :cascade do |t|
     t.integer "appointment_id", null: false
     t.datetime "created_at", null: false
@@ -249,6 +261,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_09_002453) do
     t.datetime "baa_uploaded_at"
     t.datetime "created_at", null: false
     t.integer "data_retention_years", default: 7
+    t.integer "default_break_minutes", default: 30
+    t.string "default_shift_end", default: "17:00"
+    t.string "default_shift_start", default: "09:00"
     t.string "lunch_end"
     t.string "lunch_start"
     t.string "name", null: false
@@ -259,6 +274,34 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_09_002453) do
     t.datetime "trial_ends_at"
     t.datetime "updated_at", null: false
     t.index ["subdomain"], name: "index_tenants_on_subdomain", unique: true
+  end
+
+  create_table "time_entries", force: :cascade do |t|
+    t.integer "break_minutes_taken"
+    t.datetime "clock_in_at"
+    t.datetime "clock_out_at"
+    t.datetime "created_at", null: false
+    t.string "ip_address"
+    t.text "notes"
+    t.string "status"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_time_entries_on_user_id"
+  end
+
+  create_table "time_off_requests", force: :cascade do |t|
+    t.integer "approved_by_id"
+    t.datetime "created_at", null: false
+    t.date "end_date", null: false
+    t.text "reason"
+    t.string "request_type", default: "pto", null: false
+    t.datetime "responded_at"
+    t.date "start_date", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["approved_by_id"], name: "index_time_off_requests_on_approved_by_id"
+    t.index ["user_id"], name: "index_time_off_requests_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -314,8 +357,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_09_002453) do
   add_foreign_key "recurring_appointments", "tenants"
   add_foreign_key "sms_messages", "appointments"
   add_foreign_key "sms_messages", "patients"
+  add_foreign_key "staff_shifts", "users"
   add_foreign_key "status_events", "appointments"
   add_foreign_key "status_events", "users"
+  add_foreign_key "time_entries", "users"
+  add_foreign_key "time_off_requests", "users"
+  add_foreign_key "time_off_requests", "users", column: "approved_by_id"
   add_foreign_key "users", "tenants"
   add_foreign_key "webhook_subscriptions", "tenants"
 end

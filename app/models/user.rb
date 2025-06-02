@@ -1,5 +1,8 @@
 class User < ApplicationRecord
   belongs_to :tenant
+  has_many :staff_shifts, dependent: :destroy
+  has_many :time_entries, dependent: :destroy
+  has_many :time_off_requests, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
