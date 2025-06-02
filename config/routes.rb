@@ -50,7 +50,13 @@ Rails.application.routes.draw do
 
   namespace :settings do
     resources :integrations, only: [:index, :new, :create, :destroy]
-    resources :staff, only: [:index, :create, :update, :destroy]
+    resources :staff, only: [:index, :create, :update, :destroy] do
+      resources :shifts, only: [:index, :create, :destroy], controller: "staff_shifts" do
+        member do
+          patch :approve
+        end
+      end
+    end
     resource :analytics, only: [:show] do
       get :export, on: :member
     end

@@ -36,7 +36,9 @@
             <p class="text-sm font-medium text-gray-900 dark:text-gray-100"><%= staff.full_name %></p>
             <p class="text-xs text-gray-500 dark:text-gray-400"><%= staff.email %> &middot; <span class="capitalize"><%= staff.role.humanize %></span></p>
           </div>
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-3">
+            <%= link_to "Schedule", settings_staff_shifts_path(staff),
+              class: "text-xs text-teal-600 hover:text-teal-500" %>
             <% unless staff == current_user %>
               <%= link_to "Remove", settings_staff_path(staff),
                 data: { turbo_method: :delete, turbo_confirm: "Remove #{staff.full_name}?" },
