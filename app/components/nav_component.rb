@@ -96,8 +96,9 @@ class NavComponent < ViewComponent::Base
   end
 
   def user_footer
-    tag.div(class: "px-4 py-3 border-t border-gray-100 dark:border-gray-700") do
+    tag.div(class: "px-4 py-3 border-t border-gray-100 dark:border-gray-700 space-y-2") do
       safe_join([
+        clock_button,
         link_to(helpers.settings_profile_path, class: "block hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg -mx-1 px-1 py-1") do
           safe_join([
             tag.p(@current_user.full_name, class: "text-sm font-medium text-gray-900 dark:text-gray-100 truncate"),
@@ -106,8 +107,28 @@ class NavComponent < ViewComponent::Base
         end,
         link_to("Sign out", helpers.destroy_user_session_path,
           data: { turbo_method: :delete },
-          class: "mt-2 text-xs text-teal-600 hover:text-teal-500")
+          class: "text-xs text-teal-600 hover:text-teal-500")
       ])
+    end
+  end
+
+  def clock_button
+    clocked_in = @current_user.time_entries.where(status: "in_progress").any?
+
+    if clocked_in
+      link_to(helpers.clock_out_time_clock_index_path, data: { turbo_method: :post }, class: "flex items-center gap-2 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-3 py-2 text-xs font-medium text-red-700 dark:text-red-300 hover:bg-red-100 transition") do
+        safe_join([
+          tag.div(class: "w-2 h-2 rounded-full bg-green-500 animate-pulse"),
+          tag.span("Clock Out")
+        ])
+      end
+    else
+      link_to(helpers.clock_in_time_clock_index_path, data: { turbo_method: :post }, class: "flex items-center gap-2 rounded-xl bg-gray-100 dark:bg-gray-700 px-3 py-2 text-xs font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition") do
+        safe_join([
+          tag.div(class: "w-2 h-2 rounded-full bg-gray-400"),
+          tag.span("Clock In")
+        ])
+      end
     end
   end
 

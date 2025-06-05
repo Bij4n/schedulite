@@ -13,6 +13,13 @@ Rails.application.routes.draw do
 
   get "search", to: "search#index"
 
+  resources :time_clock, only: [] do
+    collection do
+      post :clock_in
+      post :clock_out
+    end
+  end
+
   resources :patients, only: [:index, :show, :new, :create, :edit, :update] do
     member do
       post :send_consent
@@ -63,6 +70,9 @@ Rails.application.routes.draw do
     resource :profile, only: [:show, :update], controller: "profile"
     resource :practice, only: [:show, :update], controller: "practice"
     resource :sync_health, only: [:show], controller: "sync_health"
+    resource :timesheet, only: [:show], controller: "timesheet" do
+      get :export, on: :member
+    end
   end
 
   namespace :api do

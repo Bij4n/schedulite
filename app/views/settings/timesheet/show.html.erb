@@ -1,0 +1,76 @@
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+  <header class="sticky top-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700">
+    <div class="mx-auto max-w-2xl px-4 py-4 sm:px-6">
+      <h1 class="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-100">Settings</h1>
+    </div>
+  </header>
+
+  <%= render "settings/nav" %>
+
+  <main class="mx-auto max-w-3xl px-4 py-4 sm:px-6 space-y-4">
+    <!-- Week navigation -->
+    <div class="flex items-center justify-between">
+      <% prev_week = @start_date - 7.days %>
+      <% next_week = @start_date + 7.days %>
+      <%= link_to settings_timesheet_path(start_date: prev_week.iso8601), class: "text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300" do %>
+        &larr; Previous Week
+      <% end %>
+      <span class="text-sm font-semibold text-gray-900 dark:text-gray-100"><%= @start_date.strftime("%b %-d") %> – <%= @end_date.strftime("%b %-d, %Y") %></span>
+      <%= link_to settings_timesheet_path(start_date: next_week.iso8601), class: "text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300" do %>
+        Next Week &rarr;
+      <% end %>
+    </div>
+
+    <!-- Staff hours summary -->
+    <div class="rounded-2xl bg-white dark:bg-gray-800 p-5 border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">Weekly Hours</h3>
+        <%= link_to "Export CSV", export_settings_timesheet_path(start_date: @start_date.iso8601, format: :csv),
+          class: "text-xs text-teal-600 hover:text-teal-500" %>
+      </div>
+      <% if @staff_hours.any? %>
+        <div class="space-y-2">
+          <% @staff_hours.sort_by { |user, _| user.last_name }.each do |user, hours| %>
+            <div class="flex items-center justify-between text-sm py-2">
+              <div>
+                <span class="font-medium text-gray-900 dark:text-gray-100"><%= user.full_name %></span>
+                <span class="text-xs text-gray-400 ml-2"><%= user.role.humanize %></span>
+              </div>
+              <span class="font-bold text-gray-900 dark:text-gray-100 tabular-nums"><%= hours %> hrs</span>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-sm text-gray-400 text-center py-4">No time entries this week</p>
+      <% end %>
+    </div>
+
+    <!-- Detailed entries -->
+    <div class="rounded-2xl bg-white dark:bg-gray-800 p-5 border border-gray-200 dark:border-gray-700">
+      <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Entries</h3>
+      <% if @entries.any? %>
+        <div class="space-y-2">
+          <% @entries.each do |entry| %>
+            <div class="flex items-center justify-between text-sm py-2 px-2 -mx-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50">
+              <div class="flex items-center gap-4">
+                <span class="text-xs text-gray-400 w-16"><%= entry.clock_in_at.strftime("%b %-d") %></span>
+                <span class="font-medium text-gray-900 dark:text-gray-100 w-32"><%= entry.user.full_name %></span>
+                <span class="text-gray-600 dark:text-gray-300"><%= entry.clock_in_at.strftime("%-l:%M %p") %></span>
+                <span class="text-gray-400">→</span>
+                <span class="text-gray-600 dark:text-gray-300"><%= entry.clock_out_at&.strftime("%-l:%M %p") || "—" %></span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="font-medium text-gray-900 dark:text-gray-100 tabular-nums"><%= entry.clock_out_at ? "#{entry.duration_hours.round(1)} hrs" : "" %></span>
+                <span class="text-xs font-medium rounded-full px-2 py-0.5 <%= entry.clocked_in? ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'bg-gray-100 dark:bg-gray-700 text-gray-500' %>">
+                  <%= entry.clocked_in? ? "Active" : "Done" %>
+                </span>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-sm text-gray-400 text-center py-4">No entries</p>
+      <% end %>
+    </div>
+  </main>
+</div>
