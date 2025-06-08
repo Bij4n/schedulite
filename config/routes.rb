@@ -20,6 +20,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :time_off_requests, only: [:create] do
+    member do
+      patch :approve
+      patch :reject
+    end
+  end
+
   resources :patients, only: [:index, :show, :new, :create, :edit, :update] do
     member do
       post :send_consent
@@ -73,6 +80,7 @@ Rails.application.routes.draw do
     resource :timesheet, only: [:show], controller: "timesheet" do
       get :export, on: :member
     end
+    resource :time_off, only: [:show], controller: "time_off"
   end
 
   namespace :api do

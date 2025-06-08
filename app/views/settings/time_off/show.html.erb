@@ -1,0 +1,62 @@
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+  <header class="sticky top-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700">
+    <div class="mx-auto max-w-2xl px-4 py-4 sm:px-6">
+      <h1 class="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-100">Settings</h1>
+    </div>
+  </header>
+
+  <%= render "settings/nav" %>
+
+  <main class="mx-auto max-w-2xl px-4 py-4 sm:px-6 space-y-6">
+    <!-- Pending requests -->
+    <div class="rounded-2xl bg-white dark:bg-gray-800 p-5 border border-gray-200 dark:border-gray-700">
+      <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Pending Requests (<%= @pending.count %>)</h3>
+      <% if @pending.any? %>
+        <div class="space-y-3">
+          <% @pending.each do |req| %>
+            <div class="flex items-center justify-between py-3 px-3 -mx-3 rounded-xl bg-amber-50/50 dark:bg-amber-900/10">
+              <div>
+                <p class="text-sm font-medium text-gray-900 dark:text-gray-100"><%= req.user.full_name %></p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">
+                  <%= req.start_date.strftime("%b %-d") %> – <%= req.end_date.strftime("%b %-d, %Y") %>
+                  · <%= req.days %> days · <span class="capitalize"><%= req.request_type %></span>
+                </p>
+                <% if req.reason.present? %>
+                  <p class="text-xs text-gray-400 mt-0.5 italic"><%= req.reason.truncate(80) %></p>
+                <% end %>
+              </div>
+              <div class="flex items-center gap-2">
+                <%= link_to "Approve", approve_time_off_request_path(req), data: { turbo_method: :patch }, class: "text-xs text-teal-600 hover:text-teal-500 font-medium" %>
+                <%= link_to "Reject", reject_time_off_request_path(req), data: { turbo_method: :patch }, class: "text-xs text-red-500 hover:text-red-400" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-sm text-gray-400 text-center py-4">No pending requests</p>
+      <% end %>
+    </div>
+
+    <!-- Upcoming approved time off -->
+    <div class="rounded-2xl bg-white dark:bg-gray-800 p-5 border border-gray-200 dark:border-gray-700">
+      <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Upcoming Time Off</h3>
+      <% if @upcoming.any? %>
+        <div class="space-y-2">
+          <% @upcoming.each do |req| %>
+            <div class="flex items-center justify-between text-sm py-2">
+              <div>
+                <span class="font-medium text-gray-900 dark:text-gray-100"><%= req.user.full_name %></span>
+                <span class="text-xs text-gray-500 dark:text-gray-400 ml-2">
+                  <%= req.start_date.strftime("%b %-d") %> – <%= req.end_date.strftime("%b %-d") %> · <span class="capitalize"><%= req.request_type %></span>
+                </span>
+              </div>
+              <span class="text-xs font-medium rounded-full px-2 py-0.5 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300">Approved</span>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-sm text-gray-400 text-center py-4">No upcoming time off</p>
+      <% end %>
+    </div>
+  </main>
+</div>
