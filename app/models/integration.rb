@@ -1,6 +1,7 @@
 class Integration < ApplicationRecord
   belongs_to :tenant
   belongs_to :provider, optional: true
+  belongs_to :user, optional: true
 
   acts_as_tenant :tenant
 
@@ -32,6 +33,8 @@ class Integration < ApplicationRecord
   def display_name
     if provider
       "#{provider.display_name} — #{adapter_type.humanize}"
+    elsif user
+      "#{user.full_name} — #{adapter_type.humanize}"
     else
       "Practice-wide — #{adapter_type.humanize}"
     end
