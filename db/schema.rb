@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_09_013551) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_09_014226) do
   create_table "api_keys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key_digest"
@@ -185,6 +185,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_09_013551) do
     t.datetime "created_at", null: false
     t.integer "day_of_week"
     t.time "end_time"
+    t.string "lunch_end"
+    t.string "lunch_start"
     t.text "notes"
     t.integer "proposed_by_id"
     t.integer "provider_id", null: false
@@ -268,9 +270,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_09_013551) do
     t.string "default_shift_start", default: "09:00"
     t.string "lunch_end"
     t.string "lunch_start"
+    t.integer "max_hours_per_week", default: 40
     t.string "name", null: false
     t.integer "no_show_fee_cents"
     t.string "plan", default: "free"
+    t.integer "required_lunch_minutes", default: 30
     t.string "stripe_customer_id"
     t.string "subdomain", null: false
     t.datetime "trial_ends_at"
