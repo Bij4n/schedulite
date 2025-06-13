@@ -1,13 +1,5 @@
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-  <header class="sticky top-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700">
-    <div class="mx-auto max-w-2xl px-4 py-4 sm:px-6">
-      <h1 class="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-100">Settings</h1>
-    </div>
-  </header>
-
-  <%= render "settings/nav" %>
-
-  <main class="mx-auto max-w-2xl px-4 py-4 sm:px-6 space-y-4">
+<%= render layout: "settings/layout" do %>
+  <div class="space-y-6">
     <% if @integrations.any? %>
       <% @integrations.each do |integration| %>
         <div class="rounded-2xl bg-white dark:bg-gray-800 p-4 border border-gray-200 dark:border-gray-700">
@@ -46,5 +38,5 @@
     <% else %>
       <%= render EmptyStateComponent.new(title: "No integrations", description: "Connect calendars from the Integrations page or individual provider pages.") %>
     <% end %>
-  </main>
-</div>
+  </div>
+<% end %>

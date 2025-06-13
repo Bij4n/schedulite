@@ -21,7 +21,7 @@ RSpec.describe "Settings::Integrations", type: :request do
 
     it "shows available integrations to connect" do
       get settings_integrations_path
-      expect(response.body).to include("Available")
+      expect(response.body).to include("EHR Systems")
       expect(response.body).to include("Connect")
     end
   end

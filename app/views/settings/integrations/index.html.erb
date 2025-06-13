@@ -1,63 +1,71 @@
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-  <header class="sticky top-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700">
-    <div class="mx-auto max-w-2xl px-4 py-4 sm:px-6">
-      <h1 class="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-100">Settings</h1>
-    </div>
-  </header>
-
-  <%= render "settings/nav" %>
-
-  <main class="mx-auto max-w-2xl px-4 py-4 sm:px-6 space-y-6">
-    <!-- Connected integrations -->
+<%= render layout: "settings/layout" do %>
+  <div class="space-y-8">
+    <!-- Connected integrations with inline health -->
     <% if @integrations.any? %>
-      <div>
-        <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Connected</h2>
+      <section>
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Connected</h2>
         <div class="space-y-3">
           <% @integrations.each do |integration| %>
-            <div class="rounded-2xl bg-white dark:bg-gray-800 p-4 shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-700">
+            <% display_name = @available.find { |a| a[:type] == integration.adapter_type }&.dig(:name) || integration.adapter_type.humanize %>
+            <div class="rounded-2xl bg-white dark:bg-gray-800 p-4 border border-gray-200 dark:border-gray-700">
               <div class="flex items-center justify-between">
-                <div>
-                  <% display_name = @available.find { |a| a[:type] == integration.adapter_type }&.dig(:name) || integration.adapter_type.humanize %>
-                  <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100"><%= display_name %></h3>
-                  <p class="text-xs text-gray-500 dark:text-gray-400">
-                    <span class="text-teal-600 font-medium">Active</span>
-                    <% if integration.last_synced_at %>
-                      &middot; Synced <%= time_ago_in_words(integration.last_synced_at) %> ago
-                    <% end %>
-                  </p>
+                <div class="flex items-center gap-3">
+                  <div class="w-2.5 h-2.5 rounded-full shrink-0 <%= integration.sync_status == :healthy ? 'bg-green-500' : integration.sync_status == :stale ? 'bg-amber-500' : 'bg-red-500 animate-pulse' %>"></div>
+                  <div>
+                    <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100"><%= display_name %></h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                      <% if integration.provider %><%= integration.provider.display_name %> · <% end %>
+                      <% if integration.last_synced_at %>Synced <%= time_ago_in_words(integration.last_synced_at) %> ago<% else %>Never synced<% end %>
+                    </p>
+                  </div>
                 </div>
                 <%= link_to "Disconnect", settings_integration_path(integration),
-                  data: { turbo_method: :delete, turbo_confirm: "Disconnect this integration?" },
-                  class: "text-xs text-red-600 hover:text-red-500" %>
+                  data: { turbo_method: :delete, turbo_confirm: "Disconnect?" },
+                  class: "text-xs text-red-500 hover:text-red-400" %>
               </div>
+              <% if integration.sync_error.present? %>
+                <p class="mt-2 text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/10 rounded-lg p-2"><%= integration.sync_error.truncate(120) %></p>
+              <% end %>
             </div>
           <% end %>
         </div>
-      </div>
+      </section>
     <% end %>
 
-    <!-- Available integrations -->
-    <div>
-      <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Available</h2>
-      <div class="space-y-3">
-        <% @available.each do |avail| %>
-          <% already_connected = @integrations.any? { |i| i.adapter_type == avail[:type] } %>
-          <div class="rounded-2xl bg-white dark:bg-gray-800 p-4 shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-700">
-            <div class="flex items-center justify-between">
-              <div class="flex-1 min-w-0">
-                <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100"><%= avail[:name] %></h3>
-                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5"><%= avail[:description] %></p>
-              </div>
-              <% if already_connected %>
-                <span class="text-xs text-teal-600 font-medium ml-3">Connected</span>
-              <% else %>
-                <%= link_to "Connect", new_settings_integration_path(type: avail[:type]),
-                  class: "ml-3 rounded-xl bg-teal-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-teal-500 shrink-0" %>
-              <% end %>
-            </div>
-          </div>
+    <!-- EHR Systems -->
+    <section>
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">EHR Systems</h2>
+      <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Connect your electronic health records to sync appointments automatically.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <% ehr = @available.select { |a| a[:type] == "fhir" } %>
+        <% ehr.each do |avail| %>
+          <%= render_integration_card(avail, recommended: true) %>
         <% end %>
       </div>
-    </div>
-  </main>
-</div>
+    </section>
+
+    <!-- Calendars -->
+    <section>
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Calendars</h2>
+      <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Sync from popular calendar and scheduling tools.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <% calendars = @available.select { |a| %w[google_calendar calendly acuity ical].include?(a[:type]) } %>
+        <% calendars.each do |avail| %>
+          <%= render_integration_card(avail, recommended: avail[:type] == "google_calendar") %>
+        <% end %>
+      </div>
+    </section>
+
+    <!-- Practice Management -->
+    <section>
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Practice Management</h2>
+      <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Connect specialty practice management systems.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <% pms = @available.select { |a| %w[jane_app simple_practice nex_health].include?(a[:type]) } %>
+        <% pms.each do |avail| %>
+          <%= render_integration_card(avail) %>
+        <% end %>
+      </div>
+    </section>
+  </div>
+<% end %>

@@ -1,13 +1,5 @@
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-  <header class="sticky top-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700">
-    <div class="mx-auto max-w-2xl px-4 py-4 sm:px-6">
-      <h1 class="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-100">Settings</h1>
-    </div>
-  </header>
-
-  <%= render "settings/nav" %>
-
-  <main class="mx-auto max-w-2xl px-4 py-4 sm:px-6 space-y-6">
+<%= render layout: "settings/layout" do %>
+  <div class="space-y-6">
     <!-- Pending requests -->
     <div class="rounded-2xl bg-white dark:bg-gray-800 p-5 border border-gray-200 dark:border-gray-700">
       <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Pending Requests (<%= @pending.count %>)</h3>
@@ -58,5 +50,5 @@
         <p class="text-sm text-gray-400 text-center py-4">No upcoming time off</p>
       <% end %>
     </div>
-  </main>
-</div>
+  </div>
+<% end %>
