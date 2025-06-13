@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "Settings::Analytics", type: :request do
   let(:tenant) { create(:tenant) }
   let(:owner) { create(:user, tenant: tenant, role: :owner) }
-  let(:front_desk) { create(:user, tenant: tenant, role: :front_desk) }
+  let(:staff_user) { create(:user, tenant: tenant, role: :staff) }
   let(:provider_model) { create(:provider, tenant: tenant) }
   let(:patient) { create(:patient, tenant: tenant) }
 
@@ -33,7 +33,7 @@ RSpec.describe "Settings::Analytics", type: :request do
     end
 
     it "denies front_desk" do
-      sign_in front_desk
+      sign_in staff_user
       get export_settings_analytics_path(format: :csv)
       expect(response).to redirect_to(root_path)
     end

@@ -15,11 +15,11 @@ RSpec.describe User, type: :model do
   end
 
   describe "roles" do
-    it { is_expected.to define_enum_for(:role).with_values(owner: 0, admin: 1, front_desk: 2, provider: 3) }
+    it { is_expected.to define_enum_for(:role).with_values(owner: 0, manager: 1, staff: 2, provider: 3) }
 
-    it "defaults to front_desk" do
+    it "defaults to staff" do
       user = User.new
-      expect(user.role).to eq("front_desk")
+      expect(user.role).to eq("staff")
     end
   end
 

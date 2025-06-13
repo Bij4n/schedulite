@@ -5,6 +5,6 @@ FactoryBot.define do
     last_name { "Doe" }
     sequence(:email) { |n| "jane.doe+#{n}@example.com" }
     password { "password123!" }
-    role { :front_desk }
+    role { :staff }
   end
 end

@@ -9,7 +9,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :timeoutable
 
-  enum :role, { owner: 0, admin: 1, front_desk: 2, provider: 3 }, default: :front_desk
+  enum :role, { owner: 0, manager: 1, staff: 2, provider: 3 }, default: :staff
 
   validates :first_name, presence: true
   validates :last_name, presence: true
@@ -20,5 +20,34 @@ class User < ApplicationRecord
 
   def timeout_in
     15.minutes
+  end
+
+  # Permission helpers
+  def owner_or_manager?
+    owner? || manager?
+  end
+
+  def can_manage_staff?
+    owner? || manager?
+  end
+
+  def can_manage_settings?
+    owner?
+  end
+
+  def can_view_timesheet?
+    owner? || manager?
+  end
+
+  def can_approve_time_off?
+    owner? || manager?
+  end
+
+  def can_manage_integrations?
+    owner? || manager?
+  end
+
+  def can_view_analytics?
+    owner? || manager?
   end
 end

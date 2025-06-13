@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "StaffShifts", type: :request do
   let(:tenant) { create(:tenant) }
   let(:owner) { create(:user, tenant: tenant, role: :owner) }
-  let(:staff) { create(:user, tenant: tenant, role: :front_desk) }
+  let(:staff) { create(:user, tenant: tenant, role: :staff) }
 
   before { sign_in owner }
 

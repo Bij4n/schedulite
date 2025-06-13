@@ -6,7 +6,7 @@ class ApplicationPolicy
     @record = record
   end
 
-  def owner_or_admin?
-    user.owner? || user.admin?
+  def owner_or_manager?
+    user.owner? || user.manager?
   end
 end

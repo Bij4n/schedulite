@@ -46,7 +46,7 @@ module Settings
     end
 
     def authorize_admin!
-      unless current_user.owner? || current_user.admin?
+      unless current_user.owner? || current_user.manager?
         redirect_to root_path, alert: "Not authorized"
       end
     end

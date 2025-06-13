@@ -105,6 +105,6 @@ class SettingsNavComponent < ViewComponent::Base
   end
 
   def admin?
-    @current_user&.owner? || @current_user&.admin?
+    @current_user&.owner? || @current_user&.manager?
   end
 end

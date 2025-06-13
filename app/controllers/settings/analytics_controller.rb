@@ -41,11 +41,11 @@ module Settings
     end
 
     def authorize_admin!
-      redirect_to root_path, alert: "Not authorized" unless current_user.owner? || current_user.admin?
+      redirect_to root_path, alert: "Not authorized" unless current_user.owner? || current_user.manager?
     end
 
     def authorize_export!
-      redirect_to root_path, alert: "Not authorized" if current_user.front_desk?
+      redirect_to root_path, alert: "Not authorized" if current_user.staff?
     end
   end
 end

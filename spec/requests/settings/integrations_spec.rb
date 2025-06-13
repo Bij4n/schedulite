@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Settings::Integrations", type: :request do
   let(:tenant) { create(:tenant) }
-  let(:user) { create(:user, tenant: tenant, role: :admin) }
+  let(:user) { create(:user, tenant: tenant, role: :manager) }
 
   before { sign_in user }
 
