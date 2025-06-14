@@ -4,9 +4,12 @@ module Providers
 
     CALENDAR_TYPES = [
       { type: "google_calendar", name: "Google Calendar", fields: %w[calendar_id client_id client_secret] },
+      { type: "outlook", name: "Microsoft Outlook", fields: %w[client_id client_secret tenant_id] },
+      { type: "apple_calendar", name: "Apple Calendar (iCloud)", fields: %w[apple_id app_specific_password calendar_url] },
       { type: "calendly", name: "Calendly", fields: %w[api_key webhook_signing_key organization_uri] },
-      { type: "ical", name: "iCal Feed (Outlook, Apple)", fields: %w[feed_url] },
-      { type: "acuity", name: "Acuity Scheduling", fields: %w[user_id api_key] }
+      { type: "acuity", name: "Acuity Scheduling", fields: %w[user_id api_key] },
+      { type: "cal_com", name: "Cal.com", fields: %w[api_key] },
+      { type: "ical", name: "iCal Feed (Any)", fields: %w[feed_url] }
     ].freeze
 
     def new

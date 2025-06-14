@@ -33,35 +33,35 @@
     <% end %>
 
     <!-- EHR Systems -->
+    <% ehr = @available.select { |a| a[:category] == "ehr" } %>
     <section>
       <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">EHR Systems</h2>
       <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Connect your electronic health records to sync appointments automatically.</p>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <% ehr = @available.select { |a| a[:type] == "fhir" } %>
         <% ehr.each do |avail| %>
           <%= render_integration_card(avail, recommended: true) %>
         <% end %>
       </div>
     </section>
 
-    <!-- Calendars -->
+    <!-- Calendars & Scheduling -->
+    <% calendars = @available.select { |a| a[:category] == "calendar" } %>
     <section>
-      <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Calendars</h2>
-      <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Sync from popular calendar and scheduling tools.</p>
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Calendars & Scheduling</h2>
+      <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Sync from popular calendar and scheduling tools. Each provider can connect their own.</p>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <% calendars = @available.select { |a| %w[google_calendar calendly acuity ical].include?(a[:type]) } %>
         <% calendars.each do |avail| %>
-          <%= render_integration_card(avail, recommended: avail[:type] == "google_calendar") %>
+          <%= render_integration_card(avail, recommended: %w[google_calendar outlook apple_calendar].include?(avail[:type])) %>
         <% end %>
       </div>
     </section>
 
     <!-- Practice Management -->
+    <% pms = @available.select { |a| a[:category] == "pms" } %>
     <section>
       <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Practice Management</h2>
-      <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Connect specialty practice management systems.</p>
+      <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Connect specialty practice management and billing systems.</p>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <% pms = @available.select { |a| %w[jane_app simple_practice nex_health].include?(a[:type]) } %>
         <% pms.each do |avail| %>
           <%= render_integration_card(avail) %>
         <% end %>
