@@ -1,5 +1,6 @@
 class DashboardController < ApplicationController
   before_action :authenticate_user!
+  before_action :redirect_by_role, only: :index
 
   def index
     @selected_date = params[:date].present? ? Date.parse(params[:date]) : Date.current
@@ -33,5 +34,16 @@ class DashboardController < ApplicationController
     @lunch_configured = @tenant.lunch_start.present? && @tenant.lunch_end.present?
     @lunch_start = @tenant.lunch_start
     @lunch_end = @tenant.lunch_end
+  end
+
+  private
+
+  def redirect_by_role
+    case current_user.role
+    when "provider"
+      redirect_to provider_dashboard_path unless params[:force] == "admin"
+    when "staff"
+      redirect_to staff_dashboard_path unless params[:force] == "admin"
+    end
   end
 end

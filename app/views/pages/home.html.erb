@@ -1,0 +1,154 @@
+<!-- Navigation -->
+<nav class="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur-sm border-b border-gray-100">
+  <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
+    <span class="text-xl font-bold text-teal-600">Schedulite</span>
+    <div class="flex items-center gap-4">
+      <%= link_to "Sign In", new_user_session_path, class: "text-sm font-medium text-gray-600 hover:text-gray-900 transition" %>
+      <%= link_to "Start Free Trial", register_path, class: "rounded-2xl bg-teal-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-teal-500 transition shadow-sm" %>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="pt-32 pb-20 px-6">
+  <div class="mx-auto max-w-4xl text-center">
+    <h1 class="text-5xl sm:text-6xl font-bold tracking-tight text-gray-900 leading-tight">
+      Your patients deserve better than a
+      <span class="text-teal-600">waiting room</span>
+    </h1>
+    <p class="mt-6 text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
+      Keep everyone in sync. Real-time SMS updates, self-check-in kiosks, and calendar sync — so patients maximize their time and doctors maximize theirs.
+    </p>
+    <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <%= link_to register_path, class: "rounded-2xl bg-teal-600 px-8 py-4 text-lg font-semibold text-white hover:bg-teal-500 transition shadow-lg shadow-teal-600/20" do %>
+        Start Free Trial
+      <% end %>
+      <a href="#features" class="text-sm font-medium text-gray-500 hover:text-gray-700 transition">See how it works &darr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- Problem -->
+<section class="py-20 px-6 bg-gray-50">
+  <div class="mx-auto max-w-3xl text-center">
+    <h2 class="text-3xl font-bold text-gray-900">People don't mind waiting.<br>They mind not being told.</h2>
+    <p class="mt-4 text-lg text-gray-500">
+      Schedulite turns waiting rooms from hostage situations into respectful communication. Patients get real-time updates. Staff stays organized. Everyone's time is valued.
+    </p>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features" class="py-20 px-6">
+  <div class="mx-auto max-w-6xl">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl font-bold text-gray-900">Everything your practice needs</h2>
+      <p class="mt-3 text-lg text-gray-500">One platform. Every workflow.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Feature 1 -->
+      <div class="rounded-2xl bg-white border border-gray-200 p-6">
+        <div class="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" /></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900">Real-Time SMS Updates</h3>
+        <p class="mt-2 text-sm text-gray-500 leading-relaxed">Patients get automatic texts when checked in, when the provider is running late, and when they're next. No app download needed.</p>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="rounded-2xl bg-white border border-gray-200 p-6">
+        <div class="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900">Self-Check-In Kiosk</h3>
+        <p class="mt-2 text-sm text-gray-500 leading-relaxed">Patients check in by entering their phone number on a tablet. No clipboards, no lines. Front desk stays focused.</p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="rounded-2xl bg-white border border-gray-200 p-6">
+        <div class="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900">Calendar Sync</h3>
+        <p class="mt-2 text-sm text-gray-500 leading-relaxed">Connects to Google Calendar, Outlook, Apple Calendar, Calendly, and 10+ EHR systems. Everyone uses the calendar they prefer.</p>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="rounded-2xl bg-white border border-gray-200 p-6">
+        <div class="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900">Staff Time Clock</h3>
+        <p class="mt-2 text-sm text-gray-500 leading-relaxed">Clock in/out, timesheets, shift scheduling, and time-off requests. All built in — no separate payroll tool needed.</p>
+      </div>
+
+      <!-- Feature 5 -->
+      <div class="rounded-2xl bg-white border border-gray-200 p-6">
+        <div class="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" /></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900">No-Show Billing</h3>
+        <p class="mt-2 text-sm text-gray-500 leading-relaxed">Securely store patient cards via Stripe. Automatically charge no-show fees — or waive them with one click.</p>
+      </div>
+
+      <!-- Feature 6 -->
+      <div class="rounded-2xl bg-white border border-gray-200 p-6">
+        <div class="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900">HIPAA Ready</h3>
+        <p class="mt-2 text-sm text-gray-500 leading-relaxed">PHI encrypted at rest, audit logging, role-based access, SMS content linted for compliance. Built for healthcare from day one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="py-20 px-6 bg-gray-50">
+  <div class="mx-auto max-w-4xl">
+    <h2 class="text-3xl font-bold text-gray-900 text-center mb-16">How it works</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-12">
+      <div class="text-center">
+        <div class="w-12 h-12 rounded-2xl bg-teal-600 text-white text-xl font-bold flex items-center justify-center mx-auto mb-4">1</div>
+        <h3 class="text-lg font-semibold text-gray-900">Connect your calendar</h3>
+        <p class="mt-2 text-sm text-gray-500">Link Google Calendar, Outlook, your EHR, or any booking tool. Appointments sync automatically.</p>
+      </div>
+      <div class="text-center">
+        <div class="w-12 h-12 rounded-2xl bg-teal-600 text-white text-xl font-bold flex items-center justify-center mx-auto mb-4">2</div>
+        <h3 class="text-lg font-semibold text-gray-900">Patients check in</h3>
+        <p class="mt-2 text-sm text-gray-500">Via kiosk tablet, or staff checks them in with one tap. They get an SMS with a live status link.</p>
+      </div>
+      <div class="text-center">
+        <div class="w-12 h-12 rounded-2xl bg-teal-600 text-white text-xl font-bold flex items-center justify-center mx-auto mb-4">3</div>
+        <h3 class="text-lg font-semibold text-gray-900">Everyone stays in sync</h3>
+        <p class="mt-2 text-sm text-gray-500">Running late? Patients know instantly. Delays happen — but surprises don't have to.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-24 px-6">
+  <div class="mx-auto max-w-3xl text-center">
+    <h2 class="text-4xl font-bold text-gray-900">Customer satisfaction is everything.</h2>
+    <p class="mt-4 text-lg text-gray-500">Start your free 14-day trial. No credit card required.</p>
+    <div class="mt-8">
+      <%= link_to register_path, class: "inline-block rounded-2xl bg-teal-600 px-8 py-4 text-lg font-semibold text-white hover:bg-teal-500 transition shadow-lg shadow-teal-600/20" do %>
+        Get Started Free
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="border-t border-gray-100 py-8 px-6">
+  <div class="mx-auto max-w-6xl flex items-center justify-between text-sm text-gray-400">
+    <span>&copy; <%= Date.current.year %> Schedulite</span>
+    <div class="flex items-center gap-4">
+      <%= link_to "Sign In", new_user_session_path, class: "hover:text-gray-600" %>
+      <%= link_to "Register", register_path, class: "hover:text-gray-600" %>
+    </div>
+  </div>
+</footer>

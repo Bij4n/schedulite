@@ -1,9 +1,18 @@
 class NavComponent < ViewComponent::Base
-  NAV_ITEMS = [
+  OWNER_NAV = [
     { label: "Today", path: :root_path, icon: "calendar" },
     { label: "Patients", path: :patients_path, icon: "users" },
     { label: "Providers", path: :providers_path, icon: "briefcase" },
-    { label: "Settings", path: :settings_integrations_path, icon: "cog" }
+    { label: "Settings", path: :settings_practice_path, icon: "cog" }
+  ].freeze
+
+  PROVIDER_NAV = [
+    { label: "My Schedule", path: :provider_dashboard_path, icon: "calendar" },
+    { label: "My Patients", path: :patients_path, icon: "users" }
+  ].freeze
+
+  STAFF_NAV = [
+    { label: "Check-In", path: :staff_dashboard_path, icon: "calendar" }
   ].freeze
 
   def initialize(current_path:, current_user:)
@@ -17,6 +26,15 @@ class NavComponent < ViewComponent::Base
 
   private
 
+  def nav_items
+    case @current_user.role
+    when "owner", "manager" then OWNER_NAV
+    when "provider" then PROVIDER_NAV
+    when "staff" then STAFF_NAV
+    else OWNER_NAV
+    end
+  end
+
   def desktop_sidebar
     tag.aside(class: "hidden sm:flex sm:flex-col sm:w-56 sm:fixed sm:inset-y-0 bg-white dark:bg-gray-800 border-r border-gray-100 dark:border-gray-700 z-20") do
       safe_join([brand_header, search_bar, nav_links(:desktop), user_footer])
@@ -27,7 +45,7 @@ class NavComponent < ViewComponent::Base
     tag.nav(class: "sm:hidden fixed bottom-0 inset-x-0 bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700 z-20 safe-area-bottom",
             aria: { label: "Main navigation" }) do
       tag.div(class: "flex justify-around py-2") do
-        safe_join(NAV_ITEMS.map { |item| mobile_tab(item) })
+        safe_join(nav_items.map { |item| mobile_tab(item) })
       end
     end
   end
@@ -60,7 +78,7 @@ class NavComponent < ViewComponent::Base
 
   def nav_links(variant)
     tag.nav(class: "flex-1 px-3 py-4 space-y-1", aria: { label: "Main navigation" }) do
-      safe_join(NAV_ITEMS.map { |item| desktop_link(item) })
+      safe_join(nav_items.map { |item| desktop_link(item) })
     end
   end
 

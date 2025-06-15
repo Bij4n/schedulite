@@ -2,22 +2,23 @@ require "rails_helper"
 
 RSpec.describe "Authentication", type: :request do
   let(:tenant) { create(:tenant) }
-  let(:user) { create(:user, tenant: tenant) }
+  let(:user) { create(:user, tenant: tenant, role: :owner) }
 
-  describe "GET / (dashboard)" do
+  describe "GET / (landing)" do
     context "when not authenticated" do
-      it "redirects to sign in" do
+      it "shows the landing page" do
         get root_path
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Schedulite")
       end
     end
 
     context "when authenticated" do
       before { sign_in user }
 
-      it "returns success" do
+      it "redirects to dashboard" do
         get root_path
-        expect(response).to have_http_status(:ok)
+        expect(response).to redirect_to(dashboard_index_path)
       end
     end
   end
@@ -27,7 +28,7 @@ RSpec.describe "Authentication", type: :request do
       post user_session_path, params: {
         user: { email: user.email, password: user.password }
       }
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(dashboard_index_path)
     end
 
     it "rejects invalid credentials" do
@@ -43,7 +44,7 @@ RSpec.describe "Authentication", type: :request do
 
     it "signs the user out" do
       delete destroy_user_session_path
-      get root_path
+      get dashboard_index_path
       expect(response).to redirect_to(new_user_session_path)
     end
   end

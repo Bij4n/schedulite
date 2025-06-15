@@ -94,5 +94,9 @@ Rails.application.routes.draw do
     post "integrations/:integration_id", to: "integrations#create", as: :integration
   end
 
-  root "dashboard#index"
+  get "dashboard", to: "dashboard#index", as: :dashboard_index
+  get "provider_dashboard", to: "provider_dashboard#show"
+  get "staff_dashboard", to: "staff_dashboard#show"
+
+  root "pages#home"
 end

@@ -1,0 +1,66 @@
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+  <header class="sticky top-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700">
+    <div class="mx-auto max-w-3xl px-4 py-5 sm:px-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">My Schedule</h1>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5"><%= Date.current.strftime("%A, %B %-d, %Y") %></p>
+        </div>
+        <div class="flex items-center gap-2">
+          <% if @clocked_in %>
+            <span class="flex items-center gap-1.5 text-xs text-green-600 dark:text-green-400"><span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Clocked In</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-3xl px-4 py-6 sm:px-6 space-y-6">
+    <!-- Today's appointments -->
+    <section>
+      <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Today · <%= @today_appointments.size %> appointments</h2>
+      <% if @today_appointments.any? %>
+        <div class="space-y-3">
+          <% @today_appointments.each do |appointment| %>
+            <%= render AppointmentRowComponent.new(appointment: appointment) %>
+          <% end %>
+        </div>
+      <% else %>
+        <%= render EmptyStateComponent.new(title: "No appointments today", description: "Your schedule is clear.") %>
+      <% end %>
+    </section>
+
+    <!-- Upcoming -->
+    <% if @upcoming.any? %>
+      <section>
+        <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Upcoming</h2>
+        <div class="rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 divide-y divide-gray-100 dark:divide-gray-700">
+          <% @upcoming.each do |appt| %>
+            <%= link_to appointment_path(appt), class: "flex items-center justify-between px-5 py-3.5 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition first:rounded-t-2xl last:rounded-b-2xl" do %>
+              <div>
+                <span class="text-sm font-medium text-gray-900 dark:text-gray-100"><%= appt.patient.display_name %></span>
+                <span class="text-xs text-gray-500 dark:text-gray-400 ml-3"><%= appt.starts_at.strftime("%b %-d · %-l:%M %p") %></span>
+              </div>
+              <%= render StatusPillComponent.new(status: appt.status) %>
+            <% end %>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+
+    <!-- My Patients -->
+    <% if @my_patients.any? %>
+      <section>
+        <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">My Patients · <%= @provider.patients.count %></h2>
+        <div class="rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 divide-y divide-gray-100 dark:divide-gray-700">
+          <% @my_patients.each do |patient| %>
+            <%= link_to patient_path(patient), class: "flex items-center justify-between px-5 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition first:rounded-t-2xl last:rounded-b-2xl" do %>
+              <span class="text-sm font-medium text-gray-900 dark:text-gray-100"><%= patient.first_name %> <%= patient.last_name %></span>
+              <span class="text-xs text-gray-400"><%= format_phone(patient.phone) %></span>
+            <% end %>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+  </main>
+</div>
