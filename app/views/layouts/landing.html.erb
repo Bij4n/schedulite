@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full scroll-smooth">
 <head>
-  <title>Schedulite — Real-Time Appointment Check-In & Wait-Time Updates</title>
+  <title>Schedulite — Real-Time Appointment Check-In for Medical Practices</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Keep patients informed, reduce no-shows, and maximize your practice's time. Real-time SMS updates, self-check-in kiosks, and calendar sync for modern medical practices.">
+  <meta name="description" content="Keep patients informed, reduce no-shows by 45%, and give every minute back to your providers. Real-time SMS updates, self-check-in kiosks, and calendar sync for modern medical practices.">
+  <meta property="og:title" content="Schedulite — Your patients deserve better than a waiting room">
+  <meta property="og:description" content="Real-time appointment check-in and wait-time communication for medical practices.">
   <%= csrf_meta_tags %>
   <link rel="icon" href="/icon.png" type="image/png">
   <link rel="preconnect" href="https://rsms.me/">
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
   <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  <style>
+    .gradient-text { background: linear-gradient(135deg, #0E9C8A 0%, #0f766e 50%, #134e4a 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-glow { background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(14,156,138,0.12) 0%, transparent 70%); }
+    .cta-glow { box-shadow: 0 0 60px rgba(14,156,138,0.3), 0 0 120px rgba(14,156,138,0.1); }
+  </style>
 </head>
 <body class="h-full bg-white font-sans text-gray-900 antialiased">
   <%= yield %>
