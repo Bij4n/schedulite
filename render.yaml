@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: schedulite
+    runtime: ruby
+    plan: free
+    buildCommand: |
+      bundle install
+      npm install
+      npm run build
+      npm run build:css
+      bundle exec rails assets:precompile
+      bundle exec rails db:migrate
+    startCommand: bundle exec rails server -p $PORT -e production
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: LOCKBOX_MASTER_KEY
+        sync: false
+      - key: SECRET_KEY_BASE
+        generateValue: true
+      - key: APP_HOST
+        value: https://schedulite.onrender.com
