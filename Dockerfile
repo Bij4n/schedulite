@@ -17,39 +17,24 @@ ENV RAILS_ENV="production" \
 
 FROM base AS build
 
-# Install build deps + Node 20 from nodesource
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libsqlite3-dev libyaml-dev libffi-dev pkg-config ca-certificates gnupg && \
-    mkdir -p /etc/apt/keyrings && \
-    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
-    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" > /etc/apt/sources.list.d/nodesource.list && \
-    apt-get update -qq && \
-    apt-get install --no-install-recommends -y nodejs && \
+    apt-get install --no-install-recommends -y build-essential git libsqlite3-dev libyaml-dev libffi-dev pkg-config nodejs npm && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# Install gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git
 
-# Install JS dependencies
 COPY package.json package-lock.json ./
 RUN npm install
 
-# Copy app code
 COPY . .
 
-# Build JS and CSS assets
 RUN npx esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets
 RUN npx @tailwindcss/cli -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify
-
-# Precompile Rails assets
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
-
-# Clean up
 RUN rm -rf node_modules tmp/cache
 
-# Final stage
 FROM base
 
 RUN groupadd --system --gid 1000 rails && \
