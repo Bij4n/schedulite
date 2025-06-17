@@ -1,87 +1,154 @@
-<nav class="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur-md">
-  <div class="mx-auto max-w-5xl px-6 py-4 flex items-center justify-between">
-    <span class="text-xl font-bold text-teal-600 tracking-tight">Schedulite</span>
-    <div class="flex items-center gap-3">
-      <%= link_to "Sign In", new_user_session_path, class: "text-sm text-gray-500 hover:text-gray-900 transition px-3 py-2" %>
-      <%= link_to "Try It Free", register_path, class: "rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-500 transition" %>
+<!-- ====== NAV ====== -->
+<nav class="fixed top-0 inset-x-0 z-50 bg-white/70 backdrop-blur-xl border-b border-gray-100/60">
+  <div class="mx-auto max-w-5xl px-6 py-3 flex items-center justify-between">
+    <span class="text-lg font-bold tracking-tight text-gray-900">schedulite</span>
+    <div class="flex items-center gap-2">
+      <%= link_to "Sign In", new_user_session_path, class: "text-sm text-gray-500 hover:text-gray-900 transition px-3 py-1.5" %>
+      <%= link_to "Get Started", register_path, class: "rounded-full bg-gray-900 px-4 py-1.5 text-sm font-medium text-white hover:bg-gray-800 transition" %>
     </div>
   </div>
 </nav>
 
-<!-- Hero -->
-<section class="pt-32 pb-16 px-6">
-  <div class="mx-auto max-w-3xl text-center">
-    <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 leading-[1.1]">
-      Your patients are waiting.<br>They shouldn't have to wonder for how long.
+<!-- ====== HERO ====== -->
+<section class="relative pt-36 pb-28 px-6 overflow-hidden">
+  <div class="hero-glow"></div>
+
+  <div class="mx-auto max-w-3xl text-center relative z-10">
+    <h1 class="text-[2.75rem] sm:text-6xl lg:text-[4.25rem] font-extrabold tracking-[-0.03em] leading-[1.06] text-gray-900">
+      Your patients are waiting.<br>
+      <span class="grad">Tell them what's happening.</span>
     </h1>
-    <p class="mt-6 text-lg text-gray-500 max-w-xl mx-auto">
-      Schedulite sends real-time text updates so patients always know where they stand. No app. No portal. Just a text.
+
+    <p class="mt-7 text-lg sm:text-xl text-gray-400 max-w-lg mx-auto leading-relaxed font-light">
+      Real-time text updates. No app download.<br>
+      They always know where they stand.
     </p>
-    <div class="mt-8">
-      <%= link_to register_path, class: "inline-block rounded-2xl bg-teal-600 px-8 py-4 text-base font-semibold text-white hover:bg-teal-500 transition shadow-lg shadow-teal-600/20" do %>
+
+    <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
+      <%= link_to register_path, class: "rounded-full bg-teal-600 px-7 py-3.5 text-sm font-semibold text-white hover:bg-teal-500 transition cta-glow" do %>
         Start Free — No Credit Card
       <% end %>
+      <a href="#how" class="text-sm text-gray-400 hover:text-gray-600 transition px-4 py-3">How it works &darr;</a>
     </div>
   </div>
 </section>
 
-<!-- What it does -->
-<section class="py-16 px-6">
-  <div class="mx-auto max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-8">
-    <div>
-      <div class="w-9 h-9 rounded-lg bg-teal-50 flex items-center justify-center mb-3">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" /></svg>
+<!-- ====== SMS MOCKUP ====== -->
+<section class="pb-24 px-6">
+  <div class="mx-auto max-w-sm">
+    <div class="rounded-3xl bg-gray-950 p-6 shadow-2xl shadow-gray-900/20 drift">
+      <div class="flex items-center gap-2 mb-5">
+        <div class="w-2 h-2 rounded-full bg-teal-400"></div>
+        <span class="text-xs text-gray-500 font-medium">Schedulite SMS</span>
       </div>
-      <h3 class="font-semibold text-gray-900">Text updates, not apps</h3>
-      <p class="mt-1 text-sm text-gray-500">Patients get checked-in, delay, and "you're next" texts automatically. Works on every phone.</p>
-    </div>
-    <div>
-      <div class="w-9 h-9 rounded-lg bg-teal-50 flex items-center justify-center mb-3">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+      <div class="space-y-3">
+        <div class="sms-bubble flex justify-end">
+          <div class="rounded-2xl rounded-br-md bg-teal-600 text-white px-4 py-2.5 text-[13px] max-w-[260px] leading-relaxed">
+            Hi Alex, you're checked in for your 2:30 PM appointment. We'll text you with updates.
+          </div>
+        </div>
+        <div class="sms-bubble flex justify-end">
+          <div class="rounded-2xl rounded-br-md bg-teal-600 text-white px-4 py-2.5 text-[13px] max-w-[260px] leading-relaxed">
+            Dr. Lee is running about 15 min behind. We'll text when you're next.
+          </div>
+        </div>
+        <div class="sms-bubble flex justify-start">
+          <div class="rounded-2xl rounded-bl-md bg-gray-800 text-gray-200 px-4 py-2.5 text-[13px] max-w-[200px]">
+            Ok thanks!
+          </div>
+        </div>
+        <div class="sms-bubble flex justify-end">
+          <div class="rounded-2xl rounded-br-md bg-teal-600 text-white px-4 py-2.5 text-[13px] max-w-[260px] leading-relaxed">
+            You're next! Head to the front desk.
+          </div>
+        </div>
       </div>
-      <h3 class="font-semibold text-gray-900">Syncs with your calendar</h3>
-      <p class="mt-1 text-sm text-gray-500">Google, Outlook, Apple, Epic, Athena, Calendly — whatever your team uses. One sync.</p>
-    </div>
-    <div>
-      <div class="w-9 h-9 rounded-lg bg-teal-50 flex items-center justify-center mb-3">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>
-      </div>
-      <h3 class="font-semibold text-gray-900">Tablet check-in</h3>
-      <p class="mt-1 text-sm text-gray-500">Patients type their phone number on a tablet in the lobby. No clipboard. No line.</p>
     </div>
   </div>
 </section>
 
-<!-- One-liner -->
-<section class="py-16 px-6 bg-gray-900">
+<!-- ====== GLOW DIVIDER ====== -->
+<div class="glow-line mx-auto max-w-xl"></div>
+
+<!-- ====== HOW IT WORKS ====== -->
+<section id="how" class="py-28 px-6">
+  <div class="mx-auto max-w-4xl">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-16">
+      <div class="reveal">
+        <span class="text-xs font-bold text-teal-600 tracking-widest uppercase">01</span>
+        <h3 class="mt-3 text-xl font-bold text-gray-900 leading-snug">Connect your calendar</h3>
+        <p class="mt-2 text-sm text-gray-400 leading-relaxed">Google, Outlook, Apple, Epic, Athena, Calendly — whatever your team uses. One sync. Two minutes.</p>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <span class="text-xs font-bold text-teal-600 tracking-widest uppercase">02</span>
+        <h3 class="mt-3 text-xl font-bold text-gray-900 leading-snug">Patients check in</h3>
+        <p class="mt-2 text-sm text-gray-400 leading-relaxed">They type their phone number on a tablet in your lobby. Or your staff taps one button. Either way — they get a text.</p>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <span class="text-xs font-bold text-teal-600 tracking-widest uppercase">03</span>
+        <h3 class="mt-3 text-xl font-bold text-gray-900 leading-snug">Everyone stays in sync</h3>
+        <p class="mt-2 text-sm text-gray-400 leading-relaxed">Running late? They know. Next up? They know. Done? They know. No one asks "how much longer?" again.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== GLOW DIVIDER ====== -->
+<div class="glow-line mx-auto max-w-xl"></div>
+
+<!-- ====== QUOTE ====== -->
+<section class="py-28 px-6 reveal">
   <div class="mx-auto max-w-3xl text-center">
-    <p class="text-2xl sm:text-3xl font-bold text-white leading-snug">
+    <p class="text-3xl sm:text-[2.5rem] font-extrabold text-gray-900 leading-[1.15] tracking-[-0.02em]">
       People don't mind waiting.<br>
-      <span class="text-teal-400">They mind not being told.</span>
+      <span class="text-gray-300">They mind not being told.</span>
     </p>
   </div>
 </section>
 
-<!-- CTA -->
-<section class="py-20 px-6">
+<!-- ====== FEATURES ====== -->
+<section class="py-20 px-6 bg-gray-50/80">
+  <div class="mx-auto max-w-4xl space-y-6">
+    <% [
+      { title: "SMS updates that work on every phone", desc: "Check-in confirmation, delay alerts, \"you're next\" — all automatic. First name and time only, never medical details. HIPAA safe by design." },
+      { title: "Self-check-in kiosk for your lobby", desc: "Put a tablet in the waiting room. Patients enter their phone number. That's it. No app, no form, no line at the front desk." },
+      { title: "Calendar sync with everything", desc: "Google Calendar, Outlook, Apple, Epic, Athena, Calendly, Cal.com, and 10 more. Each provider can use whatever they prefer." },
+      { title: "Staff scheduling and time clock", desc: "Shifts, clock in/out, timesheets, time-off requests. Built in — your team doesn't need another tool." },
+      { title: "No-show billing with cards on file", desc: "Store cards securely via Stripe. Set a fee. It's charged automatically when someone doesn't show. Or waive it with one click." }
+    ].each_with_index do |f, i| %>
+      <div class="reveal rounded-2xl bg-white border border-gray-200/80 px-7 py-5 flex items-start gap-5 hover:border-teal-200 transition-colors duration-300">
+        <div class="w-8 h-8 rounded-lg bg-teal-50 flex items-center justify-center shrink-0 mt-0.5">
+          <span class="text-xs font-bold text-teal-600"><%= i + 1 %></span>
+        </div>
+        <div>
+          <h3 class="text-[15px] font-semibold text-gray-900"><%= f[:title] %></h3>
+          <p class="mt-1 text-sm text-gray-400 leading-relaxed"><%= f[:desc] %></p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<!-- ====== CTA ====== -->
+<section class="py-32 px-6 reveal">
   <div class="mx-auto max-w-2xl text-center">
-    <h2 class="text-2xl font-bold text-gray-900">Free to start. Takes 5 minutes.</h2>
-    <p class="mt-3 text-gray-500">No credit card. No sales call. Just sign up and connect your calendar.</p>
-    <div class="mt-8">
-      <%= link_to register_path, class: "inline-block rounded-2xl bg-teal-600 px-8 py-4 text-base font-semibold text-white hover:bg-teal-500 transition shadow-lg shadow-teal-600/20" do %>
+    <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-[-0.02em]">Free to start.<br>Takes five minutes.</h2>
+    <p class="mt-4 text-gray-400">No credit card. No sales call. No onboarding meeting.<br>Just sign up and connect your calendar.</p>
+    <div class="mt-10">
+      <%= link_to register_path, class: "inline-block rounded-full bg-teal-600 px-8 py-4 text-base font-semibold text-white hover:bg-teal-500 transition cta-glow" do %>
         Create Your Practice
       <% end %>
     </div>
   </div>
 </section>
 
-<!-- Footer -->
+<!-- ====== FOOTER ====== -->
 <footer class="py-8 px-6 border-t border-gray-100">
-  <div class="mx-auto max-w-5xl flex items-center justify-between text-xs text-gray-400">
+  <div class="mx-auto max-w-5xl flex items-center justify-between text-xs text-gray-300">
     <span>&copy; <%= Date.current.year %> Schedulite</span>
     <div class="flex gap-4">
-      <%= link_to "Sign In", new_user_session_path, class: "hover:text-gray-600" %>
-      <a href="mailto:hello@schedulite.com" class="hover:text-gray-600">Contact</a>
+      <%= link_to "Sign In", new_user_session_path, class: "hover:text-gray-500 transition" %>
+      <a href="mailto:hello@schedulite.com" class="hover:text-gray-500 transition">Contact</a>
     </div>
   </div>
 </footer>
