@@ -1,8 +1,9 @@
 #!/bin/bash -e
 
-# If running the rails server then create or migrate existing database
+# Create/migrate database and seed on first run
 if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
   ./bin/rails db:prepare
+  ./bin/rails db:seed 2>/dev/null || true
 fi
 
 exec "${@}"
