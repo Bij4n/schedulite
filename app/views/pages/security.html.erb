@@ -1,52 +1,68 @@
-<nav class="fixed top-0 inset-x-0 z-50 bg-white/70 backdrop-blur-xl border-b border-gray-100/60">
-  <div class="mx-auto max-w-5xl px-6 py-3 flex items-center justify-between">
-    <%= link_to root_path do %><span class="text-lg font-bold tracking-tight text-gray-900">schedulite</span><% end %>
-    <div class="flex items-center gap-2">
-      <%= link_to "Sign In", new_user_session_path, class: "text-sm text-gray-500 hover:text-gray-900 transition px-3 py-1.5" %>
-      <%= link_to "Get Started", register_path, class: "rounded-full bg-gray-900 px-4 py-1.5 text-sm font-medium text-white hover:bg-gray-800 transition" %>
+<%= render "pages/public_nav" %>
+
+<div class="pt-28 pb-24 px-6">
+  <div class="mx-auto max-w-2xl">
+    <div class="mb-10">
+      <h1 class="text-4xl font-extrabold tracking-tight text-gray-900">Security</h1>
+      <p class="mt-2 text-sm text-gray-400">Last updated: June 2025</p>
+    </div>
+
+    <div class="space-y-10">
+      <section>
+        <h2 class="text-lg font-bold text-gray-900 mb-3">Infrastructure</h2>
+        <div class="space-y-2">
+          <% ["Application hosted on SOC 2 compliant infrastructure", "All data encrypted at rest (AES-256) and in transit (TLS 1.2+)", "Automated backups with point-in-time recovery", "DDoS protection and rate limiting on all endpoints", "Separate encryption key management from application data"].each do |item| %>
+            <div class="flex items-start gap-3 py-1">
+              <svg class="w-4 h-4 text-teal-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span class="text-sm text-gray-600"><%= item %></span>
+            </div>
+          <% end %>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-bold text-gray-900 mb-3">Application Security</h2>
+        <div class="space-y-2">
+          <% ["Static analysis via Brakeman on every deployment", "Dependency vulnerability scanning via bundler-audit", "Rate limiting on authentication, API, and webhook endpoints (Rack::Attack)", "CSRF protection on all forms", "Content Security Policy headers enforced", "PHI parameter filtering prevents sensitive data from appearing in logs", "SMS template linting at boot prevents PHI leaks in patient communications"].each do |item| %>
+            <div class="flex items-start gap-3 py-1">
+              <svg class="w-4 h-4 text-teal-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span class="text-sm text-gray-600"><%= item %></span>
+            </div>
+          <% end %>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-bold text-gray-900 mb-3">Authentication</h2>
+        <div class="space-y-3">
+          <% [
+            ["Password Security", "All passwords hashed with bcrypt. We never store or log plaintext passwords."],
+            ["Session Management", "Sessions expire after 15 minutes of inactivity. Sessions are bound to the originating IP and user agent."],
+            ["Brute Force Protection", "Auto-ban after 20 failed login attempts from the same IP (1 hour cooldown). Sign-in attempts are rate-limited to 10 per minute per IP."],
+            ["Two-Factor Authentication", "Optional TOTP-based 2FA available for all accounts. Recommended for Owner and Manager roles."]
+          ].each do |title, desc| %>
+            <div class="rounded-xl bg-gray-50 border border-gray-200 px-5 py-4">
+              <h3 class="text-sm font-semibold text-gray-900"><%= title %></h3>
+              <p class="mt-1 text-sm text-gray-500 leading-relaxed"><%= desc %></p>
+            </div>
+          <% end %>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-bold text-gray-900 mb-3">Data Isolation</h2>
+        <p class="text-sm text-gray-600 leading-relaxed">Each practice is a separate tenant. All database queries are automatically scoped to the current tenant via acts_as_tenant. Cross-tenant access returns a 404 — not a 403 — to prevent enumeration attacks. There is no way for one practice to access another practice's data.</p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-bold text-gray-900 mb-3">Payment Security</h2>
+        <p class="text-sm text-gray-600 leading-relaxed">Credit card data is handled entirely by Stripe. We never see, store, or transmit card numbers. We store only a Stripe token and the last 4 digits for display. Card input uses Stripe Elements — a secure iframe where card data goes directly to Stripe's PCI-DSS Level 1 certified servers without touching ours.</p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-bold text-gray-900 mb-3">Responsible Disclosure</h2>
+        <p class="text-sm text-gray-600 leading-relaxed">If you discover a security vulnerability, please report it to <a href="mailto:security@schedulite.com" class="text-teal-600 hover:text-teal-500 underline">security@schedulite.com</a>. We take all reports seriously and will respond within 48 hours. We will not pursue legal action against researchers who report vulnerabilities responsibly.</p>
+      </section>
     </div>
   </div>
-</nav>
-
-<article class="pt-28 pb-20 px-6">
-  <div class="mx-auto max-w-2xl prose prose-gray prose-sm">
-    <h1 class="text-3xl font-extrabold tracking-tight">Security</h1>
-    <p class="text-sm text-gray-400">Last updated: June 2025</p>
-
-    <h2>Infrastructure</h2>
-    <ul>
-      <li>Application hosted on SOC 2 compliant infrastructure.</li>
-      <li>All data encrypted at rest and in transit.</li>
-      <li>Automated backups with point-in-time recovery.</li>
-      <li>DDoS protection and rate limiting on all endpoints.</li>
-    </ul>
-
-    <h2>Application Security</h2>
-    <ul>
-      <li>Static analysis via Brakeman on every deployment.</li>
-      <li>Dependency vulnerability scanning via bundler-audit.</li>
-      <li>Rate limiting on authentication, API, and webhook endpoints via Rack::Attack.</li>
-      <li>CSRF protection on all forms.</li>
-      <li>Content Security Policy headers.</li>
-      <li>Parameter filtering prevents PHI from appearing in logs.</li>
-    </ul>
-
-    <h2>Authentication</h2>
-    <ul>
-      <li>Passwords hashed with bcrypt.</li>
-      <li>Sessions expire after 15 minutes of inactivity.</li>
-      <li>Login attempts tracked with IP address and user agent.</li>
-      <li>Brute force protection: auto-ban after 20 failed attempts.</li>
-      <li>Optional two-factor authentication (TOTP).</li>
-    </ul>
-
-    <h2>Data Isolation</h2>
-    <p>Each practice is a separate tenant. All database queries are automatically scoped to the current tenant via acts_as_tenant. Cross-tenant access returns a 404 — not a 403 — to prevent enumeration attacks.</p>
-
-    <h2>Payment Security</h2>
-    <p>Credit card data is handled entirely by Stripe. We never see, store, or transmit card numbers. We store only a Stripe token and the last 4 digits for display purposes. Stripe is PCI-DSS Level 1 certified.</p>
-
-    <h2>Responsible Disclosure</h2>
-    <p>If you discover a security vulnerability, please report it to <a href="mailto:security@schedulite.com">security@schedulite.com</a>. We take all reports seriously and will respond within 48 hours.</p>
-  </div>
-</article>
+</div>
