@@ -1,0 +1,52 @@
+<nav class="fixed top-0 inset-x-0 z-50 bg-white/70 backdrop-blur-xl border-b border-gray-100/60">
+  <div class="mx-auto max-w-5xl px-6 py-3 flex items-center justify-between">
+    <%= link_to root_path do %><span class="text-lg font-bold tracking-tight text-gray-900">schedulite</span><% end %>
+    <div class="flex items-center gap-2">
+      <%= link_to "Sign In", new_user_session_path, class: "text-sm text-gray-500 hover:text-gray-900 transition px-3 py-1.5" %>
+      <%= link_to "Get Started", register_path, class: "rounded-full bg-gray-900 px-4 py-1.5 text-sm font-medium text-white hover:bg-gray-800 transition" %>
+    </div>
+  </div>
+</nav>
+
+<article class="pt-28 pb-20 px-6">
+  <div class="mx-auto max-w-2xl prose prose-gray prose-sm">
+    <h1 class="text-3xl font-extrabold tracking-tight">Security</h1>
+    <p class="text-sm text-gray-400">Last updated: June 2025</p>
+
+    <h2>Infrastructure</h2>
+    <ul>
+      <li>Application hosted on SOC 2 compliant infrastructure.</li>
+      <li>All data encrypted at rest and in transit.</li>
+      <li>Automated backups with point-in-time recovery.</li>
+      <li>DDoS protection and rate limiting on all endpoints.</li>
+    </ul>
+
+    <h2>Application Security</h2>
+    <ul>
+      <li>Static analysis via Brakeman on every deployment.</li>
+      <li>Dependency vulnerability scanning via bundler-audit.</li>
+      <li>Rate limiting on authentication, API, and webhook endpoints via Rack::Attack.</li>
+      <li>CSRF protection on all forms.</li>
+      <li>Content Security Policy headers.</li>
+      <li>Parameter filtering prevents PHI from appearing in logs.</li>
+    </ul>
+
+    <h2>Authentication</h2>
+    <ul>
+      <li>Passwords hashed with bcrypt.</li>
+      <li>Sessions expire after 15 minutes of inactivity.</li>
+      <li>Login attempts tracked with IP address and user agent.</li>
+      <li>Brute force protection: auto-ban after 20 failed attempts.</li>
+      <li>Optional two-factor authentication (TOTP).</li>
+    </ul>
+
+    <h2>Data Isolation</h2>
+    <p>Each practice is a separate tenant. All database queries are automatically scoped to the current tenant via acts_as_tenant. Cross-tenant access returns a 404 — not a 403 — to prevent enumeration attacks.</p>
+
+    <h2>Payment Security</h2>
+    <p>Credit card data is handled entirely by Stripe. We never see, store, or transmit card numbers. We store only a Stripe token and the last 4 digits for display purposes. Stripe is PCI-DSS Level 1 certified.</p>
+
+    <h2>Responsible Disclosure</h2>
+    <p>If you discover a security vulnerability, please report it to <a href="mailto:security@schedulite.com">security@schedulite.com</a>. We take all reports seriously and will respond within 48 hours.</p>
+  </div>
+</article>

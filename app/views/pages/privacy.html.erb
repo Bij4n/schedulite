@@ -1,0 +1,54 @@
+<nav class="fixed top-0 inset-x-0 z-50 bg-white/70 backdrop-blur-xl border-b border-gray-100/60">
+  <div class="mx-auto max-w-5xl px-6 py-3 flex items-center justify-between">
+    <%= link_to root_path do %><span class="text-lg font-bold tracking-tight text-gray-900">schedulite</span><% end %>
+    <div class="flex items-center gap-2">
+      <%= link_to "Sign In", new_user_session_path, class: "text-sm text-gray-500 hover:text-gray-900 transition px-3 py-1.5" %>
+      <%= link_to "Get Started", register_path, class: "rounded-full bg-gray-900 px-4 py-1.5 text-sm font-medium text-white hover:bg-gray-800 transition" %>
+    </div>
+  </div>
+</nav>
+
+<article class="pt-28 pb-20 px-6">
+  <div class="mx-auto max-w-2xl prose prose-gray prose-sm">
+    <h1 class="text-3xl font-extrabold tracking-tight">Privacy Policy</h1>
+    <p class="text-sm text-gray-400">Last updated: June 2025</p>
+
+    <h2>What We Collect</h2>
+    <p>Schedulite collects the minimum information necessary to provide appointment check-in and communication services:</p>
+    <ul>
+      <li><strong>Practice staff:</strong> Name, email, role. Used for authentication and access control.</li>
+      <li><strong>Patients:</strong> First name, phone number, date of birth, email (optional). Used for appointment identification, SMS notifications, and calendar invites.</li>
+      <li><strong>Appointments:</strong> Date, time, provider, status. Used to power the check-in workflow.</li>
+    </ul>
+
+    <h2>How We Protect It</h2>
+    <ul>
+      <li>Patient data (name, phone, DOB, email) is encrypted at rest using AES-256 via Lockbox.</li>
+      <li>All data is transmitted over TLS 1.2+.</li>
+      <li>Blind indexes allow lookups without decrypting entire datasets.</li>
+      <li>Audit logs record every access to patient and appointment data.</li>
+    </ul>
+
+    <h2>What We Never Do</h2>
+    <ul>
+      <li>We never sell patient data.</li>
+      <li>We never include diagnosis, insurance, or clinical information in SMS messages.</li>
+      <li>We never share data with third parties except as required to deliver the service (Twilio for SMS, Stripe for payments).</li>
+    </ul>
+
+    <h2>Third-Party Services</h2>
+    <ul>
+      <li><strong>Twilio:</strong> Sends and receives SMS messages. We transmit only first names and appointment times — never clinical data.</li>
+      <li><strong>Stripe:</strong> Processes credit card payments for no-show fees. Card numbers are handled entirely by Stripe — we store only a token and last 4 digits.</li>
+    </ul>
+
+    <h2>Data Retention</h2>
+    <p>Completed appointment data is retained for up to 7 years (configurable per practice) to comply with medical record retention requirements. Audit logs are never deleted. Practices can request data deletion by contacting us.</p>
+
+    <h2>Your Rights</h2>
+    <p>You may request access to, correction of, or deletion of your data at any time by emailing <a href="mailto:privacy@schedulite.com">privacy@schedulite.com</a>.</p>
+
+    <h2>Contact</h2>
+    <p>Questions about this policy: <a href="mailto:privacy@schedulite.com">privacy@schedulite.com</a></p>
+  </div>
+</article>

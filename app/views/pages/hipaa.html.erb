@@ -1,0 +1,60 @@
+<nav class="fixed top-0 inset-x-0 z-50 bg-white/70 backdrop-blur-xl border-b border-gray-100/60">
+  <div class="mx-auto max-w-5xl px-6 py-3 flex items-center justify-between">
+    <%= link_to root_path do %><span class="text-lg font-bold tracking-tight text-gray-900">schedulite</span><% end %>
+    <div class="flex items-center gap-2">
+      <%= link_to "Sign In", new_user_session_path, class: "text-sm text-gray-500 hover:text-gray-900 transition px-3 py-1.5" %>
+      <%= link_to "Get Started", register_path, class: "rounded-full bg-gray-900 px-4 py-1.5 text-sm font-medium text-white hover:bg-gray-800 transition" %>
+    </div>
+  </div>
+</nav>
+
+<article class="pt-28 pb-20 px-6">
+  <div class="mx-auto max-w-2xl prose prose-gray prose-sm">
+    <h1 class="text-3xl font-extrabold tracking-tight">HIPAA Compliance</h1>
+    <p class="text-sm text-gray-400">Last updated: June 2025</p>
+
+    <h2>Our Commitment</h2>
+    <p>Schedulite is designed from the ground up to handle Protected Health Information (PHI) responsibly. While we are a technology platform and not a covered entity, we treat all patient data as if it were PHI and implement controls accordingly.</p>
+
+    <h2>Encryption</h2>
+    <ul>
+      <li><strong>At rest:</strong> Patient name, phone, date of birth, and email are encrypted using AES-256 via Lockbox. Appointment notes are also encrypted. Raw database access reveals only ciphertext.</li>
+      <li><strong>In transit:</strong> All connections use TLS 1.2+. HSTS headers are enforced. Cookies are secure-only.</li>
+    </ul>
+
+    <h2>SMS Safety</h2>
+    <p>SMS messages sent to patients contain only:</p>
+    <ul>
+      <li>First name</li>
+      <li>Appointment time</li>
+      <li>Status updates (checked in, running late, you're next)</li>
+      <li>Status page URL</li>
+    </ul>
+    <p>We <strong>never</strong> include in SMS: last name, date of birth, diagnosis, reason for visit, insurance information, or provider specialty. This is enforced by a boot-time template linter that prevents deployment of any SMS template containing prohibited fields.</p>
+
+    <h2>Access Controls</h2>
+    <ul>
+      <li>Four role levels: Owner, Manager, Provider, Staff — each with specific permissions.</li>
+      <li>Sessions expire after 15 minutes of inactivity.</li>
+      <li>Multi-tenant architecture with row-level data isolation — practices cannot access each other's data.</li>
+    </ul>
+
+    <h2>Audit Logging</h2>
+    <p>Every read and write to Patient and Appointment records is logged with the user who made the change, a timestamp, and the old/new values. Audit logs are immutable and never deleted.</p>
+
+    <h2>Business Associate Agreement</h2>
+    <p>We offer a BAA on our Pro and Enterprise plans. The application displays a reminder banner until a signed BAA is uploaded. Contact <a href="mailto:hipaa@schedulite.com">hipaa@schedulite.com</a> to initiate the BAA process.</p>
+
+    <h2>Third-Party Sub-processors</h2>
+    <ul>
+      <li><strong>Twilio:</strong> SMS delivery. Twilio offers a BAA on paid plans. Our SMS content never contains clinical PHI.</li>
+      <li><strong>Stripe:</strong> Payment processing. Stripe does not sign BAAs — our gift card and no-show fee flows send only tokens and dollar amounts, never PHI.</li>
+    </ul>
+
+    <h2>Data Retention and Disposal</h2>
+    <p>Completed appointment data is retained for a configurable period (default: 7 years). Practices can request early deletion. When data is deleted, encrypted ciphertext is destroyed — since we use unique encryption keys, the data becomes permanently unrecoverable.</p>
+
+    <h2>Contact</h2>
+    <p>HIPAA questions or BAA requests: <a href="mailto:hipaa@schedulite.com">hipaa@schedulite.com</a></p>
+  </div>
+</article>

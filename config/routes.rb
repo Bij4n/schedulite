@@ -98,5 +98,10 @@ Rails.application.routes.draw do
   get "provider_dashboard", to: "provider_dashboard#show"
   get "staff_dashboard", to: "staff_dashboard#show"
 
+  get "privacy", to: "pages#privacy"
+  get "terms", to: "pages#terms"
+  get "hipaa", to: "pages#hipaa"
+  get "security", to: "pages#security"
+
   root "pages#home"
 end

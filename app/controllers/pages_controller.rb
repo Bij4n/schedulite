@@ -15,4 +15,20 @@ class PagesController < ApplicationController
       render layout: "landing"
     end
   end
+
+  def privacy
+    render layout: "landing"
+  end
+
+  def terms
+    render layout: "landing"
+  end
+
+  def hipaa
+    render layout: "landing"
+  end
+
+  def security
+    render layout: "landing"
+  end
 end

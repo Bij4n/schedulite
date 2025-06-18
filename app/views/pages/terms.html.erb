@@ -1,0 +1,52 @@
+<nav class="fixed top-0 inset-x-0 z-50 bg-white/70 backdrop-blur-xl border-b border-gray-100/60">
+  <div class="mx-auto max-w-5xl px-6 py-3 flex items-center justify-between">
+    <%= link_to root_path do %><span class="text-lg font-bold tracking-tight text-gray-900">schedulite</span><% end %>
+    <div class="flex items-center gap-2">
+      <%= link_to "Sign In", new_user_session_path, class: "text-sm text-gray-500 hover:text-gray-900 transition px-3 py-1.5" %>
+      <%= link_to "Get Started", register_path, class: "rounded-full bg-gray-900 px-4 py-1.5 text-sm font-medium text-white hover:bg-gray-800 transition" %>
+    </div>
+  </div>
+</nav>
+
+<article class="pt-28 pb-20 px-6">
+  <div class="mx-auto max-w-2xl prose prose-gray prose-sm">
+    <h1 class="text-3xl font-extrabold tracking-tight">Terms of Service</h1>
+    <p class="text-sm text-gray-400">Last updated: June 2025</p>
+
+    <h2>Agreement</h2>
+    <p>By using Schedulite, you agree to these terms. If you're using Schedulite on behalf of a medical practice, you represent that you have the authority to bind that practice to these terms.</p>
+
+    <h2>The Service</h2>
+    <p>Schedulite provides real-time appointment check-in, SMS communication, staff scheduling, and calendar synchronization tools for medical practices. We are a technology platform — we do not provide medical advice, diagnosis, or treatment.</p>
+
+    <h2>Your Responsibilities</h2>
+    <ul>
+      <li>You are responsible for the accuracy of patient contact information entered into the system.</li>
+      <li>You are responsible for obtaining patient consent before sending SMS messages.</li>
+      <li>You are responsible for compliance with applicable healthcare regulations in your jurisdiction.</li>
+      <li>You must keep your account credentials secure.</li>
+    </ul>
+
+    <h2>Accounts and Access</h2>
+    <ul>
+      <li>Each practice is a separate tenant with isolated data.</li>
+      <li>Account owners can add staff with different permission levels (Owner, Manager, Provider, Staff).</li>
+      <li>We may suspend accounts that violate these terms or applicable law.</li>
+    </ul>
+
+    <h2>Free Trial and Billing</h2>
+    <p>New accounts receive a 14-day free trial. After the trial, you may continue on the Free plan or upgrade to Pro or Enterprise. We bill monthly. You can cancel at any time — your data remains accessible until the end of the billing period.</p>
+
+    <h2>Data Ownership</h2>
+    <p>You own your data. We do not claim any intellectual property rights over patient information, appointment records, or practice data entered into Schedulite. You may export your data at any time.</p>
+
+    <h2>Limitation of Liability</h2>
+    <p>Schedulite is provided "as is." We are not liable for missed appointments, failed SMS delivery, or any clinical outcomes. Our total liability is limited to the amount you paid us in the 12 months preceding the claim.</p>
+
+    <h2>Changes</h2>
+    <p>We may update these terms. We'll notify you via email at least 30 days before material changes take effect.</p>
+
+    <h2>Contact</h2>
+    <p>Questions: <a href="mailto:legal@schedulite.com">legal@schedulite.com</a></p>
+  </div>
+</article>
