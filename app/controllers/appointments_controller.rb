@@ -134,7 +134,7 @@ class AppointmentsController < ApplicationController
       CALSCALE:GREGORIAN
       METHOD:REQUEST
       BEGIN:VEVENT
-      UID:appointment-#{appointment.id}@#{tenant.subdomain}.schedulite.com
+      UID:appointment-#{appointment.id}@#{tenant.subdomain}.schedulite.io
       DTSTART:#{appointment.starts_at.utc.strftime('%Y%m%dT%H%M%SZ')}
       DTEND:#{ends_at.utc.strftime('%Y%m%dT%H%M%SZ')}
       SUMMARY:Appointment with #{appointment.provider.display_name}
