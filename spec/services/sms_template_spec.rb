@@ -8,7 +8,7 @@ RSpec.describe SmsTemplate do
         appointment_time: "2:30 PM",
         provider_name: "Dr. Lee",
         delay_minutes: 15,
-        status_url: "https://app.schedulite.com/status/abc123"
+        status_url: "https://app.schedulite.io/status/abc123"
       }
     end
 
