@@ -31,4 +31,8 @@ class PagesController < ApplicationController
   def security
     render layout: "landing"
   end
+
+  def integrations_directory
+    render layout: "landing"
+  end
 end

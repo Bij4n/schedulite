@@ -102,6 +102,7 @@ Rails.application.routes.draw do
   get "terms", to: "pages#terms"
   get "hipaa", to: "pages#hipaa"
   get "security", to: "pages#security"
+  get "integrations", to: "pages#integrations_directory", as: :integrations_directory
 
   root "pages#home"
 end
