@@ -15,13 +15,12 @@
 
   <div class="mx-auto max-w-3xl text-center relative z-10">
     <h1 class="text-[2.75rem] sm:text-6xl lg:text-[4.25rem] font-extrabold tracking-[-0.03em] leading-[1.06] text-gray-900">
-      Your patients are waiting.<br>
-      <span class="grad">Tell them what's happening.</span>
+      Schedules change.<br>
+      <span class="grad">Your patients should know.</span>
     </h1>
 
-    <p class="mt-7 text-lg sm:text-xl text-gray-400 max-w-lg mx-auto leading-relaxed font-light">
-      Real-time text updates. No app download.<br>
-      They always know where they stand.
+    <p class="mt-7 text-lg sm:text-xl text-gray-400 max-w-xl mx-auto leading-relaxed font-light">
+      Doctors run behind. Emergencies happen. Schedulite coordinates between your providers, staff, and patients in real time — so no one drives an hour to sit in the dark.
     </p>
 
     <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -37,41 +36,57 @@
 <section class="pb-24 px-6">
   <div class="mx-auto max-w-sm">
     <div class="rounded-3xl bg-gray-950 p-6 shadow-2xl shadow-gray-900/20 drift">
-      <div class="flex items-center gap-2 mb-5">
-        <div class="w-2 h-2 rounded-full bg-teal-400"></div>
-        <span class="text-xs text-gray-500 font-medium">Schedulite SMS</span>
+      <div class="flex items-center justify-between mb-5">
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></div>
+          <span class="text-xs text-gray-500 font-medium">Schedulite</span>
+        </div>
+        <span class="text-[10px] text-gray-600">Today</span>
       </div>
       <div class="space-y-3">
+        <!-- Reminder before they leave home -->
         <div class="sms-bubble flex justify-end">
           <div>
             <div class="rounded-2xl rounded-br-md bg-teal-600 text-white px-4 py-2.5 text-[13px] max-w-[260px] leading-relaxed">
-              Hi Alex, you're checked in for your 2:30 PM appointment. We'll text you with updates.
+              Hi Sarah, reminder: your 2:30 PM appointment with Dr. Patel is on track. See you soon!
             </div>
-            <p class="text-[10px] text-gray-600 text-right mt-1 mr-1">2:28 PM</p>
+            <p class="text-[10px] text-gray-600 text-right mt-1 mr-1">12:30 PM</p>
           </div>
         </div>
+        <!-- Schedule changes — proactive alert -->
         <div class="sms-bubble flex justify-end">
           <div>
             <div class="rounded-2xl rounded-br-md bg-teal-600 text-white px-4 py-2.5 text-[13px] max-w-[260px] leading-relaxed">
-              Dr. Lee is running about 15 min behind. We'll text when you're next.
+              Heads up — Dr. Patel is running about 20 min behind due to an earlier procedure. No need to rush. We'll keep you posted.
             </div>
-            <p class="text-[10px] text-gray-600 text-right mt-1 mr-1">2:41 PM</p>
+            <p class="text-[10px] text-gray-600 text-right mt-1 mr-1">1:47 PM</p>
           </div>
         </div>
+        <!-- Patient makes a decision -->
         <div class="sms-bubble flex justify-start">
           <div>
-            <div class="rounded-2xl rounded-bl-md bg-gray-800 text-gray-200 px-4 py-2.5 text-[13px] max-w-[200px]">
-              Ok thanks!
+            <div class="rounded-2xl rounded-bl-md bg-gray-800 text-gray-200 px-4 py-2.5 text-[13px] max-w-[220px]">
+              Thanks for letting me know. I'll leave a little later then.
             </div>
-            <p class="text-[10px] text-gray-600 mt-1 ml-1">2:42 PM</p>
+            <p class="text-[10px] text-gray-600 mt-1 ml-1">1:48 PM</p>
           </div>
         </div>
+        <!-- Checked in -->
         <div class="sms-bubble flex justify-end">
           <div>
             <div class="rounded-2xl rounded-br-md bg-teal-600 text-white px-4 py-2.5 text-[13px] max-w-[260px] leading-relaxed">
-              You're next! Head to the front desk.
+              You're checked in! 1 patient ahead of you. Estimated wait: ~10 min.
             </div>
-            <p class="text-[10px] text-gray-600 text-right mt-1 mr-1">2:53 PM</p>
+            <p class="text-[10px] text-gray-600 text-right mt-1 mr-1">2:42 PM</p>
+          </div>
+        </div>
+        <!-- You're up -->
+        <div class="sms-bubble flex justify-end">
+          <div>
+            <div class="rounded-2xl rounded-br-md bg-teal-600 text-white px-4 py-2.5 text-[13px] max-w-[260px] leading-relaxed">
+              You're next! Please head to the front desk.
+            </div>
+            <p class="text-[10px] text-gray-600 text-right mt-1 mr-1">2:51 PM</p>
           </div>
         </div>
       </div>
@@ -88,18 +103,18 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-16">
       <div class="reveal">
         <span class="text-xs font-bold text-teal-600 tracking-widest uppercase">01</span>
-        <h3 class="mt-3 text-xl font-bold text-gray-900 leading-snug">Connect your calendar</h3>
-        <p class="mt-2 text-sm text-gray-400 leading-relaxed">Google, Outlook, Apple, Epic, Athena, Calendly — whatever your team uses. One sync. Two minutes.</p>
+        <h3 class="mt-3 text-xl font-bold text-gray-900 leading-snug">Providers connect their calendars</h3>
+        <p class="mt-2 text-sm text-gray-400 leading-relaxed">Each doctor, NP, or therapist syncs their own calendar — Google, Outlook, Epic, Athena, whatever they use. Schedulite watches for changes.</p>
       </div>
       <div class="reveal reveal-delay-1">
         <span class="text-xs font-bold text-teal-600 tracking-widest uppercase">02</span>
-        <h3 class="mt-3 text-xl font-bold text-gray-900 leading-snug">Patients check in</h3>
-        <p class="mt-2 text-sm text-gray-400 leading-relaxed">They type their phone number on a tablet in your lobby. Or your staff taps one button. Either way — they get a text.</p>
+        <h3 class="mt-3 text-xl font-bold text-gray-900 leading-snug">Schedules shift. Patients get told.</h3>
+        <p class="mt-2 text-sm text-gray-400 leading-relaxed">A procedure runs long. An emergency comes in. The moment timing changes, patients get a text — before they leave home, not after they've been sitting for 40 minutes.</p>
       </div>
       <div class="reveal reveal-delay-2">
         <span class="text-xs font-bold text-teal-600 tracking-widest uppercase">03</span>
-        <h3 class="mt-3 text-xl font-bold text-gray-900 leading-snug">Everyone stays in sync</h3>
-        <p class="mt-2 text-sm text-gray-400 leading-relaxed">Running late? They know. Next up? They know. Done? They know. No one asks "how much longer?" again.</p>
+        <h3 class="mt-3 text-xl font-bold text-gray-900 leading-snug">Nobody wastes time</h3>
+        <p class="mt-2 text-sm text-gray-400 leading-relaxed">The mom with two kids in the car knows to wait 15 more minutes. The elderly patient driving an hour knows to leave later. The doctor knows their patients aren't angry. Everyone wins.</p>
       </div>
     </div>
   </div>
@@ -112,8 +127,8 @@
 <section class="py-28 px-6 reveal">
   <div class="mx-auto max-w-3xl text-center">
     <p class="text-3xl sm:text-[2.5rem] font-extrabold text-gray-900 leading-[1.15] tracking-[-0.02em]">
-      People don't mind waiting.<br>
-      <span class="text-gray-300">They mind not being told.</span>
+      Health is not a joke.<br>
+      <span class="text-gray-300">People's time isn't either.</span>
     </p>
   </div>
 </section>
@@ -122,11 +137,11 @@
 <section class="py-20 px-6 bg-gray-50/80">
   <div class="mx-auto max-w-4xl space-y-6">
     <% [
-      { title: "SMS updates that work on every phone", desc: "Check-in confirmation, delay alerts, \"you're next\" — all automatic. First name and time only, never medical details. HIPAA safe by design." },
-      { title: "Self-check-in kiosk for your lobby", desc: "Put a tablet in the waiting room. Patients enter their phone number. That's it. No app, no form, no line at the front desk." },
-      { title: "Calendar sync with everything", desc: "Google Calendar, Outlook, Apple, Epic, Athena, Calendly, Cal.com, and 10 more. Each provider can use whatever they prefer." },
-      { title: "Staff scheduling and time clock", desc: "Shifts, clock in/out, timesheets, time-off requests. Built in — your team doesn't need another tool." },
-      { title: "No-show billing with cards on file", desc: "Store cards securely via Stripe. Set a fee. It's charged automatically when someone doesn't show. Or waive it with one click." }
+      { title: "Proactive text updates — before they ask", desc: "The moment a provider's schedule shifts, every affected patient gets a text. Not after they've been sitting for 30 minutes — before they leave home. A mom with three kids can plan. An elderly patient driving an hour can adjust." },
+      { title: "Every provider's calendar, one view", desc: "Pediatrics uses Epic. The therapist uses Google Calendar. The new NP uses Calendly. Schedulite syncs them all and coordinates patient communication across every provider, every specialty." },
+      { title: "Self-check-in that frees your front desk", desc: "Tablet in the lobby. Patient enters their phone number. They're checked in, the provider is notified, and the patient gets a live status link — all in one tap." },
+      { title: "Staff scheduling and time clock", desc: "Shifts, clock in/out, timesheets, time-off requests. Your whole team coordinated in one place — not just appointments." },
+      { title: "No-show fees that are actually fair", desc: "Store cards securely via Stripe. If someone no-shows, charge the fee automatically — or waive it with one click. Patients are told the policy upfront." }
     ].each_with_index do |f, i| %>
       <div class="reveal rounded-2xl bg-white border border-gray-200/80 px-7 py-5 flex items-start gap-5 hover:border-teal-200 transition-colors duration-300">
         <div class="w-8 h-8 rounded-lg bg-teal-50 flex items-center justify-center shrink-0 mt-0.5">
