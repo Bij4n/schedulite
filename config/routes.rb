@@ -81,7 +81,10 @@ Rails.application.routes.draw do
       get :export, on: :member
     end
     resource :time_off, only: [:show], controller: "time_off"
+    resources :workflow_templates, only: [:index, :new, :create, :destroy]
   end
+
+  resources :delay_workflows, only: [:new, :create, :show]
 
   namespace :api do
     namespace :v1 do

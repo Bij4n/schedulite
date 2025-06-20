@@ -9,7 +9,8 @@ class SmsTemplate
     reminder_24h: "Hi %{first_name}, reminder: you have an appointment tomorrow at %{appointment_time}. Reply STOP to opt out of texts.",
     reminder_2h: "Hi %{first_name}, your %{appointment_time} appointment is coming up in about 2 hours. See you soon!",
     consent_request: "%{practice_name} would like to send you appointment updates via text. Reply YES to opt in, STOP anytime to opt out.",
-    no_show_fee: "Hi %{first_name}, you were marked as a no-show for your appointment. A fee of %{fee_amount} has been charged to your card on file."
+    no_show_fee: "Hi %{first_name}, you were marked as a no-show for your appointment. A fee of %{fee_amount} has been charged to your card on file.",
+    delay_workflow: "%{custom_body}"
   }.freeze
 
   class PhiLeakError < StandardError; end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_09_014226) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_10_004233) do
   create_table "api_keys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key_digest"
@@ -64,6 +64,51 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_09_014226) do
     t.index ["created_at"], name: "index_audits_on_created_at"
     t.index ["request_uuid"], name: "index_audits_on_request_uuid"
     t.index ["user_id", "user_type"], name: "user_index"
+  end
+
+  create_table "delay_workflow_responses", force: :cascade do |t|
+    t.integer "appointment_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "delay_workflow_id", null: false
+    t.boolean "gift_card_issued", default: false
+    t.integer "patient_id", null: false
+    t.datetime "responded_at"
+    t.string "response", default: "no_response", null: false
+    t.datetime "updated_at", null: false
+    t.index ["appointment_id"], name: "index_delay_workflow_responses_on_appointment_id"
+    t.index ["delay_workflow_id"], name: "index_delay_workflow_responses_on_delay_workflow_id"
+    t.index ["patient_id"], name: "index_delay_workflow_responses_on_patient_id"
+  end
+
+  create_table "delay_workflow_templates", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "message_body", null: false
+    t.string "name", null: false
+    t.boolean "offer_cancel", default: true
+    t.boolean "offer_gift_card", default: false
+    t.boolean "offer_reschedule", default: true
+    t.text "response_instructions"
+    t.integer "tenant_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tenant_id"], name: "index_delay_workflow_templates_on_tenant_id"
+  end
+
+  create_table "delay_workflows", force: :cascade do |t|
+    t.integer "affected_appointment_count", default: 0
+    t.datetime "created_at", null: false
+    t.integer "delay_minutes", null: false
+    t.boolean "gift_card_enabled", default: false
+    t.integer "provider_id", null: false
+    t.datetime "started_at"
+    t.string "status", default: "active", null: false
+    t.integer "template_id", null: false
+    t.integer "tenant_id", null: false
+    t.integer "triggered_by_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["provider_id"], name: "index_delay_workflows_on_provider_id"
+    t.index ["template_id"], name: "index_delay_workflows_on_template_id"
+    t.index ["tenant_id"], name: "index_delay_workflows_on_tenant_id"
+    t.index ["triggered_by_id"], name: "index_delay_workflows_on_triggered_by_id"
   end
 
   create_table "gift_card_settings", force: :cascade do |t|
@@ -341,6 +386,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_09_014226) do
   add_foreign_key "appointments", "patients"
   add_foreign_key "appointments", "providers"
   add_foreign_key "appointments", "tenants"
+  add_foreign_key "delay_workflow_responses", "appointments"
+  add_foreign_key "delay_workflow_responses", "delay_workflows"
+  add_foreign_key "delay_workflow_responses", "patients"
+  add_foreign_key "delay_workflow_templates", "tenants"
+  add_foreign_key "delay_workflows", "delay_workflow_templates", column: "template_id"
+  add_foreign_key "delay_workflows", "providers"
+  add_foreign_key "delay_workflows", "tenants"
+  add_foreign_key "delay_workflows", "users", column: "triggered_by_id"
   add_foreign_key "gift_card_settings", "tenants"
   add_foreign_key "gift_cards", "appointments"
   add_foreign_key "gift_cards", "tenants"

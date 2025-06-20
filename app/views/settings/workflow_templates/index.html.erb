@@ -1,0 +1,37 @@
+<%= render layout: "settings/layout" do %>
+  <div class="space-y-6">
+    <div class="flex items-center justify-between">
+      <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100">Workflow Templates</h2>
+      <%= link_to "New Template", new_settings_workflow_template_path, class: "rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-500" %>
+    </div>
+
+    <% if @templates.any? %>
+      <div class="space-y-3">
+        <% @templates.each do |template| %>
+          <div class="rounded-2xl bg-white dark:bg-gray-800 p-5 border border-gray-200 dark:border-gray-700">
+            <div class="flex items-start justify-between">
+              <div>
+                <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100"><%= template.name %></h3>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400 leading-relaxed max-w-lg"><%= template.message_body.truncate(120) %></p>
+                <div class="mt-2 flex gap-2">
+                  <% if template.offer_reschedule? %>
+                    <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-300">Reschedule</span>
+                  <% end %>
+                  <% if template.offer_cancel? %>
+                    <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-300">Cancel</span>
+                  <% end %>
+                  <% if template.offer_gift_card? %>
+                    <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-300">Gift Card</span>
+                  <% end %>
+                </div>
+              </div>
+              <%= link_to settings_workflow_template_path(template), data: { turbo_method: :delete, turbo_confirm: "Remove this template?" }, class: "text-xs text-red-500 hover:text-red-400 shrink-0" do %>Remove<% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <%= render EmptyStateComponent.new(title: "No workflow templates", description: "Create a template to quickly notify all patients when a provider is running late.") %>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,74 @@
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+  <header class="sticky top-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-700">
+    <div class="mx-auto max-w-3xl px-4 py-4 sm:px-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-lg font-bold text-gray-900 dark:text-gray-100">Delay Workflow</h1>
+          <p class="text-xs text-gray-500 dark:text-gray-400"><%= @workflow.provider.display_name %> · <%= @workflow.delay_minutes %> min delay · <%= @workflow.started_at&.strftime("%-l:%M %p") %></p>
+        </div>
+        <span class="text-xs font-medium rounded-full px-2.5 py-1 <%= @workflow.status == 'active' ? 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300' : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' %>">
+          <%= @workflow.status.capitalize %>
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-3xl px-4 py-6 sm:px-6 space-y-6">
+    <!-- Stats -->
+    <div class="grid grid-cols-4 gap-3">
+      <div class="rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
+        <div class="text-2xl font-extrabold text-teal-600"><%= @workflow.waiting_count %></div>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Waiting</p>
+      </div>
+      <div class="rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
+        <div class="text-2xl font-extrabold text-blue-600"><%= @workflow.rescheduling_count %></div>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Rescheduling</p>
+      </div>
+      <div class="rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
+        <div class="text-2xl font-extrabold text-red-500"><%= @workflow.canceling_count %></div>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Canceling</p>
+      </div>
+      <div class="rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
+        <div class="text-2xl font-extrabold text-gray-400"><%= @workflow.no_response_count %></div>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">No Reply</p>
+      </div>
+    </div>
+
+    <!-- Patient responses -->
+    <div class="rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+      <% @responses.each do |resp| %>
+        <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-700 last:border-b-0">
+          <div class="flex items-center gap-4">
+            <div class="w-2.5 h-2.5 rounded-full shrink-0 <%=
+              case resp.response
+              when 'waiting' then 'bg-teal-500'
+              when 'rescheduling' then 'bg-blue-500'
+              when 'canceling' then 'bg-red-500'
+              else 'bg-gray-300 dark:bg-gray-600'
+              end
+            %>"></div>
+            <div>
+              <p class="text-sm font-medium text-gray-900 dark:text-gray-100"><%= resp.patient.display_name %></p>
+              <p class="text-xs text-gray-500 dark:text-gray-400"><%= resp.appointment.starts_at.strftime("%-l:%M %p") %> appointment</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <% if resp.gift_card_issued? %>
+              <span class="text-[10px] font-medium rounded-full px-2 py-0.5 bg-amber-50 dark:bg-amber-900/20 text-amber-600">Gift Card</span>
+            <% end %>
+            <span class="text-xs font-medium rounded-full px-2.5 py-1 <%=
+              case resp.response
+              when 'waiting' then 'bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-300'
+              when 'rescheduling' then 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
+              when 'canceling' then 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'
+              else 'bg-gray-100 dark:bg-gray-700 text-gray-500'
+              end
+            %>">
+              <%= resp.response.humanize %>
+            </span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </main>
+</div>
