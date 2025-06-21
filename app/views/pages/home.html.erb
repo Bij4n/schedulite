@@ -57,7 +57,7 @@
         <div class="sms-bubble flex justify-end">
           <div>
             <div class="rounded-2xl rounded-br-md bg-teal-600 text-white px-4 py-2.5 text-[13px] max-w-[260px] leading-relaxed">
-              Heads up — Dr. Patel is running about 20 min behind due to an earlier procedure. No need to rush. We'll keep you posted.
+              Heads up — Dr. Patel is running about 20 min behind. Based on your location, plan to leave around 2:15 PM. Reply 1 to wait, 2 to reschedule, 3 to cancel.
             </div>
             <p class="text-[10px] text-gray-600 text-right mt-1 mr-1">1:47 PM</p>
           </div>
@@ -66,7 +66,7 @@
         <div class="sms-bubble flex justify-start">
           <div>
             <div class="rounded-2xl rounded-bl-md bg-gray-800 text-gray-200 px-4 py-2.5 text-[13px] max-w-[220px]">
-              Thanks for letting me know. I'll leave a little later then.
+              1
             </div>
             <p class="text-[10px] text-gray-600 mt-1 ml-1">1:48 PM</p>
           </div>
@@ -137,12 +137,13 @@
 <section class="py-20 px-6 bg-gray-50/80">
   <div class="mx-auto max-w-4xl space-y-6">
     <% [
-      { title: "Proactive text updates — before they ask", desc: "The moment a provider's schedule shifts, every affected patient gets a text. Not after they've been sitting for 30 minutes — before they leave home. A mom with three kids can plan. An elderly patient driving an hour can adjust." },
-      { title: "Every provider's calendar, one view", desc: "Pediatrics uses Epic. The therapist uses Google Calendar. The new NP uses Calendly. Schedulite syncs them all and coordinates patient communication across every provider, every specialty." },
+      { title: "Travel-aware notifications", desc: "Schedulite knows how far each patient is from your office. When a provider runs late, the patient driving 45 minutes gets texted first — with a personalized 'plan to leave at 2:15 PM' message. The patient 10 minutes away can wait. No other scheduling tool does this." },
+      { title: "Proactive text updates — before they ask", desc: "The moment a provider's schedule shifts, every affected patient gets a text. Not after they've been sitting for 30 minutes — before they leave home. Staff picks a template, enters the delay, and Schedulite handles the rest." },
+      { title: "Patients choose: wait, reschedule, or cancel", desc: "Delay notifications include reply options. Patient texts back 1 to wait, 2 to reschedule, 3 to cancel. Staff sees responses in real-time on a live dashboard. Calendars sync automatically." },
+      { title: "Every provider's calendar, one view", desc: "Pediatrics uses Epic. The therapist uses Google Calendar. The new NP uses Calendly. OceanMD, TELUS, OSCAR — Schedulite syncs them all across every provider, every specialty, every country." },
       { title: "Self-check-in that frees your front desk", desc: "Tablet in the lobby. Patient enters their phone number. They're checked in, the provider is notified, and the patient gets a live status link — all in one tap." },
-      { title: "Staff scheduling and time clock", desc: "Shifts, clock in/out, timesheets, time-off requests. Your whole team coordinated in one place — not just appointments." },
-      { title: "No-show fees that are actually fair", desc: "Store cards securely via Stripe. If someone no-shows, charge the fee automatically — or waive it with one click. Patients are told the policy upfront." },
-      { title: "When we make you wait, we make it right", desc: "Set a delay threshold — say 20 minutes. If a patient waits longer, Schedulite automatically sends them a gift card to a nearby coffee shop or small business as a goodwill gesture. It turns a bad wait into a memorable experience. No other scheduling tool does this." }
+      { title: "When we make you wait, we make it right", desc: "Set a delay threshold — say 20 minutes. If a patient waits longer, Schedulite automatically sends them a gift card to a nearby coffee shop as a goodwill gesture. Powered by Square." },
+      { title: "No-show fees that are actually fair", desc: "Store cards securely via Stripe. If someone no-shows, charge the fee automatically — or waive it with one click. Patients are told the policy upfront." }
     ].each_with_index do |f, i| %>
       <div class="reveal rounded-2xl bg-white border border-gray-200/80 px-7 py-5 flex items-start gap-5 hover:border-teal-200 transition-colors duration-300">
         <div class="w-8 h-8 rounded-lg bg-teal-50 flex items-center justify-center shrink-0 mt-0.5">
