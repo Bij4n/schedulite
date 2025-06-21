@@ -1,6 +1,6 @@
 class RegistrationsController < ApplicationController
   skip_before_action :set_tenant
-  layout "application"
+  layout "landing"
 
   def new
   end

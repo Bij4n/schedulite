@@ -1,58 +1,58 @@
-<div class="flex min-h-full items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-  <div class="w-full max-w-sm space-y-8">
-    <div class="text-center">
-      <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">Schedulite</h1>
-      <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Create your practice account</p>
+<%= render "pages/public_nav" %>
+
+<div class="pt-28 pb-24 px-6">
+  <div class="mx-auto max-w-sm">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">Start your free trial</h1>
+      <p class="mt-2 text-sm text-gray-500">14 days free. No credit card required.</p>
     </div>
 
-    <%= form_with(url: register_path, scope: :registration, class: "space-y-5 rounded-2xl bg-white dark:bg-gray-800 p-8 shadow-sm ring-1 ring-gray-900/5 dark:ring-gray-700") do |f| %>
+    <%= form_with(url: register_path, scope: :registration, class: "space-y-5 rounded-2xl bg-white border border-gray-200 p-8 shadow-sm") do |f| %>
       <div>
-        <%= f.label :practice_name, "Practice Name", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+        <%= f.label :practice_name, "Practice Name", class: "block text-sm font-medium text-gray-700" %>
         <%= f.text_field :practice_name, required: true, placeholder: "Sunrise Family Medicine",
-          class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+          class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
       </div>
 
       <div>
-        <%= f.label :subdomain, "Subdomain", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+        <%= f.label :subdomain, "Subdomain", class: "block text-sm font-medium text-gray-700" %>
         <div class="mt-1 flex items-center">
           <%= f.text_field :subdomain, required: true, placeholder: "sunrise",
-            class: "block w-full rounded-l-xl border-0 px-4 py-3 text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
-          <span class="rounded-r-xl bg-gray-100 dark:bg-gray-600 px-3 py-3 text-sm text-gray-500 dark:text-gray-400 ring-1 ring-inset ring-gray-300 dark:ring-gray-600">.schedulite.io</span>
+            class: "block w-full rounded-l-xl border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+          <span class="rounded-r-xl bg-gray-50 px-3 py-3 text-sm text-gray-400 ring-1 ring-inset ring-gray-300">.schedulite.io</span>
         </div>
       </div>
 
       <div class="grid grid-cols-2 gap-3">
         <div>
-          <%= f.label :first_name, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+          <%= f.label :first_name, class: "block text-sm font-medium text-gray-700" %>
           <%= f.text_field :first_name, required: true, placeholder: "Jane",
-            class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+            class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
         </div>
         <div>
-          <%= f.label :last_name, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+          <%= f.label :last_name, class: "block text-sm font-medium text-gray-700" %>
           <%= f.text_field :last_name, required: true, placeholder: "Smith",
-            class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+            class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
         </div>
       </div>
 
       <div>
-        <%= f.label :email, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+        <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
         <%= f.email_field :email, required: true, placeholder: "jane@practice.com",
-          class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+          class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
       </div>
 
       <div>
-        <%= f.label :password, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+        <%= f.label :password, class: "block text-sm font-medium text-gray-700" %>
         <%= f.password_field :password, required: true, placeholder: "Minimum 8 characters",
-          class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+          class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
       </div>
 
-      <div>
-        <%= f.submit "Create your practice",
-          class: "flex w-full justify-center rounded-xl bg-teal-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 active:bg-teal-700 cursor-pointer" %>
-      </div>
+      <%= f.submit "Create Your Practice",
+        class: "flex w-full justify-center rounded-xl bg-teal-600 px-4 py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 cursor-pointer transition" %>
     <% end %>
 
-    <p class="text-center text-xs text-gray-400">
+    <p class="text-center text-xs text-gray-400 mt-4">
       Already have an account? <%= link_to "Sign in", new_user_session_path, class: "text-teal-600 hover:text-teal-500" %>
     </p>
   </div>

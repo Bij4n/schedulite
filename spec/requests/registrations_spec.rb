@@ -5,7 +5,7 @@ RSpec.describe "Registrations", type: :request do
     it "renders the signup page" do
       get register_path
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Create your practice")
+      expect(response.body).to include("Start your free trial")
     end
   end
 
