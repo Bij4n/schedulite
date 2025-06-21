@@ -35,6 +35,27 @@
   </div>
 
   <div>
+    <%= f.label :address, "Street Address", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+    <%= f.text_field :address, placeholder: "123 Main St", class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+  </div>
+
+  <div class="grid grid-cols-3 gap-3">
+    <div>
+      <%= f.label :city, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+      <%= f.text_field :city, placeholder: "City", class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+    </div>
+    <div>
+      <%= f.label :state, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+      <%= f.text_field :state, placeholder: "State", class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+    </div>
+    <div>
+      <%= f.label :zip, "ZIP", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+      <%= f.text_field :zip, placeholder: "ZIP", class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 dark:text-gray-100 dark:bg-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+    </div>
+  </div>
+  <p class="text-xs text-gray-400">Address is encrypted and used to estimate travel time for appointment notifications. Never shared.</p>
+
+  <div>
     <%= f.label :primary_provider_id, "Primary Provider", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
     <%= f.select :primary_provider_id,
           Provider.order(:last_name).map { |p| [p.display_name, p.id] },

@@ -31,7 +31,8 @@ module Settings
     def practice_params
       params.require(:tenant).permit(:name, :lunch_start, :lunch_end, :no_show_fee_cents,
         :default_shift_start, :default_shift_end, :default_break_minutes,
-        :max_hours_per_week, :required_lunch_minutes)
+        :max_hours_per_week, :required_lunch_minutes,
+        :address, :city, :state, :zip, :latitude, :longitude)
     end
 
     def authorize_admin!

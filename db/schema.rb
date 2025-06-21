@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_10_004233) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_10_005749) do
   create_table "api_keys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key_digest"
@@ -200,8 +200,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_004233) do
   end
 
   create_table "patients", force: :cascade do |t|
+    t.text "address_ciphertext"
     t.string "card_brand"
     t.string "card_last4"
+    t.string "city"
     t.datetime "created_at", null: false
     t.string "date_of_birth_bidx"
     t.text "date_of_birth_ciphertext"
@@ -209,15 +211,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_004233) do
     t.text "email_ciphertext"
     t.text "first_name_ciphertext"
     t.text "last_name_ciphertext"
+    t.decimal "latitude"
+    t.decimal "longitude"
     t.string "phone_bidx"
     t.text "phone_ciphertext"
     t.integer "primary_provider_id"
     t.boolean "sms_consent", default: false
     t.datetime "sms_opted_out_at"
+    t.string "state"
     t.text "stripe_customer_id_ciphertext"
     t.text "stripe_payment_method_id_ciphertext"
     t.integer "tenant_id", null: false
     t.datetime "updated_at", null: false
+    t.string "zip"
     t.index ["date_of_birth_bidx"], name: "index_patients_on_date_of_birth_bidx"
     t.index ["email_bidx"], name: "index_patients_on_email_bidx"
     t.index ["phone_bidx"], name: "index_patients_on_phone_bidx"
@@ -307,12 +313,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_004233) do
   end
 
   create_table "tenants", force: :cascade do |t|
+    t.string "address"
     t.datetime "baa_uploaded_at"
+    t.string "city"
     t.datetime "created_at", null: false
     t.integer "data_retention_years", default: 7
     t.integer "default_break_minutes", default: 30
     t.string "default_shift_end", default: "17:00"
     t.string "default_shift_start", default: "09:00"
+    t.decimal "latitude"
+    t.decimal "longitude"
     t.string "lunch_end"
     t.string "lunch_start"
     t.integer "max_hours_per_week", default: 40
@@ -320,10 +330,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_004233) do
     t.integer "no_show_fee_cents"
     t.string "plan", default: "free"
     t.integer "required_lunch_minutes", default: 30
+    t.string "state"
     t.string "stripe_customer_id"
     t.string "subdomain", null: false
     t.datetime "trial_ends_at"
     t.datetime "updated_at", null: false
+    t.string "zip"
     t.index ["subdomain"], name: "index_tenants_on_subdomain", unique: true
   end
 

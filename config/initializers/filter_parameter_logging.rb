@@ -6,5 +6,5 @@
 Rails.application.config.filter_parameters += [
   :passw, :email, :secret, :token, :_key, :crypt, :salt, :certificate, :otp, :ssn, :cvv, :cvc,
   # PHI fields — never log these
-  :first_name, :last_name, :phone, :date_of_birth, :dob, :diagnosis, :reason, :notes
+  :first_name, :last_name, :phone, :date_of_birth, :dob, :diagnosis, :reason, :notes, :address
 ]

@@ -76,7 +76,18 @@ class DelayWorkflowService
   end
 
   def notify_patients(workflow, appointments)
-    appointments.each do |appointment|
+    tenant = @provider.tenant
+
+    # Sort by travel distance — farthest patients get notified first
+    sorted = appointments.sort_by do |appt|
+      if appt.patient.has_address? && tenant.latitude.present?
+        -appt.patient.estimated_travel_minutes(to_lat: tenant.latitude, to_lng: tenant.longitude).to_i
+      else
+        0
+      end
+    end
+
+    sorted.each do |appointment|
       patient = appointment.patient
 
       # Create response tracker
@@ -100,14 +111,30 @@ class DelayWorkflowService
   end
 
   def build_message(appointment)
+    patient = appointment.patient
+    tenant = @provider.tenant
+    new_time = (appointment.starts_at + @delay_minutes.minutes).strftime("%-l:%M %p")
+
     variables = {
       provider_name: @provider.display_name,
       delay_minutes: @delay_minutes.to_s,
       original_time: appointment.starts_at.strftime("%-l:%M %p"),
-      new_time: (appointment.starts_at + @delay_minutes.minutes).strftime("%-l:%M %p")
+      new_time: new_time
     }
 
     msg = @template.render_message(variables)
+
+    # Add travel-aware advice if we know the patient's location
+    travel_min = patient.estimated_travel_minutes(to_lat: tenant.latitude, to_lng: tenant.longitude) if patient.has_address? && tenant.latitude.present?
+    if travel_min && travel_min > 5
+      adjusted_leave_time = (appointment.starts_at + @delay_minutes.minutes) - travel_min.minutes
+      if adjusted_leave_time > Time.current
+        msg += "\n\nBased on your location, you should plan to leave around #{adjusted_leave_time.strftime('%-l:%M %p')} for your updated #{new_time} time."
+      else
+        msg += "\n\nBased on your location (~#{travel_min} min away), you may want to head over soon."
+      end
+    end
+
     msg += "\n\n" + @template.response_options
 
     if @gift_card_enabled
