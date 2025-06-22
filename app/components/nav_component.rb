@@ -36,13 +36,13 @@ class NavComponent < ViewComponent::Base
   end
 
   def desktop_sidebar
-    tag.aside(class: "hidden sm:flex sm:flex-col sm:w-56 sm:fixed sm:inset-y-0 bg-white dark:bg-gray-800 border-r border-gray-100 dark:border-gray-700 z-20") do
+    tag.aside(class: "hidden sm:flex sm:flex-col sm:w-56 sm:fixed sm:inset-y-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl border-r border-gray-100/60 dark:border-gray-700/60 z-20") do
       safe_join([brand_header, search_bar, nav_links(:desktop), user_footer])
     end
   end
 
   def mobile_bottom_bar
-    tag.nav(class: "sm:hidden fixed bottom-0 inset-x-0 bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700 z-20 safe-area-bottom",
+    tag.nav(class: "sm:hidden fixed bottom-0 inset-x-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl border-t border-gray-100/60 dark:border-gray-700/60 z-20 safe-area-bottom",
             aria: { label: "Main navigation" }) do
       tag.div(class: "flex justify-around py-2") do
         safe_join(nav_items.map { |item| mobile_tab(item) })
@@ -51,8 +51,8 @@ class NavComponent < ViewComponent::Base
   end
 
   def brand_header
-    tag.div(class: "px-4 py-5 border-b border-gray-100 dark:border-gray-700") do
-      tag.h1("Schedulite", class: "text-lg font-bold text-teal-600")
+    tag.div(class: "px-4 py-5 border-b border-gray-100/60 dark:border-gray-700/60") do
+      tag.h1("schedulite", class: "text-lg font-bold tracking-tight text-gray-900 dark:text-gray-100")
     end
   end
 
