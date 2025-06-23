@@ -1,3 +1,9 @@
+databases:
+  - name: schedulite-db
+    plan: free
+    databaseName: schedulite
+    user: schedulite
+
 services:
   - type: web
     name: schedulite
@@ -21,4 +27,43 @@ services:
       - key: SECRET_KEY_BASE
         generateValue: true
       - key: APP_HOST
-        value: https://schedulite.onrender.com
+        value: https://www.schedulite.io
+      - key: DATABASE_URL
+        fromDatabase:
+          name: schedulite-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: schedulite-redis
+          type: redis
+          property: connectionString
+
+  - type: worker
+    name: schedulite-worker
+    runtime: ruby
+    plan: free
+    buildCommand: bundle install
+    startCommand: bundle exec sidekiq -C config/sidekiq.yml
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: LOCKBOX_MASTER_KEY
+        sync: false
+      - key: SECRET_KEY_BASE
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: schedulite-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: schedulite-redis
+          type: redis
+          property: connectionString
+
+  - type: redis
+    name: schedulite-redis
+    plan: free
+    maxmemoryPolicy: noeviction
