@@ -1,0 +1,27 @@
+reminder_24h:
+  cron: "0 * * * *"
+  class: "AppointmentReminderJob"
+  args:
+    hours_before: 24
+  queue: default
+  description: "Send 24-hour appointment reminders"
+
+reminder_2h:
+  cron: "*/15 * * * *"
+  class: "AppointmentReminderJob"
+  args:
+    hours_before: 2
+  queue: default
+  description: "Send 2-hour appointment reminders"
+
+data_retention:
+  cron: "0 3 * * *"
+  class: "DataRetentionJob"
+  queue: low
+  description: "Clean up old appointment records per retention policy"
+
+integration_sync:
+  cron: "*/15 * * * *"
+  class: "IntegrationSyncAllJob"
+  queue: default
+  description: "Sync all active integrations"

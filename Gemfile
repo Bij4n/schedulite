@@ -14,6 +14,7 @@ gem "tzinfo-data", platforms: %i[windows jruby]
 gem "bootsnap", require: false
 gem "redis"
 gem "sidekiq"
+gem "sidekiq-cron"
 
 # Authentication & authorization
 gem "devise"
