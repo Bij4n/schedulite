@@ -54,6 +54,19 @@ RSpec.describe GiftCardIssuanceService do
       }.not_to change(GiftCard, :count)
     end
 
+    context "when Square credentials are missing" do
+      before do
+        allow(Rails.application.credentials).to receive(:dig).with(:square, :access_token).and_return(nil)
+        allow(Rails.application.credentials).to receive(:dig).with(:square, :location_id).and_return(nil)
+      end
+
+      it "does not raise" do
+        expect {
+          described_class.call(appointment: appointment)
+        }.not_to raise_error
+      end
+    end
+
     it "calls Square API without any PHI" do
       expect(square_client).to receive(:create_gift_card).with(
         location_id: "loc_test",

@@ -11,12 +11,24 @@ class SmsService
   end
 
   def call
+    unless twilio_configured?
+      Rails.logger.warn("Twilio not configured — skipping SMS to #{@patient.id}")
+      return
+    end
+
     body = render_body
     response = send_via_twilio(body)
     record_message(body, response.sid)
+  rescue Twilio::REST::TwilioError => e
+    Rails.logger.error("SMS delivery failed for patient #{@patient.id}: #{e.message}")
+    nil
   end
 
   private
+
+  def twilio_configured?
+    account_sid.present? && auth_token.present?
+  end
 
   def render_body
     SmsTemplate.render(@template, template_variables)
@@ -41,16 +53,25 @@ class SmsService
   end
 
   def send_via_twilio(body)
-    client = Twilio::REST::Client.new(
-      Rails.application.credentials.dig(:twilio, :account_sid),
-      Rails.application.credentials.dig(:twilio, :auth_token)
-    )
+    client = Twilio::REST::Client.new(account_sid, auth_token)
 
     client.messages.create(
       to: formatted_phone,
-      from: Rails.application.credentials.dig(:twilio, :phone_number),
+      from: phone_number,
       body: body
     )
+  end
+
+  def account_sid
+    Rails.application.credentials.dig(:twilio, :account_sid)
+  end
+
+  def auth_token
+    Rails.application.credentials.dig(:twilio, :auth_token)
+  end
+
+  def phone_number
+    Rails.application.credentials.dig(:twilio, :phone_number)
   end
 
   def formatted_phone

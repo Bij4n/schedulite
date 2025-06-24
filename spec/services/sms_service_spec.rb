@@ -59,5 +59,43 @@ RSpec.describe SmsService do
 
       described_class.call(patient: patient, appointment: appointment, template: :check_in_confirmation)
     end
+
+    context "when Twilio credentials are missing" do
+      before do
+        allow(Rails.application.credentials).to receive(:dig).with(:twilio, :account_sid).and_return(nil)
+        allow(Rails.application.credentials).to receive(:dig).with(:twilio, :auth_token).and_return(nil)
+        allow(Rails.application.credentials).to receive(:dig).with(:twilio, :phone_number).and_return(nil)
+      end
+
+      it "does not raise and logs a warning" do
+        expect(Rails.logger).to receive(:warn).with(/Twilio not configured/)
+
+        expect {
+          described_class.call(patient: patient, appointment: appointment, template: :check_in_confirmation)
+        }.not_to raise_error
+      end
+
+      it "does not create an SmsMessage record" do
+        allow(Rails.logger).to receive(:warn)
+
+        expect {
+          described_class.call(patient: patient, appointment: appointment, template: :check_in_confirmation)
+        }.not_to change(SmsMessage, :count)
+      end
+    end
+
+    context "when Twilio API call fails" do
+      before do
+        allow(twilio_client).to receive_message_chain(:messages, :create).and_raise(Twilio::REST::TwilioError.new("API error"))
+      end
+
+      it "does not raise and logs the error" do
+        expect(Rails.logger).to receive(:error).with(/SMS delivery failed/)
+
+        expect {
+          described_class.call(patient: patient, appointment: appointment, template: :check_in_confirmation)
+        }.not_to raise_error
+      end
+    end
   end
 end

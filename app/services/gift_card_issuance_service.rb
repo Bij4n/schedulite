@@ -9,6 +9,7 @@ class GiftCardIssuanceService
 
   def call
     return unless should_issue?
+    return unless square_configured?
 
     response = client.create_gift_card(
       location_id: location_id,
@@ -53,6 +54,15 @@ class GiftCardIssuanceService
       access_token: Rails.application.credentials.dig(:square, :access_token),
       environment: Rails.env.production? ? "production" : "sandbox"
     )
+  end
+
+  def square_configured?
+    access_token = Rails.application.credentials.dig(:square, :access_token)
+    unless access_token.present?
+      Rails.logger.warn("Square not configured — skipping gift card issuance")
+      return false
+    end
+    true
   end
 
   def location_id
