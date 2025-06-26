@@ -30,6 +30,8 @@ class Patient < ApplicationRecord
   validates :last_name, presence: true
   validates :phone, presence: true
 
+  after_save :geocode_address, if: :address_changed?
+
   def display_name
     "#{first_name} #{last_name[0]}."
   end
@@ -53,23 +55,20 @@ class Patient < ApplicationRecord
 
   def estimated_travel_minutes(to_lat:, to_lng:)
     return nil unless has_address? && to_lat && to_lng
-    distance_km = haversine_distance(latitude, longitude, to_lat, to_lng)
-    # Rough estimate: 40 km/h average speed in urban/suburban areas
-    (distance_km / 40.0 * 60).round
+
+    RoutingService.driving_time(
+      from_lat: latitude, from_lng: longitude,
+      to_lat: to_lat, to_lng: to_lng
+    )
   end
 
   private
 
-  def haversine_distance(lat1, lon1, lat2, lon2)
-    r = 6371 # Earth radius in km
-    dlat = to_rad(lat2 - lat1)
-    dlon = to_rad(lon2 - lon1)
-    a = Math.sin(dlat / 2)**2 + Math.cos(to_rad(lat1)) * Math.cos(to_rad(lat2)) * Math.sin(dlon / 2)**2
-    c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-    r * c
+  def geocode_address
+    GeocodeAddressJob.perform_later("Patient", id)
   end
 
-  def to_rad(deg)
-    deg.to_f * Math::PI / 180
+  def address_changed?
+    saved_change_to_attribute?(:address_ciphertext)
   end
 end

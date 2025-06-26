@@ -15,10 +15,26 @@ class Tenant < ApplicationRecord
     format: { with: /\A[a-z0-9]([a-z0-9-]*[a-z0-9])?\z/, message: "must be lowercase alphanumeric with optional hyphens" }
 
   before_validation :normalize_subdomain
+  after_save :geocode_address, if: :address_fields_changed?
+
+  def full_address
+    [address, city, state, zip].compact.reject(&:blank?).join(", ")
+  end
 
   private
 
   def normalize_subdomain
     self.subdomain = subdomain&.downcase&.strip
+  end
+
+  def geocode_address
+    GeocodeAddressJob.perform_later("Tenant", id)
+  end
+
+  def address_fields_changed?
+    saved_change_to_attribute?(:address) ||
+      saved_change_to_attribute?(:city) ||
+      saved_change_to_attribute?(:state) ||
+      saved_change_to_attribute?(:zip)
   end
 end
