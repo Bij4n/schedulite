@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Registration and Kiosk", type: :system do
   describe "registration" do
-    it "creates a new practice account" do
+    it "creates a new practice account and starts onboarding" do
       visit register_path
       expect(page).to have_content("Start your free trial")
 
@@ -14,7 +14,8 @@ RSpec.describe "Registration and Kiosk", type: :system do
       fill_in "Password", with: "password123!"
       click_button "Create Your Practice"
 
-      expect(page).to have_current_path(dashboard_index_path)
+      expect(page).to have_current_path(onboarding_index_path)
+      expect(page).to have_content("Practice Info")
     end
   end
 

@@ -1,0 +1,38 @@
+<div class="min-h-screen bg-gray-50 flex items-center justify-center px-6 py-12">
+  <div class="w-full max-w-lg">
+
+    <!-- Progress -->
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-sm font-medium text-gray-500">Step <%= @step + 1 %> of <%= @total_steps %></span>
+        <span class="text-sm text-gray-400"><%= ((@step.to_f / @total_steps) * 100).round %>% complete</span>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-2">
+        <div class="bg-teal-600 h-2 rounded-full transition-all duration-500" style="width: <%= ((@step.to_f / @total_steps) * 100).round %>%"></div>
+      </div>
+    </div>
+
+    <!-- Step card -->
+    <div class="rounded-2xl bg-white border border-gray-200 p-8 shadow-sm">
+      <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 mb-1"><%= @step_info[:title] %></h1>
+      <p class="text-sm text-gray-500 mb-6"><%= @step_info[:description] %></p>
+
+      <% case @step %>
+      <% when 0 %>
+        <%= render "onboarding/steps/practice_info" %>
+      <% when 1 %>
+        <%= render "onboarding/steps/add_provider" %>
+      <% when 2 %>
+        <%= render "onboarding/steps/add_patient" %>
+      <% when 3 %>
+        <%= render "onboarding/steps/create_appointment" %>
+      <% end %>
+    </div>
+
+    <!-- Skip -->
+    <div class="mt-4 text-center">
+      <%= link_to "Skip this step", skip_onboarding_index_path, data: { turbo_method: :post },
+        class: "text-sm text-gray-400 hover:text-gray-600 transition" %>
+    </div>
+  </div>
+</div>

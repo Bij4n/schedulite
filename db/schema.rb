@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_10_005749) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_10_033904) do
   create_table "api_keys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key_digest"
@@ -328,6 +328,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_005749) do
     t.integer "max_hours_per_week", default: 40
     t.string "name", null: false
     t.integer "no_show_fee_cents"
+    t.integer "onboarding_step", default: 0, null: false
     t.string "plan", default: "free"
     t.integer "required_lunch_minutes", default: 30
     t.string "state"

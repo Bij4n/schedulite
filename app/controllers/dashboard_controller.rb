@@ -1,5 +1,6 @@
 class DashboardController < ApplicationController
   before_action :authenticate_user!
+  before_action :redirect_to_onboarding, only: :index
   before_action :redirect_by_role, only: :index
 
   def index
@@ -37,6 +38,13 @@ class DashboardController < ApplicationController
   end
 
   private
+
+  def redirect_to_onboarding
+    return unless current_user.role.in?(%w[owner manager])
+    return if current_user.tenant.onboarding_step >= 4
+
+    redirect_to onboarding_index_path
+  end
 
   def redirect_by_role
     case current_user.role

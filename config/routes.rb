@@ -98,6 +98,10 @@ Rails.application.routes.draw do
     post "integrations/:integration_id", to: "integrations#create", as: :integration
   end
 
+  get "onboarding", to: "onboarding#index", as: :onboarding_index
+  patch "onboarding", to: "onboarding#update"
+  post "onboarding/skip", to: "onboarding#skip", as: :skip_onboarding_index
+
   get "dashboard", to: "dashboard#index", as: :dashboard_index
   get "provider_dashboard", to: "provider_dashboard#show"
   get "staff_dashboard", to: "staff_dashboard#show"
