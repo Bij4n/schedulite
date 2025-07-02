@@ -1,0 +1,11 @@
+<h2>Schedule update</h2>
+
+<p>Hi <%= @patient.first_name %>,</p>
+
+<p><%= @provider.display_name %> is running approximately <strong><%= @delay_minutes %> minutes</strong> behind schedule.</p>
+
+<p>Your updated appointment time is <strong><%= @new_time %></strong>.</p>
+
+<p style="font-size: 14px; color: #6b7280;">We apologize for the inconvenience. If you need to reschedule, please reply to this email or contact the practice.</p>
+
+<p style="font-size: 12px; color: #9ca3af; margin-top: 24px;">— <%= @tenant.name %> via Schedulite</p>

@@ -1,0 +1,30 @@
+<h2>Daily Schedule — <%= Date.current.strftime("%A, %B %-d") %></h2>
+
+<p>Good morning, <%= @user.first_name %>!</p>
+
+<p>You have <strong><%= @count %> appointment<%= @count == 1 ? "" : "s" %></strong> scheduled for today.</p>
+
+<% if @appointments.any? %>
+  <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+    <thead>
+      <tr style="border-bottom: 1px solid #e5e7eb;">
+        <th style="padding: 8px 12px; text-align: left; font-size: 12px; color: #6b7280; text-transform: uppercase;">Time</th>
+        <th style="padding: 8px 12px; text-align: left; font-size: 12px; color: #6b7280; text-transform: uppercase;">Patient</th>
+        <th style="padding: 8px 12px; text-align: left; font-size: 12px; color: #6b7280; text-transform: uppercase;">Provider</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @appointments.each do |appt| %>
+        <tr style="border-bottom: 1px solid #f3f4f6;">
+          <td style="padding: 8px 12px; font-size: 14px;"><%= appt.starts_at.strftime("%-l:%M %p") %></td>
+          <td style="padding: 8px 12px; font-size: 14px;"><%= appt.patient.display_name %></td>
+          <td style="padding: 8px 12px; font-size: 14px;"><%= appt.provider.display_name %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p style="color: #6b7280;">No appointments scheduled for today.</p>
+<% end %>
+
+<p style="font-size: 12px; color: #9ca3af; margin-top: 24px;">— <%= @tenant.name %> via Schedulite</p>

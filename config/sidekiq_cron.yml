@@ -20,6 +20,12 @@ data_retention:
   queue: low
   description: "Clean up old appointment records per retention policy"
 
+daily_digest:
+  cron: "0 7 * * 1-5"
+  class: "DailyDigestJob"
+  queue: default
+  description: "Send morning schedule digest to practice owners"
+
 integration_sync:
   cron: "*/15 * * * *"
   class: "IntegrationSyncAllJob"
