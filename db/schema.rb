@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_10_033904) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_10_040542) do
   create_table "api_keys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key_digest"
@@ -315,6 +315,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_033904) do
   create_table "tenants", force: :cascade do |t|
     t.string "address"
     t.datetime "baa_uploaded_at"
+    t.datetime "billing_period_end"
     t.string "city"
     t.datetime "created_at", null: false
     t.integer "data_retention_years", default: 7
@@ -333,6 +334,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_033904) do
     t.integer "required_lunch_minutes", default: 30
     t.string "state"
     t.string "stripe_customer_id"
+    t.string "stripe_price_id"
+    t.string "stripe_subscription_id"
     t.string "subdomain", null: false
     t.datetime "trial_ends_at"
     t.datetime "updated_at", null: false

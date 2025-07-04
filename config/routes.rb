@@ -83,6 +83,10 @@ Rails.application.routes.draw do
     end
     resource :time_off, only: [:show], controller: "time_off"
     resources :workflow_templates, only: [:index, :new, :create, :destroy]
+    resource :billing, only: [:show], controller: "billing" do
+      post :checkout
+      post :portal
+    end
   end
 
   resources :delay_workflows, only: [:new, :create, :show]
@@ -95,6 +99,7 @@ Rails.application.routes.draw do
 
   namespace :webhooks do
     post :twilio, to: "twilio#create"
+    post :stripe, to: "stripe#create"
     post "integrations/:integration_id", to: "integrations#create", as: :integration
   end
 

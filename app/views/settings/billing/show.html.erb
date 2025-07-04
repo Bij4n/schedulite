@@ -1,0 +1,73 @@
+<%= render "settings/nav" %>
+
+<div class="p-6 max-w-2xl mx-auto">
+  <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 mb-6">Billing & Plan</h1>
+
+  <!-- Current plan -->
+  <div class="rounded-2xl bg-white border border-gray-200 p-6 mb-6">
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <h2 class="text-lg font-bold text-gray-900">Current Plan</h2>
+        <p class="text-sm text-gray-500 mt-1">
+          <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold
+            <%= @tenant.plan == 'free' ? 'bg-gray-100 text-gray-700' : 'bg-teal-50 text-teal-700' %>">
+            <%= @tenant.plan.capitalize %>
+          </span>
+          <% if @tenant.trial_active? %>
+            <span class="ml-2 text-xs text-amber-600">Trial ends <%= @tenant.trial_ends_at.strftime("%B %-d, %Y") %></span>
+          <% end %>
+        </p>
+      </div>
+      <% if @tenant.stripe_customer_id.present? %>
+        <%= form_with url: portal_settings_billing_path, method: :post do %>
+          <%= submit_tag "Manage Billing", class: "rounded-xl bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 cursor-pointer transition" %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <% if @tenant.plan == "free" %>
+      <div class="text-xs text-gray-400 space-y-1">
+        <p>Free plan includes: 5 appointments/day, 1 provider</p>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Upgrade options -->
+  <% if @tenant.plan == "free" %>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <!-- Pro -->
+      <div class="rounded-2xl bg-white border-2 border-teal-600 p-6">
+        <h3 class="text-lg font-bold text-gray-900">Pro</h3>
+        <p class="text-3xl font-extrabold text-gray-900 mt-2">$49<span class="text-sm font-normal text-gray-500">/mo</span></p>
+        <ul class="mt-4 space-y-2 text-sm text-gray-600">
+          <li>Unlimited appointments</li>
+          <li>Unlimited providers</li>
+          <li>SMS notifications</li>
+          <li>Calendar sync</li>
+          <li>Analytics dashboard</li>
+        </ul>
+        <%= form_with url: checkout_settings_billing_path, method: :post, class: "mt-6" do %>
+          <%= hidden_field_tag :plan, "pro" %>
+          <%= submit_tag "Upgrade to Pro", class: "flex w-full justify-center rounded-xl bg-teal-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 cursor-pointer transition" %>
+        <% end %>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="rounded-2xl bg-white border border-gray-200 p-6">
+        <h3 class="text-lg font-bold text-gray-900">Enterprise</h3>
+        <p class="text-3xl font-extrabold text-gray-900 mt-2">$149<span class="text-sm font-normal text-gray-500">/mo</span></p>
+        <ul class="mt-4 space-y-2 text-sm text-gray-600">
+          <li>Everything in Pro</li>
+          <li>Multi-location support</li>
+          <li>Custom integrations</li>
+          <li>Priority support</li>
+          <li>HIPAA BAA included</li>
+        </ul>
+        <%= form_with url: checkout_settings_billing_path, method: :post, class: "mt-6" do %>
+          <%= hidden_field_tag :plan, "enterprise" %>
+          <%= submit_tag "Upgrade to Enterprise", class: "flex w-full justify-center rounded-xl bg-gray-900 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 cursor-pointer transition" %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -14,8 +14,33 @@ class Tenant < ApplicationRecord
     length: { minimum: 3, maximum: 63 },
     format: { with: /\A[a-z0-9]([a-z0-9-]*[a-z0-9])?\z/, message: "must be lowercase alphanumeric with optional hyphens" }
 
+  PLAN_LIMITS = {
+    "free" => { daily_appointments: 5, providers: 1 },
+    "pro" => { daily_appointments: Float::INFINITY, providers: Float::INFINITY },
+    "enterprise" => { daily_appointments: Float::INFINITY, providers: Float::INFINITY }
+  }.freeze
+
   before_validation :normalize_subdomain
   after_save :geocode_address, if: :address_fields_changed?
+
+  def plan_allows_appointment?
+    return true unless plan == "free"
+    return true if trial_active?
+
+    today_count = appointments.where(starts_at: Date.current.beginning_of_day..Date.current.end_of_day).count
+    today_count < PLAN_LIMITS.dig(plan, :daily_appointments)
+  end
+
+  def plan_allows_provider?
+    return true unless plan == "free"
+    return true if trial_active?
+
+    providers.count < PLAN_LIMITS.dig(plan, :providers)
+  end
+
+  def trial_active?
+    trial_ends_at.present? && trial_ends_at > Time.current
+  end
 
   def full_address
     [address, city, state, zip].compact.reject(&:blank?).join(", ")
