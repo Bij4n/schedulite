@@ -8,7 +8,10 @@ module Integrations
       "simple_practice" => "Integrations::SimplePracticeAdapter",
       "acuity" => "Integrations::AcuityAdapter",
       "nex_health" => "Integrations::NexHealthAdapter",
-      "ical" => "Integrations::IcalAdapter"
+      "ical" => "Integrations::IcalAdapter",
+      "cliniko" => "Integrations::ClinikoAdapter",
+      "chiro_touch" => "Integrations::ChiroTouchAdapter",
+      "practice_suite" => "Integrations::PracticeSuiteAdapter"
     }.freeze
 
     def self.build(integration)
