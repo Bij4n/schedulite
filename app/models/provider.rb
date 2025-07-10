@@ -1,5 +1,6 @@
 class Provider < ApplicationRecord
   belongs_to :tenant
+  belongs_to :location, optional: true
   has_many :appointments, dependent: :destroy
   has_many :patients, foreign_key: :primary_provider_id, dependent: :nullify
   has_many :integrations, dependent: :destroy

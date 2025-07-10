@@ -91,6 +91,8 @@ Rails.application.routes.draw do
 
   resources :delay_workflows, only: [:new, :create, :show]
 
+  resources :locations, except: [:show]
+
   namespace :api do
     namespace :v1 do
       resources :appointments, only: [:index, :create, :update]

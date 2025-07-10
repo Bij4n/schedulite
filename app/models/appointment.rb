@@ -2,6 +2,7 @@ class Appointment < ApplicationRecord
   belongs_to :tenant
   belongs_to :provider
   belongs_to :patient
+  belongs_to :location, optional: true
   has_many :status_events, dependent: :destroy
   has_many :sms_messages, dependent: :destroy
   has_many :gift_cards, dependent: :destroy

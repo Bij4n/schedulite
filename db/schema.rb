@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_10_040542) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_10_041550) do
   create_table "api_keys", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key_digest"
@@ -28,6 +28,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_040542) do
     t.datetime "ends_at"
     t.string "external_id"
     t.string "external_source"
+    t.integer "location_id"
     t.text "notes_ciphertext"
     t.integer "patient_id", null: false
     t.integer "provider_id", null: false
@@ -37,6 +38,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_040542) do
     t.integer "tenant_id", null: false
     t.datetime "updated_at", null: false
     t.index ["external_source", "external_id"], name: "index_appointments_on_external_source_and_external_id"
+    t.index ["location_id"], name: "index_appointments_on_location_id"
     t.index ["patient_id"], name: "index_appointments_on_patient_id"
     t.index ["provider_id"], name: "index_appointments_on_provider_id"
     t.index ["signed_token"], name: "index_appointments_on_signed_token", unique: true
@@ -154,6 +156,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_040542) do
     t.index ["user_id"], name: "index_integrations_on_user_id"
   end
 
+  create_table "locations", force: :cascade do |t|
+    t.string "address"
+    t.string "city"
+    t.datetime "created_at", null: false
+    t.decimal "latitude"
+    t.decimal "longitude"
+    t.string "lunch_end"
+    t.string "lunch_start"
+    t.string "name"
+    t.integer "no_show_fee_cents"
+    t.string "state"
+    t.integer "tenant_id", null: false
+    t.datetime "updated_at", null: false
+    t.string "zip"
+    t.index ["tenant_id"], name: "index_locations_on_tenant_id"
+  end
+
   create_table "login_events", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "event_type", null: false
@@ -253,9 +272,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_040542) do
     t.datetime "created_at", null: false
     t.string "first_name", null: false
     t.string "last_name", null: false
+    t.integer "location_id"
     t.integer "tenant_id", null: false
     t.string "title"
     t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_providers_on_location_id"
     t.index ["tenant_id"], name: "index_providers_on_tenant_id"
   end
 
@@ -399,6 +420,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_040542) do
   end
 
   add_foreign_key "api_keys", "tenants"
+  add_foreign_key "appointments", "locations"
   add_foreign_key "appointments", "patients"
   add_foreign_key "appointments", "providers"
   add_foreign_key "appointments", "tenants"
@@ -416,6 +438,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_040542) do
   add_foreign_key "integrations", "providers"
   add_foreign_key "integrations", "tenants"
   add_foreign_key "integrations", "users"
+  add_foreign_key "locations", "tenants"
   add_foreign_key "login_events", "users"
   add_foreign_key "no_show_charges", "appointments"
   add_foreign_key "no_show_charges", "patients"
@@ -427,6 +450,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_040542) do
   add_foreign_key "patients", "tenants"
   add_foreign_key "provider_schedules", "providers"
   add_foreign_key "provider_schedules", "users", column: "proposed_by_id"
+  add_foreign_key "providers", "locations"
   add_foreign_key "providers", "tenants"
   add_foreign_key "recurring_appointments", "patients"
   add_foreign_key "recurring_appointments", "providers"

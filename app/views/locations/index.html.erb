@@ -1,0 +1,33 @@
+<div class="p-6 max-w-4xl mx-auto">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-extrabold tracking-tight text-gray-900">Locations</h1>
+    <%= link_to "+ Add Location", new_location_path,
+      class: "rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 transition" %>
+  </div>
+
+  <% if @locations.any? %>
+    <div class="space-y-3">
+      <% @locations.each do |location| %>
+        <div class="rounded-2xl bg-white border border-gray-200 p-5 flex items-center justify-between">
+          <div>
+            <h3 class="text-lg font-semibold text-gray-900"><%= location.name %></h3>
+            <p class="text-sm text-gray-500 mt-1"><%= location.full_address.presence || "No address" %></p>
+            <p class="text-xs text-gray-400 mt-1"><%= pluralize(location.providers.count, "provider") %></p>
+          </div>
+          <div class="flex items-center gap-2">
+            <%= link_to "Edit", edit_location_path(location),
+              class: "rounded-lg px-3 py-1.5 text-xs font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50" %>
+            <%= button_to "Remove", location_path(location), method: :delete,
+              data: { turbo_confirm: "Remove this location?" },
+              class: "rounded-lg px-3 py-1.5 text-xs font-semibold text-red-600 ring-1 ring-inset ring-red-200 hover:bg-red-50" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="rounded-2xl bg-white border border-gray-200 p-12 text-center">
+      <h3 class="text-sm font-semibold text-gray-900">No locations yet</h3>
+      <p class="text-xs text-gray-500 mt-1">Add a location to support multiple offices.</p>
+    </div>
+  <% end %>
+</div>
