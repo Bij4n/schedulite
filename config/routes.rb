@@ -93,6 +93,17 @@ Rails.application.routes.draw do
 
   resources :locations, except: [:show]
 
+  # Patient portal — magic link auth, no Devise
+  namespace :portal do
+    get "login", to: "sessions#new", as: :login
+    post "request_link", to: "sessions#request_link", as: :request_link
+    get "auth/:token", to: "sessions#authenticate", as: :auth
+    delete "logout", to: "sessions#destroy", as: :logout
+
+    get "appointments", to: "appointments#index", as: :appointments
+    resource :profile, only: [:show, :update], controller: "profile"
+  end
+
   namespace :api do
     namespace :v1 do
       resources :appointments, only: [:index, :create, :update]

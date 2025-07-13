@@ -10,7 +10,8 @@ class SmsTemplate
     reminder_2h: "Hi %{first_name}, your %{appointment_time} appointment is coming up in about 2 hours. See you soon!",
     consent_request: "%{practice_name} would like to send you appointment updates via text. Reply YES to opt in, STOP anytime to opt out.",
     no_show_fee: "Hi %{first_name}, you were marked as a no-show for your appointment. A fee of %{fee_amount} has been charged to your card on file.",
-    delay_workflow: "%{custom_body}"
+    delay_workflow: "%{custom_body}",
+    magic_link: "Hi %{first_name}, your sign-in link: %{link} (expires in 15 min)"
   }.freeze
 
   class PhiLeakError < StandardError; end

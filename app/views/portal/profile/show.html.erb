@@ -1,0 +1,37 @@
+<div class="min-h-screen bg-gray-50 px-6 py-12">
+  <div class="max-w-xl mx-auto">
+    <div class="mb-8">
+      <%= link_to "← Back to appointments", portal_appointments_path, class: "text-sm text-gray-500 hover:text-gray-700" %>
+      <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 mt-2">Profile</h1>
+    </div>
+
+    <%= form_with(model: current_patient, url: portal_profile_path, method: :patch, class: "space-y-5 rounded-2xl bg-white border border-gray-200 p-8 shadow-sm") do |f| %>
+      <div>
+        <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.email_field :email,
+          class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+      </div>
+      <div>
+        <%= f.label :address, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :address,
+          class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+      </div>
+      <div class="grid grid-cols-3 gap-3">
+        <div>
+          <%= f.label :city, class: "block text-sm font-medium text-gray-700" %>
+          <%= f.text_field :city, class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+        </div>
+        <div>
+          <%= f.label :state, class: "block text-sm font-medium text-gray-700" %>
+          <%= f.text_field :state, class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+        </div>
+        <div>
+          <%= f.label :zip, class: "block text-sm font-medium text-gray-700" %>
+          <%= f.text_field :zip, class: "mt-1 block w-full rounded-xl border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-teal-600 sm:text-sm" %>
+        </div>
+      </div>
+      <%= f.submit "Save changes",
+        class: "flex w-full justify-center rounded-xl bg-teal-600 px-4 py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 cursor-pointer transition" %>
+    <% end %>
+  </div>
+</div>

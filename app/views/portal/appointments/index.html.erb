@@ -1,0 +1,45 @@
+<div class="min-h-screen bg-gray-50 px-6 py-12">
+  <div class="max-w-2xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h1 class="text-2xl font-extrabold tracking-tight text-gray-900">Hi, <%= current_patient.first_name %></h1>
+        <p class="text-sm text-gray-500 mt-1">Your appointments</p>
+      </div>
+      <%= button_to "Sign out", portal_logout_path, method: :delete,
+        class: "rounded-lg bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50" %>
+    </div>
+
+    <% if @upcoming.any? %>
+      <h2 class="text-sm font-bold uppercase text-gray-500 tracking-wide mb-3">Upcoming</h2>
+      <div class="space-y-3 mb-8">
+        <% @upcoming.each do |appt| %>
+          <div class="rounded-2xl bg-white border border-gray-200 p-5">
+            <p class="text-sm font-semibold text-gray-900"><%= appt.starts_at.strftime("%A, %B %-d") %></p>
+            <p class="text-2xl font-extrabold text-gray-900 mt-1"><%= appt.starts_at.strftime("%-l:%M %p") %></p>
+            <p class="text-sm text-gray-500 mt-1">with <%= appt.provider.display_name %></p>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="rounded-2xl bg-white border border-gray-200 p-12 text-center mb-8">
+        <p class="text-sm text-gray-500">No upcoming appointments</p>
+      </div>
+    <% end %>
+
+    <% if @past.any? %>
+      <h2 class="text-sm font-bold uppercase text-gray-500 tracking-wide mb-3">Past</h2>
+      <div class="space-y-3">
+        <% @past.each do |appt| %>
+          <div class="rounded-xl bg-gray-50 border border-gray-200 p-4">
+            <p class="text-sm text-gray-700"><%= appt.starts_at.strftime("%B %-d, %Y") %> at <%= appt.starts_at.strftime("%-l:%M %p") %></p>
+            <p class="text-xs text-gray-500 mt-1"><%= appt.provider.display_name %> — <%= appt.status.humanize %></p>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="mt-8 text-center">
+      <%= link_to "Update profile →", portal_profile_path, class: "text-sm text-teal-600 hover:text-teal-500" %>
+    </div>
+  </div>
+</div>
