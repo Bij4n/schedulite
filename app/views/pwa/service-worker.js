@@ -1,12 +1,11 @@
-const CACHE_NAME = "schedulite-v1"
+const CACHE_NAME = "schedulite-v2"
 const OFFLINE_URL = "/404.html"
+const PRECACHE_URLS = [OFFLINE_URL, "/manifest"]
 
 // Cache key static assets on install
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll([OFFLINE_URL])
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS))
   )
   self.skipWaiting()
 })
@@ -23,19 +22,27 @@ self.addEventListener("activate", (event) => {
   self.clients.claim()
 })
 
-// Network-first strategy for navigation, cache fallback for offline
+// Network-first for navigation, with cached fallback for offline
 self.addEventListener("fetch", (event) => {
   if (event.request.mode === "navigate") {
     event.respondWith(
-      fetch(event.request).catch(() => {
-        return caches.match(OFFLINE_URL)
-      })
+      fetch(event.request)
+        .then((response) => {
+          const copy = response.clone()
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy))
+          return response
+        })
+        .catch(() => {
+          return caches.match(event.request).then((cached) => cached || caches.match(OFFLINE_URL))
+        })
     )
   }
 })
 
 // Handle push notifications
 self.addEventListener("push", async (event) => {
+  if (!event.data) return
+
   const { title, options } = await event.data.json()
   event.waitUntil(self.registration.showNotification(title, options))
 })
