@@ -5,7 +5,7 @@ FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 WORKDIR /rails
 
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libsqlite3-0 libjemalloc2 && \
+    apt-get install --no-install-recommends -y curl libsqlite3-0 libpq5 libjemalloc2 && \
     ln -s /usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
@@ -18,7 +18,7 @@ ENV RAILS_ENV="production" \
 FROM base AS build
 
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libsqlite3-dev libyaml-dev libffi-dev pkg-config nodejs npm && \
+    apt-get install --no-install-recommends -y build-essential git libsqlite3-dev libpq-dev libyaml-dev libffi-dev pkg-config nodejs npm && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 COPY Gemfile Gemfile.lock ./

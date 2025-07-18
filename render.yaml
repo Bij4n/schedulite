@@ -7,16 +7,12 @@ databases:
 services:
   - type: web
     name: schedulite
-    runtime: ruby
+    runtime: docker
     plan: free
-    buildCommand: |
-      bundle install
-      npm install
-      npm run build
-      npm run build:css
-      bundle exec rails assets:precompile
-      bundle exec rails db:migrate
-    startCommand: bundle exec rails server -p $PORT -e production
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    preDeployCommand: bundle exec rails db:migrate
+    healthCheckPath: /health
     envVars:
       - key: RAILS_ENV
         value: production
@@ -40,10 +36,11 @@ services:
 
   - type: worker
     name: schedulite-worker
-    runtime: ruby
+    runtime: docker
     plan: free
-    buildCommand: bundle install
-    startCommand: bundle exec sidekiq -C config/sidekiq.yml
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    dockerCommand: bundle exec sidekiq -C config/sidekiq.yml
     envVars:
       - key: RAILS_ENV
         value: production

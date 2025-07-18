@@ -15,4 +15,6 @@ production:
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  url: <%= ENV.fetch("DATABASE_URL", "") %>
+  # DATABASE_URL is read automatically by Rails when present.
+  # We do NOT set `url:` explicitly — passing an empty string makes
+  # the pg gem fall back to local Unix sockets, masking the real cause.

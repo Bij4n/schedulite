@@ -1,9 +1,7 @@
 #!/bin/bash -e
 
-# Create/migrate database and seed on first run
-if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
-  ./bin/rails db:prepare
-  ./bin/rails db:seed 2>/dev/null || true
-fi
+# Migrations run via Render's preDeployCommand, NOT here.
+# Running db:prepare in the entrypoint races multiple instances on
+# rolling deploys and fails when DATABASE_URL hasn't propagated yet.
 
 exec "${@}"

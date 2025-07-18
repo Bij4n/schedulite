@@ -13,9 +13,16 @@ RSpec.describe "Database configuration" do
       expect(config["production"]["adapter"]).to eq("postgresql")
     end
 
-    it "reads DATABASE_URL from environment" do
+    it "documents that DATABASE_URL is auto-read by Rails" do
       raw = File.read(Rails.root.join("config/database.yml"))
       expect(raw).to include("DATABASE_URL")
+    end
+
+    it "does not pass an empty url to the pg gem" do
+      raw = File.read(Rails.root.join("config/database.yml"))
+      # Setting `url:` to an empty string makes pg fall back to local
+      # Unix sockets when DATABASE_URL is unset, masking the real cause.
+      expect(raw).not_to match(/^\s*url:\s*<%=/)
     end
 
     it "uses sqlite3 for development" do
