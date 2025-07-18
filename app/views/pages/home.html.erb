@@ -10,32 +10,32 @@
 </nav>
 
 <!-- ====== HERO ====== -->
-<section class="relative pt-36 pb-28 px-6 overflow-hidden">
+<section class="relative pt-28 sm:pt-36 pb-20 sm:pb-28 px-5 sm:px-6 overflow-hidden">
   <div class="hero-glow"></div>
 
   <div class="mx-auto max-w-3xl text-center relative z-10">
-    <h1 class="text-[2.75rem] sm:text-6xl lg:text-[4.25rem] font-extrabold tracking-[-0.03em] leading-[1.06] text-gray-900">
+    <h1 class="text-[2.5rem] sm:text-6xl lg:text-[4.25rem] font-extrabold tracking-[-0.03em] leading-[1.05] text-gray-900">
       Schedules change.<br>
       <span class="grad">Your patients should know.</span>
     </h1>
 
-    <p class="mt-7 text-lg sm:text-xl text-gray-400 max-w-xl mx-auto leading-relaxed font-light">
+    <p class="mt-6 sm:mt-7 text-base sm:text-xl text-gray-500 sm:text-gray-400 max-w-xl mx-auto leading-relaxed font-light">
       Doctors run behind. Emergencies happen. Schedulite coordinates between your providers, staff, and patients in real time — so no one drives an hour to sit in the dark.
     </p>
 
-    <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
-      <%= link_to register_path, class: "rounded-full bg-teal-600 px-7 py-3.5 text-sm font-semibold text-white hover:bg-teal-500 transition cta-glow" do %>
+    <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
+      <%= link_to register_path, class: "rounded-full bg-teal-600 px-7 py-4 sm:py-3.5 text-base sm:text-sm font-semibold text-white hover:bg-teal-500 transition cta-glow text-center min-h-[52px] sm:min-h-0 flex items-center justify-center" do %>
         Start Free — No Credit Card
       <% end %>
-      <a href="#how" class="text-sm text-gray-400 hover:text-gray-600 transition px-4 py-3">How it works &darr;</a>
+      <a href="#how" class="text-sm text-gray-400 hover:text-gray-600 transition px-4 py-3 text-center">How it works &darr;</a>
     </div>
   </div>
 </section>
 
 <!-- ====== SMS MOCKUP ====== -->
-<section class="pb-24 px-6">
+<section class="pb-20 sm:pb-24 px-5 sm:px-6">
   <div class="mx-auto max-w-sm">
-    <div class="rounded-3xl bg-gray-950 p-6 shadow-2xl shadow-gray-900/20 drift">
+    <div class="rounded-3xl bg-gray-950 p-5 sm:p-6 shadow-2xl shadow-gray-900/20 drift">
       <div class="flex items-center justify-between mb-5">
         <div class="flex items-center gap-2">
           <div class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></div>
@@ -98,23 +98,23 @@
 <div class="glow-line mx-auto max-w-xl"></div>
 
 <!-- ====== HOW IT WORKS ====== -->
-<section id="how" class="py-28 px-6">
+<section id="how" class="py-20 sm:py-28 px-5 sm:px-6">
   <div class="mx-auto max-w-4xl">
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-16">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-16">
       <div class="reveal">
         <span class="text-xs font-bold text-teal-600 tracking-widest uppercase">01</span>
-        <h3 class="mt-3 text-xl font-bold text-gray-900 leading-snug">Providers connect their calendars</h3>
-        <p class="mt-2 text-sm text-gray-400 leading-relaxed">Each doctor, NP, or therapist syncs their own calendar — Google, Outlook, Epic, Athena, whatever they use. Schedulite watches for changes.</p>
+        <h3 class="mt-3 text-lg sm:text-xl font-bold text-gray-900 leading-snug">Providers connect their calendars</h3>
+        <p class="mt-2 text-sm text-gray-500 sm:text-gray-400 leading-relaxed">Each doctor, NP, or therapist syncs their own calendar — Google, Outlook, Epic, Athena, whatever they use. Schedulite watches for changes.</p>
       </div>
       <div class="reveal reveal-delay-1">
         <span class="text-xs font-bold text-teal-600 tracking-widest uppercase">02</span>
-        <h3 class="mt-3 text-xl font-bold text-gray-900 leading-snug">Schedules shift. Patients get told.</h3>
-        <p class="mt-2 text-sm text-gray-400 leading-relaxed">A procedure runs long. An emergency comes in. The moment timing changes, patients get a text — before they leave home, not after they've been sitting for 40 minutes.</p>
+        <h3 class="mt-3 text-lg sm:text-xl font-bold text-gray-900 leading-snug">Schedules shift. Patients get told.</h3>
+        <p class="mt-2 text-sm text-gray-500 sm:text-gray-400 leading-relaxed">A procedure runs long. An emergency comes in. The moment timing changes, patients get a text — before they leave home, not after they've been sitting for 40 minutes.</p>
       </div>
       <div class="reveal reveal-delay-2">
         <span class="text-xs font-bold text-teal-600 tracking-widest uppercase">03</span>
-        <h3 class="mt-3 text-xl font-bold text-gray-900 leading-snug">Nobody wastes time</h3>
-        <p class="mt-2 text-sm text-gray-400 leading-relaxed">The mom with two kids in the car knows to wait 15 more minutes. The elderly patient driving an hour knows to leave later. The doctor knows their patients aren't angry. Everyone wins.</p>
+        <h3 class="mt-3 text-lg sm:text-xl font-bold text-gray-900 leading-snug">Nobody wastes time</h3>
+        <p class="mt-2 text-sm text-gray-500 sm:text-gray-400 leading-relaxed">The mom with two kids in the car knows to wait 15 more minutes. The elderly patient driving an hour knows to leave later. The doctor knows their patients aren't angry. Everyone wins.</p>
       </div>
     </div>
   </div>
@@ -124,9 +124,9 @@
 <div class="glow-line mx-auto max-w-xl"></div>
 
 <!-- ====== QUOTE ====== -->
-<section class="py-28 px-6 reveal">
+<section class="py-20 sm:py-28 px-5 sm:px-6 reveal">
   <div class="mx-auto max-w-3xl text-center">
-    <p class="text-3xl sm:text-[2.5rem] font-extrabold text-gray-900 leading-[1.15] tracking-[-0.02em]">
+    <p class="text-[1.75rem] sm:text-[2.5rem] font-extrabold text-gray-900 leading-[1.15] tracking-[-0.02em]">
       Health is not a joke.<br>
       <span class="text-gray-300">People's time isn't either.</span>
     </p>
@@ -134,40 +134,48 @@
 </section>
 
 <!-- ====== FEATURES ====== -->
-<section class="py-20 px-6 bg-gray-50/80">
-  <div class="mx-auto max-w-4xl space-y-6">
-    <% [
-      { title: "Travel-aware notifications", desc: "Schedulite knows how far each patient is from your office. When a provider runs late, the patient driving 45 minutes gets texted first — with a personalized 'plan to leave at 2:15 PM.' The patient 10 minutes away can wait. No other scheduling tool does this." },
-      { title: "Proactive text updates — before they ask", desc: "The moment a provider's schedule shifts, every affected patient gets a text — before they leave home, not after they've been sitting for 30 minutes. Staff picks a template, enters the delay, and Schedulite handles the rest." },
-      { title: "Automatic gift cards when you make them wait", desc: "Set a threshold — say 20 minutes. If a patient waits longer, Schedulite automatically sends them a gift card to a nearby coffee shop or small business. It turns a frustrating wait into a moment patients actually remember. Powered by Square." },
-      { title: "Patients choose: wait, reschedule, or cancel", desc: "Delay notifications include reply options. Patient texts back 1 to wait, 2 to reschedule, 3 to cancel. Staff sees responses in real-time. Calendars sync automatically." },
-      { title: "Every provider's calendar, one view", desc: "Pediatrics uses Epic. The therapist uses Google Calendar. The new NP uses Calendly. Over 170 supported systems — Epic, Athena, Cerner, OceanMD, Cliniko, Jane App, Doctolib, and every FHIR-compatible EHR — across every provider, every specialty." },
-      { title: "Self-check-in kiosk", desc: "Tablet in the lobby. Patient enters their phone number. Checked in, provider notified, live status link sent — all in one tap. No app download." },
-      { title: "No-show fees with cards on file", desc: "Store cards securely via Stripe. If someone no-shows, charge the fee automatically — or waive it with one click. Patients are told the policy upfront." },
-      { title: "Email confirmations with calendar attachments", desc: "Every appointment also goes out as a beautifully formatted email with an .ics file attached. Patients tap once to add it to Apple Calendar, Google Calendar, or Outlook. Staff get a daily morning digest of the day's schedule." },
-      { title: "Patient portal — sign in with a text", desc: "Patients tap a link, enter their phone, and get a one-time SMS sign-in. No password, no app download. They can see upcoming visits, past history, update their address, and add a card on file. Built for the way patients actually use their phones." },
-      { title: "Multi-location support for growing practices", desc: "Open a second office? Schedulite scopes providers, appointments, and kiosks to each location. Per-location lunch breaks, no-show fees, and travel-time calculations from each office's address." }
-    ].each_with_index do |f, i| %>
-      <div class="reveal rounded-2xl bg-white border border-gray-200/80 px-7 py-5 flex items-start gap-5 hover:border-teal-200 transition-colors duration-300">
-        <div class="w-8 h-8 rounded-lg bg-teal-50 flex items-center justify-center shrink-0 mt-0.5">
-          <span class="text-xs font-bold text-teal-600"><%= i + 1 %></span>
+<section class="py-16 sm:py-24 px-4 sm:px-6 bg-gray-50/80">
+  <div class="mx-auto max-w-4xl">
+    <div class="text-center mb-10 sm:mb-14 reveal">
+      <h2 class="text-3xl sm:text-4xl font-extrabold tracking-[-0.02em] text-gray-900">Built around how you actually work.</h2>
+      <p class="mt-3 text-sm sm:text-base text-gray-400 max-w-lg mx-auto">Ten things every other scheduling tool gets wrong.</p>
+    </div>
+
+    <div class="space-y-4 sm:space-y-5">
+      <% [
+        { title: "Travel-aware notifications", desc: "Schedulite knows how far each patient is from your office. When a provider runs late, the patient driving 45 minutes gets texted first — with a personalized 'plan to leave at 2:15 PM.' The patient 10 minutes away can wait. No other scheduling tool does this." },
+        { title: "Proactive text updates — before they ask", desc: "The moment a provider's schedule shifts, every affected patient gets a text — before they leave home, not after they've been sitting for 30 minutes. Staff picks a template, enters the delay, and Schedulite handles the rest." },
+        { title: "Automatic gift cards when you make them wait", desc: "Set a threshold — say 20 minutes. If a patient waits longer, Schedulite automatically sends them a gift card to a nearby coffee shop or small business. It turns a frustrating wait into a moment patients actually remember. Powered by Square." },
+        { title: "Patients choose: wait, reschedule, or cancel", desc: "Delay notifications include reply options. Patient texts back 1 to wait, 2 to reschedule, 3 to cancel. Staff sees responses in real-time. Calendars sync automatically." },
+        { title: "Every provider's calendar, one view", desc: "Pediatrics uses Epic. The therapist uses Google Calendar. The new NP uses Calendly. Over 170 supported systems — Epic, Athena, Cerner, OceanMD, Cliniko, Jane App, Doctolib, and every FHIR-compatible EHR — across every provider, every specialty." },
+        { title: "Self-check-in kiosk", desc: "Tablet in the lobby. Patient enters their phone number. Checked in, provider notified, live status link sent — all in one tap. No app download." },
+        { title: "No-show fees with cards on file", desc: "Store cards securely via Stripe. If someone no-shows, charge the fee automatically — or waive it with one click. Patients are told the policy upfront." },
+        { title: "Email confirmations with calendar attachments", desc: "Every appointment also goes out as a beautifully formatted email with an .ics file attached. Patients tap once to add it to Apple Calendar, Google Calendar, or Outlook. Staff get a daily morning digest of the day's schedule." },
+        { title: "Patient portal — sign in with a text", desc: "Patients tap a link, enter their phone, and get a one-time SMS sign-in. No password, no app download. They can see upcoming visits, past history, update their address, and add a card on file. Built for the way patients actually use their phones." },
+        { title: "Multi-location support for growing practices", desc: "Open a second office? Schedulite scopes providers, appointments, and kiosks to each location. Per-location lunch breaks, no-show fees, and travel-time calculations from each office's address." }
+      ].each_with_index do |f, i| %>
+        <div class="feature-card rounded-2xl bg-white border border-gray-200/80 p-5 sm:px-7 sm:py-6 flex items-start gap-4 sm:gap-5"
+             style="transition-delay: <%= [i * 60, 360].min %>ms">
+          <div class="feature-num w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center shrink-0">
+            <span class="text-sm font-bold text-teal-600"><%= i + 1 %></span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="text-base sm:text-[15px] font-semibold text-gray-900 leading-snug"><%= f[:title] %></h3>
+            <p class="mt-1.5 text-sm text-gray-500 sm:text-gray-400 leading-relaxed"><%= f[:desc] %></p>
+          </div>
         </div>
-        <div>
-          <h3 class="text-[15px] font-semibold text-gray-900"><%= f[:title] %></h3>
-          <p class="mt-1 text-sm text-gray-400 leading-relaxed"><%= f[:desc] %></p>
-        </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </section>
 
 <!-- ====== CTA ====== -->
-<section class="py-32 px-6 reveal">
+<section class="py-24 sm:py-32 px-5 sm:px-6 reveal">
   <div class="mx-auto max-w-2xl text-center">
-    <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-[-0.02em]">Free to start.<br>Takes five minutes.</h2>
-    <p class="mt-4 text-gray-400">No credit card. No sales call. No onboarding meeting.<br>Just sign up and connect your calendar.</p>
-    <div class="mt-10">
-      <%= link_to register_path, class: "inline-block rounded-full bg-teal-600 px-8 py-4 text-base font-semibold text-white hover:bg-teal-500 transition cta-glow" do %>
+    <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-[-0.02em] leading-tight">Free to start.<br>Takes five minutes.</h2>
+    <p class="mt-4 text-sm sm:text-base text-gray-500 sm:text-gray-400 leading-relaxed">No credit card. No sales call. No onboarding meeting.<br class="hidden sm:block">Just sign up and connect your calendar.</p>
+    <div class="mt-8 sm:mt-10">
+      <%= link_to register_path, class: "inline-flex w-full sm:w-auto items-center justify-center rounded-full bg-teal-600 px-8 py-4 text-base font-semibold text-white hover:bg-teal-500 transition cta-glow min-h-[52px]" do %>
         Create Your Practice
       <% end %>
     </div>
