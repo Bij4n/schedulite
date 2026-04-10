@@ -1,6 +1,7 @@
 module Settings
   class BillingController < ApplicationController
     before_action :authenticate_user!
+    before_action :require_owner_or_manager
 
     PRICE_IDS = {
       "pro" => ENV.fetch("STRIPE_PRO_PRICE_ID", "price_pro_monthly"),
@@ -40,6 +41,14 @@ module Settings
       )
 
       redirect_to session.url, allow_other_host: true
+    end
+
+    private
+
+    def require_owner_or_manager
+      return if current_user&.owner_or_manager?
+
+      redirect_to root_path, alert: "Not authorized"
     end
   end
 end

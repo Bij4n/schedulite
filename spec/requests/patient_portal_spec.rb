@@ -71,6 +71,35 @@ RSpec.describe "Patient portal", type: :request do
     end
   end
 
+  describe "GET /portal/profile" do
+    before { sign_in_patient(patient) }
+
+    it "renders the profile form" do
+      get portal_profile_path
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
+  describe "PATCH /portal/profile" do
+    before { sign_in_patient(patient) }
+
+    it "updates the encrypted address fields" do
+      patch portal_profile_path, params: {
+        patient: { address: "1 Pine St", city: "SF", state: "CA", zip: "94105" }
+      }
+
+      patient.reload
+      expect(patient.address).to eq("1 Pine St")
+      expect(patient.city).to eq("SF")
+      expect(response).to redirect_to(portal_profile_path)
+    end
+
+    it "updates the email" do
+      patch portal_profile_path, params: { patient: { email: "alex@example.com" } }
+      expect(patient.reload.email).to eq("alex@example.com")
+    end
+  end
+
   def sign_in_patient(patient)
     patient.update!(magic_link_token: "test_token", magic_link_expires_at: 10.minutes.from_now)
     get portal_auth_path(token: "test_token")

@@ -1,6 +1,7 @@
 module Settings
   class WorkflowTemplatesController < ApplicationController
     before_action :authenticate_user!
+    before_action :authorize_admin!
 
     def index
       @templates = DelayWorkflowTemplate.all
@@ -35,6 +36,10 @@ module Settings
 
     def template_params
       params.require(:delay_workflow_template).permit(:name, :message_body, :offer_reschedule, :offer_cancel, :offer_gift_card, :response_instructions)
+    end
+
+    def authorize_admin!
+      redirect_to root_path, alert: "Not authorized" unless current_user.owner_or_manager?
     end
   end
 end

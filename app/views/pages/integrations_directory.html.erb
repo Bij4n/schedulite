@@ -199,7 +199,18 @@
     const anchor = document.getElementById('dont-see-yours');
     if (!cta || !anchor) return;
 
-    let dismissed = sessionStorage.getItem('schedulite-cta-dismissed') === '1';
+    // sessionStorage can throw in private mode (older Safari) or when
+    // the user has third-party storage disabled. Wrap every access.
+    const safeStorage = {
+      get(key) {
+        try { return sessionStorage.getItem(key); } catch (e) { return null; }
+      },
+      set(key, value) {
+        try { sessionStorage.setItem(key, value); } catch (e) { /* swallow */ }
+      }
+    };
+
+    let dismissed = safeStorage.get('schedulite-cta-dismissed') === '1';
     let originalInView = false;
     let scrolledPastHero = false;
 
@@ -235,7 +246,7 @@
 
     dismiss.addEventListener('click', () => {
       dismissed = true;
-      sessionStorage.setItem('schedulite-cta-dismissed', '1');
+      safeStorage.set('schedulite-cta-dismissed', '1');
       hide();
     });
   })();
