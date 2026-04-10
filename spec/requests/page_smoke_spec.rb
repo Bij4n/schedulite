@@ -45,6 +45,7 @@ RSpec.describe "Page smoke", type: :request do
       /register
       /users/sign_in
       /users/password/new
+      /users/password/edit?reset_password_token=fake_token
       /privacy
       /terms
       /hipaa
