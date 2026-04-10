@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  allow_browser versions: :modern
+  # allow_browser versions: :modern  # disabled while debugging /users/sign_in 500
 
   set_current_tenant_through_filter
   before_action :set_tenant

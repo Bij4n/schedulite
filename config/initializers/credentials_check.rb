@@ -1,6 +1,17 @@
 Rails.application.config.after_initialize do
   next if Rails.env.test?
 
+  # Boot-time DB sanity check — surfaces "users table doesn't exist" or any
+  # other DB connection issue with a recognizable tag in the deploy logs.
+  if Rails.env.production?
+    begin
+      ActiveRecord::Base.connection.execute("SELECT 1 FROM users LIMIT 0")
+      Rails.logger.info("[BOOT-CHECK] users table OK")
+    rescue => e
+      Rails.logger.error("[BOOT-CHECK] users table check FAILED: #{e.class} #{e.message}")
+    end
+  end
+
   missing = []
 
   unless ENV["LOCKBOX_MASTER_KEY"].present? || Rails.application.credentials.lockbox_master_key.present?
