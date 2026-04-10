@@ -1,7 +1,16 @@
 #!/bin/bash -e
 
-# Migrations run via Render's preDeployCommand, NOT here.
-# Running db:prepare in the entrypoint races multiple instances on
-# rolling deploys and fails when DATABASE_URL hasn't propagated yet.
+# Run migrations on container start, but only when:
+#   1. DATABASE_URL is set (so we don't crash if env wiring is incomplete)
+#   2. We're starting the Rails server (not running a one-off shell command)
+#
+# This is safe on Render's free tier because it's single-instance — there's
+# no rolling deploy to race against. Without this, every schema change would
+# require manually running migrations from the Render Shell.
+if [ -n "${DATABASE_URL}" ] && [ "$1" = "./bin/rails" ] && [ "$2" = "server" ]; then
+  masked_url=$(echo "$DATABASE_URL" | sed 's/:[^:@]*@/:****@/')
+  echo "[entrypoint] Running db:migrate against ${masked_url}"
+  ./bin/rails db:migrate || echo "[entrypoint] db:migrate failed, continuing anyway"
+fi
 
 exec "${@}"
