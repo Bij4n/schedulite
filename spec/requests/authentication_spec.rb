@@ -45,6 +45,18 @@ RSpec.describe "Authentication", type: :request do
       }
       expect(response).to have_http_status(:unprocessable_entity)
     end
+
+    it "still signs in when login_events audit write fails" do
+      # Simulate the login_events table being missing or DB hiccupping —
+      # sign-in must succeed regardless because audit logging is best-effort.
+      allow(LoginEvent).to receive(:record_sign_in).and_raise(ActiveRecord::StatementInvalid, "table missing")
+
+      post user_session_path, params: {
+        user: { email: user.email, password: user.password }
+      }
+
+      expect(response).to redirect_to(dashboard_index_path)
+    end
   end
 
   describe "DELETE /users/sign_out" do
