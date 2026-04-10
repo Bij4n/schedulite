@@ -47,8 +47,20 @@ Rails.application.configure do
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
 
-  # Use Redis for caching in production.
-  config.cache_store = :redis_cache_store, { url: ENV.fetch("REDIS_URL", "redis://localhost:6379/0") }
+  # Use Redis for caching in production, but degrade gracefully when
+  # Redis is unreachable. Without an error_handler, every Rails.cache
+  # call (including the ones rack-attack makes on every request) raises
+  # Redis::CannotConnectError and 500s the entire app.
+  config.cache_store = :redis_cache_store, {
+    url: ENV.fetch("REDIS_URL", "redis://localhost:6379/0"),
+    connect_timeout: 1,
+    read_timeout: 1,
+    write_timeout: 1,
+    reconnect_attempts: 1,
+    error_handler: ->(method:, returning:, exception:) {
+      Rails.logger.warn("[cache] Redis #{method} failed: #{exception.class} #{exception.message}")
+    }
+  }
 
   # Use Sidekiq for background job processing in production.
   config.active_job.queue_adapter = :sidekiq

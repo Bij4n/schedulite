@@ -23,6 +23,14 @@ RSpec.describe "Authentication", type: :request do
     end
   end
 
+  describe "GET /users/sign_in" do
+    it "renders the sign-in form" do
+      get new_user_session_path
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Sign in")
+    end
+  end
+
   describe "POST /users/sign_in" do
     it "signs in with valid credentials" do
       post user_session_path, params: {

@@ -1,4 +1,15 @@
 class Rack::Attack
+  # Use a dedicated in-memory store rather than Rails.cache. If Rails.cache
+  # is backed by Redis and Redis goes down, every request that hits a throttle
+  # or blocklist would otherwise raise Redis::CannotConnectError and 500.
+  # In-memory is also the right choice for single-instance free-tier deploys.
+  # In tests, fall back to the null cache so counters don't bleed across examples.
+  Rack::Attack.cache.store = if Rails.env.test?
+    ActiveSupport::Cache::NullStore.new
+  else
+    ActiveSupport::Cache::MemoryStore.new
+  end
+
   # Throttle sign-in attempts by IP
   throttle("logins/ip", limit: 10, period: 60.seconds) do |req|
     req.ip if req.path == "/users/sign_in" && req.post?
