@@ -1,8 +1,14 @@
-databases:
-  - name: schedulite-db
-    plan: free
-    databaseName: schedulite
-    user: schedulite
+# Render configuration for Schedulite.
+#
+# Database: external Postgres at Neon (https://neon.tech).
+#   DATABASE_URL must be set manually in the Render dashboard
+#   under Environment. Migrations run on container start via
+#   bin/docker-entrypoint when DATABASE_URL is present.
+#
+# Background jobs: not provisioned. SmsService and other side-effect
+#   work runs synchronously in-request. To add Sidekiq later, create
+#   a Render Redis service, add REDIS_URL here, and add a worker
+#   service block running `bundle exec sidekiq`.
 
 services:
   - type: web
@@ -11,7 +17,6 @@ services:
     plan: free
     dockerfilePath: ./Dockerfile
     dockerContext: .
-    preDeployCommand: bundle exec rails db:migrate
     healthCheckPath: /health
     envVars:
       - key: RAILS_ENV
@@ -24,43 +29,4 @@ services:
         generateValue: true
       - key: APP_HOST
         value: https://www.schedulite.io
-      - key: DATABASE_URL
-        fromDatabase:
-          name: schedulite-db
-          property: connectionString
-      - key: REDIS_URL
-        fromService:
-          name: schedulite-redis
-          type: redis
-          property: connectionString
-
-  - type: worker
-    name: schedulite-worker
-    runtime: docker
-    plan: free
-    dockerfilePath: ./Dockerfile
-    dockerContext: .
-    dockerCommand: bundle exec sidekiq -C config/sidekiq.yml
-    envVars:
-      - key: RAILS_ENV
-        value: production
-      - key: RAILS_MASTER_KEY
-        sync: false
-      - key: LOCKBOX_MASTER_KEY
-        sync: false
-      - key: SECRET_KEY_BASE
-        sync: false
-      - key: DATABASE_URL
-        fromDatabase:
-          name: schedulite-db
-          property: connectionString
-      - key: REDIS_URL
-        fromService:
-          name: schedulite-redis
-          type: redis
-          property: connectionString
-
-  - type: redis
-    name: schedulite-redis
-    plan: free
-    maxmemoryPolicy: noeviction
+      # DATABASE_URL is set manually in the dashboard (Neon connection string)

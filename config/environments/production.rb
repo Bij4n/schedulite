@@ -9,11 +9,8 @@ Rails.application.configure do
   # Eager load code on boot for better performance and memory savings (ignored by Rake tasks).
   config.eager_load = true
 
-  # TEMPORARY: full error reports enabled in production so we can see
-  # the actual stack trace for the /users/sign_in 500. REVERT THIS AS
-  # SOON AS THE BUG IS IDENTIFIED — it leaks internal details to anyone
-  # who triggers an exception.
-  config.consider_all_requests_local = true
+  # Full error reports are disabled.
+  config.consider_all_requests_local = false
 
   # Turn on fragment caching in view templates.
   config.action_controller.perform_caching = true

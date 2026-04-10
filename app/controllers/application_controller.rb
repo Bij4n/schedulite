@@ -1,18 +1,8 @@
 class ApplicationController < ActionController::Base
-  # allow_browser versions: :modern  # disabled while debugging /users/sign_in 500
+  allow_browser versions: :modern
 
   set_current_tenant_through_filter
   before_action :set_tenant
-
-  # Temporary: log every uncaught exception to STDOUT with a recognizable
-  # tag so it's findable in Render's log stream. Re-raises so Rails still
-  # serves the public/500.html page.
-  rescue_from StandardError do |e|
-    Rails.logger.error("[SCHEDULITE-500] #{e.class}: #{e.message}")
-    Rails.logger.error("[SCHEDULITE-500] path=#{request.fullpath} method=#{request.method}")
-    Rails.logger.error("[SCHEDULITE-500] trace: #{e.backtrace.first(15).join(' | ')}")
-    raise
-  end
 
   private
 
